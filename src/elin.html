@@ -721,7 +721,7 @@ function badges(){
 }
 function plantSvg(p){
   const stage=Math.min(5,Math.floor(p/12)), leaves=Math.min(26,p), h=30+stage*20;
-  let svg=`<svg viewBox="0 0 200 180" role="img" aria-label="Din växt, steg ${stage+1} av 6"><ellipse cx="100" cy="166" rx="70" ry="8" fill="var(--sunk)"/><path d="M70 140h60l-6 26H76z" fill="var(--warm)" opacity=".75"/>`;
+  let svg=`<svg viewBox="0 -30 200 210" role="img" aria-label="Din växt, steg ${stage+1} av 6"><ellipse cx="100" cy="166" rx="70" ry="8" fill="var(--sunk)"/><path d="M70 140h60l-6 26H76z" fill="var(--warm)" opacity=".75"/>`;
   svg+=`<path d="M100 140 C100 ${140-h/2} 96 ${140-h} 100 ${140-h-10}" stroke="var(--accent)" stroke-width="3" fill="none"/>`;
   for(let i=0;i<leaves;i++){const t=(i+1)/(leaves+1),yy=140-(h+10)*t,side=i%2?1:-1,len=10+((i*7)%9);
     svg+=`<path d="M100 ${yy} q ${side*len} -${len*.7} ${side*len*1.6} -2 q -${side*len*.6} ${len*.5} -${side*len*1.6} 2z" fill="${i%3===1?'var(--leaf)':'var(--accent)'}" opacity="${.55+.45*((i%3)/2)}"/>`}
