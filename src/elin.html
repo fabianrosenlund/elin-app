@@ -22,9 +22,15 @@
   --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#6E8F5E;
   --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#8DB8D4; --water-soft:#22323B; color-scheme:dark}
 *{box-sizing:border-box}
-html,body{background:var(--bg);overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);overscroll-behavior:none;-webkit-tap-highlight-color:transparent;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
+body{position:fixed;inset:0;width:100%;margin:0}
+#scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+body.ob #scroller{padding-bottom:24px}
+button,nav,header.top,.seg,.faces,.meals{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#app.enter{animation:viewin .18s ease-out}@keyframes viewin{from{opacity:.4;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){#app.enter{animation:none}}
 body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 104px}
+  }
 .wrap{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 h1,h2,h3{font-family:var(--display);font-weight:800;margin:0;text-wrap:balance;letter-spacing:-.02em}
 h2{font-size:1.55rem;line-height:1.15} h3{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
@@ -133,7 +139,7 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .menu .chev{color:var(--muted);font-size:1.3rem}
 
 .scrim{position:fixed;inset:0;background:color-mix(in srgb,#141a15 50%,transparent);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-.sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;
+.sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:24px 24px 0 0;
   padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
 @media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:24px;max-height:88vh}}
 .sheet header{display:flex;justify-content:space-between;align-items:center;gap:12px}
@@ -141,6 +147,7 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .field{display:flex;flex-direction:column;gap:8px}
 .field>label,.field>.lbl{font-weight:700;font-size:.92rem}
 .hint{font-size:.84rem;color:var(--muted)}
+input,textarea,select{font-size:16px}
 input[type=text],input[type=time],input[type=number],input[type=date],textarea,select{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
 input#f-what,textarea#f-note,input#f-goodtext{font-family:var(--hand);font-size:1.05rem;font-weight:700;padding:10px 12px;line-height:1.3}
 textarea{min-height:110px;resize:vertical}
@@ -335,7 +342,7 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .plantcard b{display:block;font-family:var(--display);font-size:1.05rem}
 .plantcard small{color:var(--muted)}
 body.ob nav.tabs{display:none}
-body.ob{padding-bottom:24px}
+
 .ob{min-height:calc(100vh - 24px);min-height:calc(100dvh - 24px);display:flex;flex-direction:column;gap:20px;padding-top:max(28px,calc(env(safe-area-inset-top,0px) + 16px));max-width:520px;margin:0 auto}
 .ob .bars{display:flex;gap:6px}.ob .bars i{flex:1;height:4px;border-radius:4px;background:var(--line)}.ob .bars i.on{background:var(--ink)}
 .ob h1{font-size:1.85rem;line-height:1.1}
@@ -363,7 +370,7 @@ body.ob{padding-bottom:24px}
 .plantcard svg{overflow:visible}
 </style>
 
-<div class="wrap" id="app"></div>
+<main id="scroller"><div class="wrap" id="app"></div></main>
 <nav class="tabs" aria-label="Huvudmeny"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
 
@@ -830,6 +837,7 @@ function openSheet(html,onMount){
   onMount&&onMount($('#layer .sheet'));
 }
 const closeSheet=()=>{$('#layer').innerHTML=''};
+function toTop(){const sc=$('#scroller');if(sc)sc.scrollTop=0;const a=$('#app');if(a){a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter')}}
 
 /* ---------- step-by-step logging ---------- */
 function entrySheet(e,preset){
@@ -1187,12 +1195,12 @@ function readPlan(){document.querySelectorAll('[data-pn]').forEach(el=>{const i=
 document.addEventListener('click',ev=>{
   const t=ev.target;
   if(t.matches('[data-scrim]')){closeSheet();return}
-  const tab=t.closest('[data-tab]');if(tab){view=tab.dataset.tab;backTo=null;if(view==='dagbok'&&!tab.closest('nav'))day=day;render();scrollTo(0,0);return}
-  const go=t.closest('[data-go]');if(go){backTo=PARENT[view]?backTo:view;view=go.dataset.go;render();scrollTo(0,0);return}
+  const tab=t.closest('[data-tab]');if(tab){view=tab.dataset.tab;backTo=null;if(view==='dagbok'&&!tab.closest('nav'))day=day;render();toTop();return}
+  const go=t.closest('[data-go]');if(go){backTo=PARENT[view]?backTo:view;view=go.dataset.go;render();toTop();return}
   const mo=t.closest('[data-mood]');if(mo){const m=mo.dataset.mood;S.moods[today()]=S.moods[today()]===m?undefined:m;save();render();return}
   const jp=t.closest('[data-jp]');if(jp){const ta=$('#j-text');ta.value=(ta.value?ta.value.replace(/\s*$/,'\n'):'')+jp.dataset.jp;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);return}
   const jd=t.closest('[data-jdel]');if(jd){if(jd.dataset.sure){S.journal=S.journal.filter(n=>n.id!==jd.dataset.jdel);save();render()}else{jd.dataset.sure='1';jd.textContent='Säker?'}return}
-  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();obStep=+ob.dataset.ob;render();scrollTo(0,0);return}
+  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();obStep=+ob.dataset.ob;render();toTop();return}
   const prm=t.closest('[data-prm]');if(prm){readPlan();S.plan.splice(+prm.dataset.prm,1);save();render();return}
   const sl=t.closest('[data-slot]');if(sl){const s=S.plan[+sl.dataset.slot];const past=day!==today()||toMin(s.t)<toMin(nowHM())-45;entrySheet(null,{label:MEALS.some(m=>m[0]===s.n)?s.n:guessMeal(s.t),time:past?s.t:nowHM()});return}
   const ed=t.closest('[data-edit]');if(ed){entrySheet(S.entries.find(e=>e.id===ed.dataset.edit));return}
@@ -1205,13 +1213,13 @@ document.addEventListener('click',ev=>{
   const a=t.closest('[data-act]');if(!a)return;
   const act=a.dataset.act;
   if(act==='new')entrySheet();
-  if(act==='saveJournal'){const v=$('#j-text').value.trim();if(!v){toast('Skriv några ord först, eller gå tillbaka.');return}S.journal.push({id:uid(),date:today(),time:nowHM(),text:v});save();day=today();view='dagbok';backTo=null;render();scrollTo(0,0);toast('Sparat. Bara du kan se det.')}
-  if(act==='about'){S.settings.noticeHidden=false;save();view='idag';render();scrollTo(0,0)}
+  if(act==='saveJournal'){const v=$('#j-text').value.trim();if(!v){toast('Skriv några ord först, eller gå tillbaka.');return}S.journal.push({id:uid(),date:today(),time:nowHM(),text:v});save();day=today();view='dagbok';backTo=null;render();toTop();toast('Sparat. Bara du kan se det.')}
+  if(act==='about'){S.settings.noticeHidden=false;save();view='idag';render();toTop()}
   if(act==='obAdd'){readPlan();S.plan.push({n:'Mellanmål',t:'16:00'});save();render()}
   if(act==='obDone'||act==='obSkip'){const keep=$('#o-ex')&&$('#o-ex').checked;const num=id=>{const el=$(id);const v=el?parseFloat(el.value):NaN;return isFinite(v)&&v>0?v:null};
     const st=num('#o-start'),tg=num('#o-target');if(!keep)clearExamples();
     if(act==='obDone'&&st){Object.assign(S.goals,{start:st,target:tg,startDate:today(),pace:0.5,example:false})}
-    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();scrollTo(0,0);toast(keep?'Välkommen. Exemplen kan du ta bort när du vill.':'Välkommen. Allt här är ditt.')}
+    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();toTop();toast(keep?'Välkommen. Exemplen kan du ta bort när du vill.':'Välkommen. Allt här är ditt.')}
   if(act==='close')closeSheet();
   if(act==='help')helpSheet();
   if(act==='settings')settingsSheet();
