@@ -154,6 +154,11 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .menu .chev{color:var(--muted);font-size:1.3rem}
 
 .scrim{position:fixed;inset:0;background:color-mix(in srgb,#141a15 50%,transparent);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+#splash{position:fixed;inset:0;z-index:50;background:#25372B;display:none;align-items:center;justify-content:center;transition:opacity .35s ease}
+.standalone #splash{display:flex}
+#splash .appicon{width:96px;height:96px;background:transparent;box-shadow:none}
+#splash.out{opacity:0;pointer-events:none}
+.sheet::before{content:"";display:block;width:40px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto -6px;flex:none}
 .sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:24px 24px 0 0;
   padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
 @media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:24px;max-height:88vh}}
@@ -336,18 +341,20 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .callcard a.leafy{border-color:#93B07D}
 .callcard p{font-size:.82rem;color:#C9D3B8;line-height:1.45}
 .callcard p a{display:inline;border:0;padding:0;color:#F1F2E8;text-decoration:underline;font-weight:700}
-.breathe{background:#2C3A2F;color:#F1F2E8;border-radius:24px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center;min-height:62vh;justify-content:center}
-.orb{width:min(250px,70vw);aspect-ratio:1;border-radius:50%;background:#3A4C3D;display:flex;align-items:center;justify-content:center}
-.orb i{width:46%;aspect-ratio:1;border-radius:50%;background:#93B07D;box-shadow:0 0 0 16px #4A7052;animation:breath 10s ease-in-out infinite}
-@keyframes breath{0%{transform:scale(.75)}40%{transform:scale(1.35)}100%{transform:scale(.75)}}
-.bword{position:relative;height:2.4rem;width:100%}
-.bword span{position:absolute;inset:0;font-family:var(--display);font-weight:700;font-size:1.9rem;animation:bin 10s linear infinite}
-.bword span+span{animation-name:bout}
-@keyframes bin{0%,38%{opacity:1}42%,96%{opacity:0}100%{opacity:1}}
-@keyframes bout{0%,38%{opacity:0}42%,96%{opacity:1}100%{opacity:0}}
-.breathe p{color:#C9D3B8}
-.breathe .ghost{border-color:#93B07D;color:#F1F2E8;min-width:60%}
-@media (prefers-reduced-motion: reduce){.orb i{animation:none}.bword span{animation:none}.bword span+span{display:none}}
+.breathe{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:8px 0 4px}
+.ring{position:relative;width:min(260px,72vw);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .rt{fill:none;stroke:var(--soft);stroke-width:7}
+.ring .rp{fill:none;stroke:var(--leaf);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .25s linear}
+.rin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.rin b{position:relative;font-size:1.25rem;font-weight:700;color:var(--ink)}
+.pulse{position:absolute;width:58%;aspect-ratio:1;border-radius:50%;background:var(--soft);transform:scale(.72);transition:transform 4s ease-in-out}
+.ring[data-ph="in"] .pulse{transform:scale(1.12);transition-duration:4s}
+.ring[data-ph="ut"] .pulse{transform:scale(.72);transition-duration:6s}
+.ring.paused .pulse{transition:none}
+.btime{font-size:1rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.bbtn{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
+@media (prefers-reduced-motion: reduce){.pulse{transition:none!important}}
 .steps54{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
 .steps54 li{display:flex;gap:14px;align-items:center;background:var(--surface);border-radius:16px;padding:14px 16px}
 .steps54 b{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--accent);width:28px;text-align:center;flex:none}
@@ -388,7 +395,7 @@ body.ob nav.tabs{display:none}
 <body>
 
 
-<main id="scroller"><div class="wrap" id="app"></div></main>
+<div id="splash" aria-hidden="true"><div class="appicon"></div></div><main id="scroller"><div class="wrap" id="app"></div></main>
 <nav class="tabs" aria-label="Huvudmeny"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
 
@@ -465,6 +472,8 @@ const delPhoto=id=>{try{localStorage.removeItem(PKEY+id)}catch(e){}};
 
 /* ---------- Claude (background estimates) ---------- */
 const ON_CLAUDE=!!(window.claude&&window.claude.use);
+const STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+if(STANDALONE){document.documentElement.classList.add('standalone');addEventListener('DOMContentLoaded',()=>{const sp=document.getElementById('splash');if(!sp)return;sp.querySelector('.appicon').innerHTML=SPROUT_ICON;setTimeout(()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),400)},matchMedia('(prefers-reduced-motion: reduce)').matches?0:650)})}
 /* Standalone builds fill these in so estimates run through a Supabase Edge Function. */
 const ESTIMATE_URL="", ESTIMATE_KEY="";
 /* Calorie estimates are switched off (user's decision 2026-11-12). The hooks stay for later. */
@@ -569,6 +578,7 @@ function render(){
   h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips}[view])();
   h+=`<footer class="disc">ELIN är ett självhjälpsverktyg och ingen vårdgivare. Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</footer>`;
   $('#app').innerHTML=h;
+  if(view==='andas')startBreath();
 }
 
 function entriesOn(d){return S.entries.filter(e=>e.date===d).sort((a,b)=>a.time.localeCompare(b.time))}
@@ -788,11 +798,22 @@ function vSkriv(){
   <button class="primary" data-act="saveJournal">Spara i dagboken</button>`;
 }
 function vAndas(){
-  return `<section class="breathe" aria-label="Andningsövning"><div class="orb" aria-hidden="true"><i></i></div>
-    <div class="bword" aria-hidden="true"><span>Andas in</span><span>Andas ut</span></div>
-    <p>In i fyra sekunder, ut i sex. Följ cirkeln. Två minuter räcker, men sluta när du vill.</p>
-    <button class="ghost" data-tab="${backTo||'stod'}">Klar</button></section>`;
+  const R=46,C=2*Math.PI*R;
+  return `<div class="pagehead"><div><h1>Andas i två minuter</h1><p class="muted">In i fyra sekunder, ut i sex. Avsluta när du vill.</p></div></div>
+  <section class="breathe" aria-label="Andningsövning">
+    <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="rt"/><circle cx="50" cy="50" r="${R}" class="rp" id="b-prog" style="stroke-dasharray:${C};stroke-dashoffset:${C}"/></svg>
+      <div class="rin"><i class="pulse"></i><b id="b-word" aria-live="polite">Andas in</b></div></div>
+    <p class="btime" id="b-time">02:00</p>
+    <div class="bbtn"><button class="primary" id="b-pause">Pausa</button><button class="ghost" data-tab="${backTo||'stod'}">Avsluta</button></div></section>`;
 }
+let breathT=null;
+function startBreath(){clearInterval(breathT);const pr=$('#b-prog');if(!pr)return;const C=2*Math.PI*46,TOT=120;let t=0,paused=false;
+  const tick=()=>{if(!$('#b-prog')){clearInterval(breathT);return}if(paused)return;t=Math.min(TOT,t+.25);const ph=t%10;
+    $('#b-word').textContent=t>=TOT?'Bra gjort':ph<4?'Andas in':'Andas ut';
+    const left=Math.ceil(TOT-t);$('#b-time').textContent=`0${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;
+    pr.style.strokeDashoffset=C*(1-t/TOT);document.querySelector('.ring').dataset.ph=ph<4?'in':'ut';if(t>=TOT){clearInterval(breathT);$('#b-pause').textContent='Börja om';paused='done'}};
+  $('#b-pause').onclick=()=>{if(paused==='done'){startBreath();return}paused=!paused;$('#b-pause').textContent=paused?'Fortsätt':'Pausa';document.querySelector('.ring').classList.toggle('paused',paused)};
+  tick();breathT=setInterval(tick,250)}
 function vJord(){
   const L=[['5','saker du kan se'],['4','saker du kan känna eller röra vid'],['3','ljud du kan höra'],['2','dofter du kan känna'],['1','smak i munnen, eller något du tycker om']];
   return `<div class="pagehead"><div><h1>Jordning 5-4-3-2-1</h1><p class="muted">När tankarna snurrar kan sinnena hjälpa dig tillbaka till nuet. Gå igenom i lugn takt, gärna högt.</p></div></div>
@@ -853,8 +874,13 @@ function vTips(){
 function openSheet(html,onMount){
   $('#layer').innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
   onMount&&onMount($('#layer .sheet'));
+  dragClose($('#layer .sheet'));
 }
 const closeSheet=()=>{$('#layer').innerHTML=''};
+function dragClose(sh){if(!sh)return;let y0=null,dy=0;
+  sh.addEventListener('touchstart',e=>{if(sh.scrollTop>0||e.target.closest('input,textarea,select'))return;y0=e.touches[0].clientY;dy=0;sh.style.transition='none'},{passive:true});
+  sh.addEventListener('touchmove',e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy<0||sh.scrollTop>0){dy=0;sh.style.transform='';return}sh.style.transform=`translateY(${dy}px)`},{passive:true});
+  sh.addEventListener('touchend',()=>{if(y0==null)return;y0=null;sh.style.transition='transform .2s ease-out';if(dy>110){sh.style.transform='translateY(100%)';setTimeout(closeSheet,180)}else sh.style.transform=''});}
 function toTop(){const sc=$('#scroller');if(sc)sc.scrollTop=0;const a=$('#app');if(a){a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter')}}
 
 /* ---------- step-by-step logging ---------- */
@@ -868,7 +894,7 @@ function entrySheet(e,preset){
   let photoData=d.photo?getPhoto(d.id):null, photoBlob=null, photoChanged=false, aiState='', aiDesc='', ladderPick=null;
   const pointsBefore=points();
   let step=0; const N=5;
-  const recent=[...new Set(S.entries.slice().reverse().map(x=>x.what).filter(Boolean))].slice(0,5);
+  const recent=[...new Set([...S.entries.filter(x=>x.label===d.label).reverse(),...S.entries.slice().reverse()].map(x=>x.what).filter(Boolean))].slice(0,5);
   const recentPlaces=[...new Set([...S.entries.map(x=>x.place).filter(Boolean).reverse(),...PLACES])].slice(0,8);
   const recentComp=[...new Set([...S.entries.map(x=>x.company).filter(Boolean).reverse(),...COMPANY])].slice(0,7);
   const openLadder=S.ladder.filter(l=>!l.done);
@@ -1043,6 +1069,7 @@ function settingsSheet(){
    <div class="card"><div class="switch"><label for="s-weight"><b>Veckovägning och Din resa</b><br><span class="small muted">Av som standard. Slå bara på om du och din behandlare har kommit överens om det. Du ser hur du rör dig mot målet, aldrig vikten.</span></label><input type="checkbox" id="s-weight" ${S.settings.weightOn?'checked':''}></div></div>
    <div class="card"><h3>Måltidsplan</h3><p class="small muted">Gör gärna planen tillsammans med din behandlare. Ett tillfälle per rad, t.ex. <em>Lunch 12:00</em>.</p>
      <textarea id="s-plan" aria-label="Måltidsplan">${esc(S.plan.map(p=>p.n+' '+p.t).join('\n'))}</textarea><button class="ghost" data-act="savePlan">Spara planen</button></div>
+   <div class="card"><h3>Påminnelser</h3><p class="small muted">Lägg in din måltidsplan i telefonens kalender, så får du en lugn påminnelse vid varje tillfälle. Du kan ta bort dem i kalendern när du vill.</p><button class="ghost" data-act="ics">Lägg in påminnelser i kalendern</button></div>
    <div class="card"><h3>Till din behandlare</h3><p class="small muted">Ladda ner loggen som PDF, i samma upplägg som pappersblanketten.</p><button class="ghost" data-act="pdf">Ladda ner PDF</button></div>
    <div class="card"><h3>Dina uppgifter</h3><p class="small muted">Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p>
      <button class="ghost" data-act="wipe">Radera allt jag skrivit</button></div>`,()=>{
@@ -1194,13 +1221,13 @@ async function downloadReasons(){
 }
 window.__elinReasons=()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);return doc.output('blob')};
 
-async function saveFile(blob,name){
+async function saveFile(blob,name,kind='PDF:en'){
   let dl=null;try{dl=ON_CLAUDE?await window.claude.use('downloads'):null}catch(e){dl=null}
-  if(dl){await dl.save({filename:name,data:blob});return 'Klart! PDF:en är sparad.'}
-  const file=new File([blob],name,{type:'application/pdf'});
+  if(dl){await dl.save({filename:name,data:blob});return `Klart! ${kind} är sparad.`}
+  const file=new File([blob],name,{type:blob.type||'application/pdf'});
   if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name});return 'Klart! Välj Spara i Filer eller skicka den direkt.'}catch(e){if(e&&e.name==='AbortError')return 'Nedladdningen avbröts.'}}
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
-  return 'Klart! PDF:en är sparad.';
+  return `Klart! ${kind} är sparad.`;
 }
 let tt;
 function toast(msg,ms=4200){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=msg;clearTimeout(tt);tt=setTimeout(()=>el.remove(),ms)}
@@ -1252,6 +1279,10 @@ document.addEventListener('click',ev=>{
     <form id="wf" style="display:flex;flex-direction:column;gap:14px"><div class="field"><label for="w-kg">Vikt (kg)</label><input type="number" step="0.1" min="20" max="250" id="w-kg" required></div>
     <p class="small muted">Gärna samma veckodag och tid som du kommit överens om med din behandlare. Siffran sparas till PDF:en och visas inte i appen.</p><button class="primary" type="submit">Spara</button></form>`,()=>{
     $('#wf').addEventListener('submit',e=>{e.preventDefault();const kg=parseFloat($('#w-kg').value);if(!kg)return;S.weights=S.weights.filter(w=>w.d!==today());S.weights.push({d:today(),kg});save();closeSheet();render();toast('Sparat. Tack för att du gör det här.')})})}
+  if(act==='ics'){const p2=n=>String(n).padStart(2,'0'),d=new Date(),ds=`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}`;
+    const ev=S.plan.map((x,i)=>{const [h,m]=x.t.split(':');return ['BEGIN:VEVENT',`UID:elin-${ds}-${i}@elin`,`DTSTAMP:${ds}T000000Z`,`DTSTART:${ds}T${p2(h)}${p2(m)}00`,'DURATION:PT15M','RRULE:FREQ=DAILY',`SUMMARY:${x.n} 🌱`,'DESCRIPTION:Dags för '+x.n.toLowerCase()+'. Logga i ELIN när du vill.','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+x.n,'TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n')});
+    const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ELIN//SV','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
+    saveFile(new Blob([ics],{type:'text/calendar'}),'elin-paminnelser.ics','Kalenderfilen').then(m=>toast(m+' Öppna den och välj Lägg till alla.'));return}
   if(act==='savePlan'){const lines=$('#s-plan').value.split('\n').map(l=>l.trim()).filter(Boolean);
     const p=lines.map(l=>{const m=l.match(/^(.*?)\s*(\d{1,2})[:.](\d{2})$/);return m?{n:m[1]||'Måltid',t:pad(+m[2])+':'+m[3]}:null}).filter(Boolean);
     if(p.length){S.plan=p.sort((a,b)=>a.t.localeCompare(b.t));save();render();toast('Planen är sparad.')}else toast('Skriv ett tillfälle per rad med klockslag, t.ex. Lunch 12:00.')}
