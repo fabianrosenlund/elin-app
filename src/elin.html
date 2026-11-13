@@ -140,19 +140,11 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .menu .chev{color:var(--muted);font-size:1.3rem}
 
 .scrim{position:fixed;inset:0;background:color-mix(in srgb,#141a15 50%,transparent);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-#splash{position:fixed;inset:0;z-index:50;background:#25372B;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#splash{position:fixed;inset:0;z-index:50;background:#25372B;overflow:hidden;transition:opacity .5s ease}
 #splash.out{opacity:0;pointer-events:none}
-.sp-in{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translateY(-4vh)}
-.sp-mark{width:min(112px,28vw);height:auto;overflow:visible}
-.sp-stem{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:sp-grow .6s cubic-bezier(.3,.7,.3,1) .15s forwards}
-.sp-l1,.sp-l2{transform-box:view-box;transform-origin:20px 19px;transform:scale(0) rotate(0);animation:sp-leaf1 .7s cubic-bezier(.25,1.4,.4,1) .62s forwards}
-.sp-l2{animation-name:sp-leaf2;animation-delay:.74s}
-.sp-tag{margin:0;color:#DCE5D0;font-family:var(--body);font-weight:700;font-size:1.05rem;letter-spacing:.01em;opacity:0;transform:translateY(8px);animation:sp-tag .6s ease-out 1.15s forwards}
-@keyframes sp-grow{to{transform:scaleY(1)}}
-@keyframes sp-leaf1{0%{transform:scale(0) rotate(25deg)}100%{transform:scale(1) rotate(0)}}
-@keyframes sp-leaf2{0%{transform:scale(0) rotate(-25deg)}100%{transform:scale(1) rotate(0)}}
-@keyframes sp-tag{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.sp-stem,.sp-l1,.sp-l2,.sp-tag{animation:none;transform:none;opacity:1}}
+.sp-word{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:'Nunito',var(--display);font-weight:900;font-size:min(19vw,88px);line-height:1;color:#F2F3EB;white-space:nowrap;opacity:0;letter-spacing:-.01em}
+.sp-word .sp-i{color:transparent}
+.sp-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .sheet::before{content:"";display:block;width:40px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto -6px;flex:none}
 .sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:24px 24px 0 0;
   padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
@@ -387,7 +379,7 @@ body.ob nav.tabs{display:none}
 .plantcard svg{overflow:visible}
 </style>
 
-<div id="splash" aria-hidden="true"><div class="sp-in"><svg class="sp-mark" viewBox="0 0 40 50"><rect class="sp-stem" x="15" y="18" width="10" height="30" rx="5" fill="#F2F3EB"/><path class="sp-l1" d="M20 19C12.5 19 4.5 14.5 2 5c9-1.5 16.5 3.5 18 14z" fill="#86A97A"/><path class="sp-l2" d="M20 19C20.5 8 27 0 38 0c1 11-6.5 18-18 19z" fill="#86A97A"/></svg><p class="sp-tag">Ett steg i taget</p></div></div><main id="scroller"><div class="wrap" id="app"></div></main>
+<div id="splash" aria-hidden="true"><div class="sp-word"><span class="sp-a">el</span><span class="sp-i">ı</span><span class="sp-b">n</span></div><svg class="sp-svg"></svg></div><main id="scroller"><div class="wrap" id="app"></div></main>
 <nav class="tabs" aria-label="Huvudmeny"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
 
@@ -465,9 +457,52 @@ const delPhoto=id=>{try{localStorage.removeItem(PKEY+id)}catch(e){}};
 /* ---------- Claude (background estimates) ---------- */
 const ON_CLAUDE=!!(window.claude&&window.claude.use);
 const STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
-(function(){const sp=document.getElementById('splash');if(!sp)return;const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const go=()=>{if(sp.classList.contains('out'))return;sp.classList.add('out');setTimeout(()=>sp.remove(),500)};
-  sp.addEventListener('click',go);setTimeout(go,rm?500:2300)})();
+(function(){const sp=document.getElementById('splash');if(!sp)return;
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;let done=false,timer;
+  const go=()=>{if(done)return;done=true;clearTimeout(timer);sp.classList.add('out');setTimeout(()=>sp.remove(),550)};
+  sp.addEventListener('click',go);timer=setTimeout(go,6000);
+  const NS='http://www.w3.org/2000/svg',mk=(t,a)=>{const el=document.createElementNS(NS,t);for(const k in a)el.setAttribute(k,a[k]);return el};
+  const LEAF_L='M20 30C12 30 3.5 25 1 15c9.5-1.5 17.5 4 19 15z',LEAF_R='M20 30C20.5 18 27.5 8.5 39 6.5c1 12-7 21.5-19 23.5z';
+  const start=()=>{if(done)return;
+    const word=sp.querySelector('.sp-word'),iEl=sp.querySelector('.sp-i'),svg=sp.querySelector('.sp-svg');
+    const F=parseFloat(getComputedStyle(word).fontSize);
+    /* Nunito Black metrics for the dotless i, per em: ink starts .045, ink width .193, x-height .511, ascent 1.011 (line-height 1). Constants keep the drawn i aligned even before the web font is measurable. */
+    const r=iEl.getBoundingClientRect(),base=r.top+F*1.011,w=F*.193,cx=r.left+(r.width-F*.281)/2+F*.045+w/2,asc=F*.511,top0=base-asc;
+    const W=innerWidth,H=innerHeight,dx=W/2-cx,growTo=Math.min(H*.34,300),dy=(H*.5+growTo*.45)-base;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    const g=mk('g',{});svg.appendChild(g);
+    const len=asc+growTo-w, stem=mk('line',{x1:cx,y1:base-w/2,x2:cx,y2:top0-growTo+w/2,stroke:'#F2F3EB','stroke-width':w,'stroke-linecap':'round','stroke-dasharray':len,'stroke-dashoffset':growTo});g.appendChild(stem);
+    const lw=.48*F,lh=.36*F,lt=base-.899*F; // logo sprout box
+    const tip=mk('g',{});g.appendChild(tip);
+    const tipLeaves=mk('g',{});tip.appendChild(tipLeaves);
+    const sx=lw/40,sy=lh/30,ox=cx-lw/2,oy=lt;
+    tipLeaves.setAttribute('transform',`translate(${ox} ${oy}) scale(${sx} ${sy})`);
+    [LEAF_L,LEAF_R].forEach(d=>tipLeaves.appendChild(mk('path',{d,fill:'#86A97A'})));
+    const bud=mk('circle',{cx,cy:oy+lh*.45,r:F*.045,fill:'#DCE5D0',opacity:0});tip.appendChild(bud);
+    const side=[];const N=8;
+    for(let k=0;k<N;k++){const f=(k+.6)/(N+.8),y=base-asc*.3-(asc*.7+growTo)*f,dir=k%2?1:-1,sz=F*(.78-.04*k);
+      const lg=mk('g',{});lg.style.transformBox='view-box';lg.style.transformOrigin=`${cx}px ${y}px`;lg.style.transform='scale(0)';
+      lg.appendChild(mk('path',{d:dir<0?LEAF_L:LEAF_R,fill:k%3===2?'#DCE5D0':'#86A97A',transform:`translate(${cx-20*sz/30} ${y-sz}) scale(${sz/30})`}));
+      g.insertBefore(lg,tip);side.push({lg,f})}
+    const A=(el,kf,o)=>el.animate(kf,Object.assign({fill:'forwards',easing:'cubic-bezier(.35,.0,.25,1)'},o));
+    word.style.opacity=1;
+    if(rm){g.style.opacity=1;timer=setTimeout(go,900);return}
+    A(word,[{opacity:0,filter:'blur(4px)'},{opacity:1,filter:'blur(0)'}],{duration:500});
+    A(g,[{opacity:0},{opacity:1}],{duration:500});
+    [sp.querySelector('.sp-a'),sp.querySelector('.sp-b')].forEach((el,j)=>A(el,[{opacity:1,filter:'blur(0)',transform:'translateX(0)'},{opacity:0,filter:'blur(10px)',transform:`translateX(${j?'.25em':'-.25em'})`}],{duration:550,delay:700}));
+    const mv=[{transform:'translate(-50%,-50%)'},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`}];
+    A(word,mv,{duration:550,delay:1150,easing:'cubic-bezier(.45,0,.2,1)'});
+    A(g,[{transform:'translate(0,0)'},{transform:`translate(${dx}px,${dy}px)`}],{duration:550,delay:1150,easing:'cubic-bezier(.45,0,.2,1)'});
+    const G0=1650,GD=1200;
+    A(stem,[{strokeDashoffset:growTo},{strokeDashoffset:0}],{duration:GD,delay:G0,easing:'cubic-bezier(.3,.1,.25,1)'});
+    tip.style.transformBox='view-box';tip.style.transformOrigin=`${cx}px ${oy+lh}px`;
+    A(tip,[{transform:'translateY(0) scale(1)'},{transform:`translateY(${-growTo+(top0-(oy+lh))+F*.05}px) scale(2.3)`}],{duration:GD,delay:G0,easing:'cubic-bezier(.3,.1,.25,1)'});
+    side.forEach(({lg,f},k)=>A(lg,[{transform:'scale(0) rotate(0deg)'},{transform:`scale(1.08) rotate(${k%2?-6:6}deg)`,offset:.7},{transform:'scale(1) rotate(0)'}],{duration:620,delay:G0+GD*Math.min(.92,f*.95),easing:'ease-out'}));
+    A(bud,[{opacity:0},{opacity:1}],{duration:400,delay:G0+GD+80});
+    timer=setTimeout(go,G0+GD+550);
+  };
+  const ready=document.fonts&&document.fonts.load?Promise.race([document.fonts.load('900 64px Nunito'),new Promise(r=>setTimeout(r,600))]):Promise.resolve();
+  ready.then(()=>requestAnimationFrame(start));})();
 /* Standalone builds fill these in so estimates run through a Supabase Edge Function. */
 const ESTIMATE_URL='', ESTIMATE_KEY='';
 /* Calorie estimates are switched off (user's decision 2026-11-12). The hooks stay for later. */
