@@ -140,10 +140,19 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .menu .chev{color:var(--muted);font-size:1.3rem}
 
 .scrim{position:fixed;inset:0;background:color-mix(in srgb,#141a15 50%,transparent);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-#splash{position:fixed;inset:0;z-index:50;background:#25372B;display:none;align-items:center;justify-content:center;transition:opacity .35s ease}
-.standalone #splash{display:flex}
-#splash .appicon{width:96px;height:96px;background:transparent;box-shadow:none}
+#splash{position:fixed;inset:0;z-index:50;background:#25372B;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 #splash.out{opacity:0;pointer-events:none}
+.sp-in{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translateY(-4vh)}
+.sp-mark{width:min(112px,28vw);height:auto;overflow:visible}
+.sp-stem{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:sp-grow .6s cubic-bezier(.3,.7,.3,1) .15s forwards}
+.sp-l1,.sp-l2{transform-box:view-box;transform-origin:20px 19px;transform:scale(0) rotate(0);animation:sp-leaf1 .7s cubic-bezier(.25,1.4,.4,1) .62s forwards}
+.sp-l2{animation-name:sp-leaf2;animation-delay:.74s}
+.sp-tag{margin:0;color:#DCE5D0;font-family:var(--body);font-weight:700;font-size:1.05rem;letter-spacing:.01em;opacity:0;transform:translateY(8px);animation:sp-tag .6s ease-out 1.15s forwards}
+@keyframes sp-grow{to{transform:scaleY(1)}}
+@keyframes sp-leaf1{0%{transform:scale(0) rotate(25deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes sp-leaf2{0%{transform:scale(0) rotate(-25deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes sp-tag{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.sp-stem,.sp-l1,.sp-l2,.sp-tag{animation:none;transform:none;opacity:1}}
 .sheet::before{content:"";display:block;width:40px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto -6px;flex:none}
 .sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:24px 24px 0 0;
   padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
@@ -378,7 +387,7 @@ body.ob nav.tabs{display:none}
 .plantcard svg{overflow:visible}
 </style>
 
-<div id="splash" aria-hidden="true"><div class="appicon"></div></div><main id="scroller"><div class="wrap" id="app"></div></main>
+<div id="splash" aria-hidden="true"><div class="sp-in"><svg class="sp-mark" viewBox="0 0 40 50"><rect class="sp-stem" x="15" y="18" width="10" height="30" rx="5" fill="#F2F3EB"/><path class="sp-l1" d="M20 19C12.5 19 4.5 14.5 2 5c9-1.5 16.5 3.5 18 14z" fill="#86A97A"/><path class="sp-l2" d="M20 19C20.5 8 27 0 38 0c1 11-6.5 18-18 19z" fill="#86A97A"/></svg><p class="sp-tag">Ett steg i taget</p></div></div><main id="scroller"><div class="wrap" id="app"></div></main>
 <nav class="tabs" aria-label="Huvudmeny"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
 
@@ -456,7 +465,9 @@ const delPhoto=id=>{try{localStorage.removeItem(PKEY+id)}catch(e){}};
 /* ---------- Claude (background estimates) ---------- */
 const ON_CLAUDE=!!(window.claude&&window.claude.use);
 const STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
-if(STANDALONE){document.documentElement.classList.add('standalone');addEventListener('DOMContentLoaded',()=>{const sp=document.getElementById('splash');if(!sp)return;sp.querySelector('.appicon').innerHTML=SPROUT_ICON;setTimeout(()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),400)},matchMedia('(prefers-reduced-motion: reduce)').matches?0:650)})}
+(function(){const sp=document.getElementById('splash');if(!sp)return;const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const go=()=>{if(sp.classList.contains('out'))return;sp.classList.add('out');setTimeout(()=>sp.remove(),500)};
+  sp.addEventListener('click',go);setTimeout(go,rm?500:2300)})();
 /* Standalone builds fill these in so estimates run through a Supabase Edge Function. */
 const ESTIMATE_URL='', ESTIMATE_KEY='';
 /* Calorie estimates are switched off (user's decision 2026-11-12). The hooks stay for later. */
