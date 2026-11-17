@@ -11,13 +11,13 @@ head='''<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F3F4EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#F2F3EB" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1C231E" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ELIN">
-<meta name="description" content="ELIN, ett steg i taget. Ett stöd för att logga mat och mående. Inte vård.">
+<meta name="apple-mobile-web-app-title" content="Grostund">
+<meta name="description" content="Grostund, ett steg i taget. Ett stöd för att logga mat och mående. Inte vård.">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -34,11 +34,12 @@ s+='''
 </html>
 '''
 open(out+'index.html','w',encoding='utf-8').write(s)
-json.dump({"name":"ELIN","short_name":"ELIN","description":"Ett steg i taget. Stöd för att logga mat och mående. Inte vård.","lang":"sv","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#F3F4EC","theme_color":"#F3F4EC",
- "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]},open(out+'manifest.webmanifest','w',encoding='utf-8'),ensure_ascii=False,indent=1)
-im=Image.open(R+'/assets/elin-appikon-1024.png').convert('RGB')
+json.dump({"name":"Grostund","short_name":"Grostund","description":"Ett steg i taget. Stöd för att logga mat och mående. Inte vård.","lang":"sv","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#25372B","theme_color":"#F2F3EB",
+ "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]},open(out+'manifest.webmanifest','w',encoding='utf-8'),ensure_ascii=False,indent=1)
+im=Image.open(R+'/assets/grostund-appikon-1024.png').convert('RGB')
 for n in (180,192,512): im.resize((n,n),Image.LANCZOS).save(out+f'icon-{n}.png')
-open(out+'sw.js','w').write('''const C='elin-v1';const SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png'];
+Image.open(R+'/assets/grostund-appikon-maskable-512.png').convert('RGB').save(out+'icon-maskable-512.png')
+open(out+'sw.js','w').write('''const C='grostund-v1';const SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png','icon-maskable-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);
