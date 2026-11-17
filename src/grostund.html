@@ -50,6 +50,9 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .brand{display:flex;flex-direction:column;gap:2px}
 .brand small{color:var(--muted);font-size:.78rem;letter-spacing:.04em}
 .help-btn{background:var(--warm-soft);color:var(--warm);border:0;padding:9px 14px;border-radius:999px;font-weight:700;font-size:.9rem;white-space:nowrap}
+.tipnote{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:10px 10px 10px 14px}
+.tipnote p{flex:1;min-width:0;font-size:.9rem;margin:0;color:var(--ink)}.tipnote .ic{display:flex;color:var(--accent)}.tipnote .ic svg{width:20px;height:20px}.tipnote .x{width:32px;height:32px;background:transparent}
+.about{display:flex;flex-direction:column;gap:12px}.about .card p{margin:4px 0 0}.about .card h3{display:flex;align-items:center;gap:10px}.about .card h3 .ic{display:flex;color:var(--accent)}.about .card h3 .ic svg{width:20px;height:20px}
 .notice{border-left:3px solid var(--leaf);padding:4px 0 4px 14px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 .notice p{min-width:0}
 .link-btn{background:none;border:0;color:var(--accent);font-weight:700;padding:0;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-align:left}
@@ -215,8 +218,10 @@ details.more[open] summary{margin-bottom:10px}
   @keyframes pop{from{transform:scale(.5)}}
   @keyframes spark{0%{opacity:0;transform:translateY(6px)}40%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
 }
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:var(--bg);
-  padding:12px 16px;border-radius:14px;max-width:min(92vw,460px);font-size:.95rem;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top,0px));z-index:30;background:var(--ink);color:var(--bg);
+  padding:12px 18px;border-radius:16px;width:max-content;max-width:min(calc(100vw - 32px),460px);font-size:.95rem;box-shadow:0 8px 28px rgba(0,0,0,.18);animation:toastin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,-16px)}}
+@media (prefers-reduced-motion: reduce){.toast{animation:none}}
 
 .chart svg{width:100%;height:auto;display:block}
 .chart text{fill:var(--muted);font-size:10px;font-family:var(--body)}
@@ -230,6 +235,7 @@ details.more[open] summary{margin-bottom:10px}
 .qbox h3{font-size:.92rem}
 .qbox ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--hand);font-size:1rem;font-weight:700;line-height:1.35}
 .qbox li{overflow-wrap:anywhere}
+.qbox li .rtxt{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:text}
 .qbox li button{background:none;border:0;color:var(--muted);padding:0 4px;font-size:.85rem;font-family:var(--body)}
 .addline{display:flex;gap:6px}
 .addline input{flex:1;min-width:0;background:var(--bg)}
@@ -331,20 +337,33 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .callcard a.leafy{border-color:#93B07D}
 .callcard p{font-size:.82rem;color:#C9D3B8;line-height:1.45}
 .callcard p a{display:inline;border:0;padding:0;color:#F1F2E8;text-decoration:underline;font-weight:700}
-.breathe{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:8px 0 4px}
-.ring{position:relative;width:min(260px,72vw);aspect-ratio:1}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring .rt{fill:none;stroke:var(--soft);stroke-width:7}
-.ring .rp{fill:none;stroke:var(--leaf);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .25s linear}
-.rin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.rin b{position:relative;font-size:1.25rem;font-weight:700;color:var(--ink)}
-.pulse{position:absolute;width:58%;aspect-ratio:1;border-radius:50%;background:var(--soft);transform:scale(.72);transition:transform 4s ease-in-out}
-.ring[data-ph="in"] .pulse{transform:scale(1.12);transition-duration:4s}
-.ring[data-ph="ut"] .pulse{transform:scale(.72);transition-duration:6s}
-.ring.paused .pulse{transition:none}
-.btime{font-size:1rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.bbtn{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
-@media (prefers-reduced-motion: reduce){.pulse{transition:none!important}}
+.breathe{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;padding:4px 0}
+.orb{position:relative;width:min(280px,74vw);aspect-ratio:1}
+.orb svg{width:100%;height:100%;overflow:visible}
+.orb .halo circle{fill:var(--soft);opacity:calc(.35 + var(--k,0)*.5);transform-origin:100px 100px;transform:scale(calc(.55 + var(--k,0)*.45))}
+.orb .bloom{transform-origin:100px 100px;transform:scale(.32)}
+.orb .bloom ellipse{fill:var(--leaf);opacity:.3}
+.orb .core{fill:var(--bg)}
+.orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none}
+.orbtxt b{font-size:1.3rem;font-weight:700;color:var(--ink)}
+.orbtxt span{font-size:1rem;color:var(--muted);font-variant-numeric:tabular-nums;min-height:1.2em}
+.breathe.paused .orb{opacity:.6}
+.bmeta{display:flex;gap:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bmeta span:empty{display:none}
+.bset,.brun,.bdone{display:none;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.breathe[data-state="idle"] .bset,.breathe[data-state="run"] .brun,.breathe[data-state="done"] .bdone{display:flex}
+.breathe[data-state="run"] .bmeta,.breathe[data-state="idle"] #b-n{}
+.bset .seg button small{opacity:.6;font-weight:500;margin-left:2px}
+.bdone .moods{justify-content:center}
+.steps54 .pips{display:flex;gap:6px;margin-top:8px}
+.steps54 .pips i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);transition:background .2s,border-color .2s,transform .2s}
+.steps54 .pips i.on{background:var(--leaf);border-color:var(--leaf);transform:scale(1.15)}
+.steps54 li{transition:opacity .3s,box-shadow .3s}
+.steps54 li:not(.cur):not(.ok){opacity:.45}
+.steps54 li.cur{box-shadow:0 0 0 2px var(--leaf);cursor:pointer}
+.steps54 li.ok{background:var(--soft)}
+.steps54 li>span{display:flex;flex-direction:column}
+.j54done{text-align:center;padding:8px 0}
 .steps54{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
 .steps54 li{display:flex;gap:14px;align-items:center;background:var(--surface);border-radius:16px;padding:14px 16px}
 .steps54 b{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--accent);width:28px;text-align:center;flex:none}
@@ -381,6 +400,29 @@ body.ob nav.tabs{display:none}
 .ob .field input{width:100%}
 .daycard>.drinks:first-child{border-top:0;padding-top:0}
 .plantcard svg{overflow:visible}
+
+/* ---- Layout language inspired by established Swedish care apps: floating tab bar, big titles with a short rule, quiet list rows ---- */
+nav.tabs{background:transparent;border-top:0;padding:0 max(14px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));pointer-events:none}
+nav.tabs .in{pointer-events:auto;background:var(--surface);border-radius:30px;padding:7px;box-shadow:0 6px 24px rgba(20,30,22,.12),0 1px 3px rgba(20,30,22,.08);max-width:560px}
+nav.tabs button{border-radius:24px;padding:9px 0 7px;font-size:.76rem;color:var(--ink);transition:background .2s}
+nav.tabs button[aria-current="page"]{background:var(--soft)}
+nav.tabs button[aria-current="page"] svg{color:var(--ink)}
+nav.tabs button[aria-current="page"] span::after{display:none}
+.pagehead h1,#app>h2{font-size:2rem;line-height:1.15;letter-spacing:-.025em}
+.pagehead h1::after,#app>h2::after{content:"";display:block;width:34px;height:4px;border-radius:2px;background:var(--line);margin-top:14px}
+.eyebrow2{font-size:1.15rem;font-weight:700;letter-spacing:-.01em;color:var(--ink);text-transform:none;margin-top:8px}
+.menu{border-radius:20px}
+.menu button,.menu a{grid-template-columns:28px 1fr auto;gap:16px;border-top:0;padding:18px 18px;position:relative;min-height:64px}
+.menu button+button::before,.menu button+a::before,.menu a+button::before,.menu a+a::before{content:"";position:absolute;top:0;left:62px;right:18px;border-top:1px solid var(--line)}
+.menu .ic{width:28px;height:28px;background:none;border-radius:0;color:var(--ink)}
+.menu .ic svg{width:26px;height:26px}
+.menu b{font-weight:500;font-size:1.05rem;font-family:var(--body)}
+.menu small{display:none}
+.menu .chev{font-size:1.5rem;font-weight:300}
+.primary{border-radius:16px;padding:16px 20px}
+.compose{border-radius:20px;padding:20px 20px}
+.compose .go{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--leaf);color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;font-size:1.3rem;font-weight:700}
+.card,.daycard{border-radius:20px}
 </style>
 
 <div id="splash" aria-hidden="true"><svg class="sp-svg"><g class="sp-L" opacity="0"><g class="sp-gr"><path fill="#F2F3EB" fill-rule="evenodd" d="M184 674.6C118.8 677.6 58.6 655.1 34.8 618.8C20.8 597.5 26.1 571 47.4 556C62.9 545.1 86.2 544.2 103.7 553.8C104.9 554.4 108.3 556.3 111.3 558C114.4 559.6 119 562.3 121.7 563.9C127 567.1 138.5 573 142.2 574.3C175.4 586.7 211.7 582.4 234.8 563.2C243.8 555.9 247.4 551.8 254.9 540.6C257.2 537.2 262.8 525.7 263.8 522.6C267.9 508.9 269.5 498.5 267.9 496.1C266.7 494.4 265.6 494.8 258.7 500C244.7 510.3 229.3 518.3 212.4 523.7C191.6 530.5 157.2 531.1 132.6 525C91.5 514.9 53.6 487.8 28.7 450.4C-2.9 403.2 -9 335.9 13.4 282.4C37.6 224.8 83.3 187.9 144.7 176.8C187.3 169 234.5 178 269.2 200.5C280.9 208.1 280.9 208.1 284.8 202.2C297.2 183.3 315.7 174.8 335.5 178.8C358.7 183.5 372.5 200.5 373.6 225.7C374.1 236.2 373.8 499.7 373.3 506.1C369.6 556.7 350.4 595.8 314 627.2C280.9 655.9 236.3 672.1 184 674.6ZM179.3 436.9C196.6 437.5 212.7 433.6 226.3 425.4C245.2 413.9 260.9 390.6 265.5 367C277.7 304 227.2 250.8 166.5 262.9C137.2 268.8 112.3 293.6 105 324.4C91.3 381.5 126.5 434.8 179.3 436.9Z"/><path fill="#F2F3EB" d="M459.6 543.7C432.5 548.5 407.2 529.8 402.8 501.6C402 496.5 401.8 309.4 402.6 301.1C407.9 245 443.9 200.5 498.8 182.2C566.7 159.5 635 175.5 648.7 217.2C656.9 242.6 642.9 270 617 279.2C604.7 283.5 594 282.8 579.7 276.7C570 272.7 564.8 271.7 556.9 272.5C530.7 275.1 510.2 294.3 503.5 322.6C501.4 331.4 501.6 325.8 501.3 415.4C501.2 490.4 501.1 497.4 500.6 500.9C497.2 523.4 481.4 539.9 459.6 543.7Z"/></g><g class="sp-st"><path fill="#F2F3EB" d="M1277.3 558.8Q1242.3 558.8 1206.1 553.6Q1169.9 548.4 1140.5 534.9Q1120.6 526.9 1112.2 513.4Q1103.9 499.9 1104.3 484.8Q1104.7 469.7 1113 457.3Q1121.4 445 1135.3 439.8Q1149.2 434.7 1166.7 441Q1200.1 453 1226.8 458.1Q1253.4 463.3 1278.1 463.3Q1307.5 463.3 1320.2 454.9Q1333 446.6 1333 433.1Q1333 421.1 1324.6 414.8Q1316.2 408.4 1301.1 406L1212.8 391.7Q1163.5 383 1136.5 355.5Q1109.4 328.1 1109.4 283.5Q1109.4 242.2 1132.9 212.3Q1156.4 182.5 1197.3 166.2Q1238.3 149.9 1291.6 149.9Q1327.4 149.9 1356.8 155.1Q1386.2 160.2 1414.1 173.8Q1431.6 180.9 1438.8 194.4Q1445.9 208 1444.3 222.7Q1442.7 237.4 1434.4 249.7Q1426 262 1411.7 266.4Q1397.4 270.8 1378.3 264.4Q1352 254.1 1331.8 249.3Q1311.5 244.5 1294 244.5Q1261.4 244.5 1247.8 253.3Q1234.3 262 1234.3 275.6Q1234.3 285.9 1241.5 292.7Q1248.6 299.4 1263.8 301.8L1352 316.9Q1403 324.9 1430.4 351.5Q1457.8 378.2 1457.8 423.5Q1457.8 488 1408.5 523.4Q1359.2 558.8 1277.3 558.8Z M1715.1 558.8Q1655.5 558.8 1616.9 540.5Q1578.3 522.2 1559.2 485.2Q1540.1 448.2 1540.1 392.5V262.8H1513.1Q1487.6 262.8 1473.7 249.3Q1459.8 235.8 1459.8 210.3Q1459.8 184.9 1473.7 171.8Q1487.6 158.6 1513.1 158.6H1540.1V109.3Q1540.1 74.3 1558.4 56Q1576.7 37.7 1610.9 37.7Q1645.1 37.7 1663.4 56Q1681.7 74.3 1681.7 109.3V158.6H1747Q1773.2 158.6 1787.1 171.8Q1801 184.9 1801 210.3Q1801 235.8 1787.1 249.3Q1773.2 262.8 1747 262.8H1681.7V387.7Q1681.7 417.2 1695.6 431.1Q1709.6 445 1739.8 445Q1750.9 445 1761.3 442.6Q1771.6 440.2 1780.4 440.2Q1793.1 439.4 1801 447.8Q1809 456.1 1809 485.6Q1809 509.4 1801.8 525.7Q1794.7 542 1776.4 549.2Q1765.2 553.2 1746.2 556Q1727.1 558.8 1715.1 558.8Z M1989.1 558.8Q1938.2 558.8 1905.6 540.1Q1873 521.4 1856.7 484Q1840.4 446.6 1840.4 389.3V222.3Q1840.4 187.3 1858.7 169.4Q1877 151.5 1911.2 151.5Q1945.4 151.5 1963.7 169.4Q1982 187.3 1982 222.3V393.3Q1982 421.9 1993.9 436.2Q2005.8 450.6 2031.3 450.6Q2059.9 450.6 2078.2 429.9Q2096.5 409.2 2096.5 375V222.3Q2096.5 187.3 2114.8 169.4Q2133.1 151.5 2167.3 151.5Q2201.5 151.5 2219.8 169.4Q2238.1 187.3 2238.1 222.3V485.6Q2238.1 557.2 2169.7 557.2Q2136.3 557.2 2118 538.9Q2103.7 524.5 2100.5 499.9Q2085.4 523.8 2063.9 538.1Q2032.1 558.8 1989.1 558.8Z M2384.8 557.2Q2351.4 557.2 2333.1 538.9Q2314.8 520.6 2314.8 485.6V222.3Q2314.8 188.1 2332.7 169.8Q2350.6 151.5 2384 151.5Q2417.5 151.5 2435 169.8Q2450.1 185.7 2452.5 212.7Q2470 185.7 2498.6 169.8Q2533.6 149.9 2578.9 149.9Q2625.9 149.9 2656.1 167.8Q2686.3 185.7 2701.4 223.5Q2716.5 261.2 2716.5 318.5V485.6Q2716.5 520.6 2698.2 538.9Q2680 557.2 2645.8 557.2Q2611.5 557.2 2593.2 538.9Q2575 520.6 2575 485.6V324.1Q2575 288.3 2562.6 273.2Q2550.3 258.1 2526.4 258.1Q2494.6 258.1 2475.5 278.4Q2456.4 298.6 2456.4 332.8V485.6Q2456.4 557.2 2384.8 557.2Z M2943.6 558.8Q2893.5 558.8 2854.9 534.1Q2816.3 509.4 2794.5 463.3Q2772.6 417.2 2772.6 354.3Q2772.6 289.9 2794.5 244.5Q2816.3 199.2 2854.9 174.5Q2893.5 149.9 2943.6 149.9Q2987.4 149.9 3022.4 170.6Q3047 185.7 3060.5 206.4V53.6Q3060.5 18.6 3078.8 0.3Q3097.1 -18 3131.3 -18Q3164.8 -18 3183.4 0.3Q3202.1 18.6 3202.1 53.6V485.6Q3202.1 520.6 3184.2 538.9Q3166.3 557.2 3132.1 557.2Q3098.7 557.2 3080.4 538.9Q3065.3 523.8 3062.9 498.3Q3050.2 521.4 3024.8 536.5Q2989 558.8 2943.6 558.8ZM2989 454.5Q3010.4 454.5 3027.1 443.8Q3043.8 433.1 3053 411.2Q3062.1 389.3 3062.1 354.3Q3062.1 301 3041.5 277.6Q3020.8 254.1 2989 254.1Q2967.5 254.1 2950.8 264.4Q2934.1 274.8 2924.5 296.6Q2915 318.5 2915 354.3Q2915 406.8 2935.7 430.7Q2956.3 454.5 2989 454.5Z"/></g><path class="sp-stem" fill="none" stroke="#9DBB8E" stroke-linecap="round"/><g class="sp-side"></g><path class="sp-o" fill="#F2F3EB" fill-rule="evenodd" d="M625.5 359.9C625.5 253.6 711.7 167.4 818 167.4C924.3 167.4 1010.5 253.6 1010.5 359.9C1010.5 466.2 924.3 552.4 818 552.4C711.7 552.4 625.5 466.2 625.5 359.9ZM729 360.4C729 414.8 768.8 458.9 818 458.9C867.2 458.9 907 414.8 907 360.4C907 306 867.2 261.9 818 261.9C768.8 261.9 729 306 729 360.4Z"/><path class="sp-plus" fill="#9DBB8E" d="M787.5 347.4H805.5V329.4C805.5 322.5 811.1 316.9 818 316.9C824.9 316.9 830.5 322.5 830.5 329.4V347.4H848.5C855.4 347.4 861 353 861 359.9C861 366.8 855.4 372.4 848.5 372.4H830.5V390.4C830.5 397.3 824.9 402.9 818 402.9C811.1 402.9 805.5 397.3 805.5 390.4V372.4H787.5C780.6 372.4 775 366.8 775 359.9C775 353 780.6 347.4 787.5 347.4Z"/><g class="sp-tip"><path fill="#9DBB8E" d="M940.7 208C939.7 210.5 937.1 209.4 931 204.1C929.5 202.8 927.4 201.4 925.7 200.6C922.2 198.8 915.2 195.1 913.6 194C912 192.9 911.4 191.3 911.2 187.1C910.8 179.9 907.1 171.4 901.8 166C893.8 157.7 889.6 155.8 864.3 149.4C861 148.5 855.3 146.5 849.7 144C825.3 133.5 812.9 119.1 804.5 91.7C802.7 85.8 801.5 70.5 802.7 67.8C807 58.3 834.6 55.2 859.4 61.4C879.8 66.5 901.3 83.9 909.2 101.6C910 103.5 911.3 106.2 912.1 107.6C913.9 110.6 916.1 116.2 918 122.2C920.9 131.6 921.7 133.2 923.1 133.2C924.9 133.2 925.3 132 926.5 123.4C929.5 100.8 939.8 75 951.8 59.9C952.8 58.7 954.7 56.3 956 54.6C959.8 49.6 962.6 46.7 967.3 42.6C969.8 40.5 972.7 37.9 973.9 36.8C977.5 33.6 982.2 30.2 987.7 26.9C990.5 25.2 994.3 22.8 996 21.7C1000.2 19 1008.1 15 1012 13.6C1013.7 13 1017.5 11.5 1020.3 10.4C1025.8 8.2 1031.2 6.5 1037.8 5.1C1040 4.6 1044.2 3.7 1047 3.1C1054.9 1.3 1057.5 1 1066.1 0.4C1084.9 -0.8 1086 -0.2 1086 10.6C1086 29.2 1078.4 56.5 1068.5 73.6C1061.7 85.2 1060.4 87.2 1055.9 92.1C1054.6 93.6 1052.4 96.1 1051.1 97.6C1039.8 110.8 1018.1 124.9 998 132C978.9 138.7 961.4 151.6 954 164.4C946.1 178 942.8 188.2 941.5 202.2C941.3 204.9 940.9 207.5 940.7 208Z"/></g></g><text class="sp-tag" text-anchor="middle" opacity="0">en stund att gro</text></svg></div><main id="scroller"><div class="wrap" id="app"></div></main>
@@ -596,7 +638,7 @@ function face(level){
   return `<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="${fill}" stroke="currentColor" stroke-width="1.4"/>${eyes}<path d="M11 24 Q18 ${24+k} 25 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
 }
 const TABS=[['idag','Idag'],['dagbok','Dagbok'],['stod','Stöd'],['jag','Jag']];
-const PARENT={skriv:'dagbok',andas:'stod',jord:'stod',tips:'stod',vaxa:'jag',kurvor:'jag',skal:'jag',minnen:'jag'};
+const PARENT={om:'jag',skriv:'dagbok',andas:'stod',jord:'stod',tips:'stod',vaxa:'jag',kurvor:'jag',skal:'jag',minnen:'jag'};
 const BACKLBL={idag:'Idag',dagbok:'Dagbok',stod:'Stöd',jag:'Jag'};
 let backTo=null, obStep=0;
 const QUOTES=['Varje måltid är ett steg, oavsett hur den gick.','Du behöver inte känna dig redo för att äta. Det räcker att du gör det.','Regelbundet slår perfekt.','Mat är energi, värme och gemenskap.','Små steg räknas också.','Ångest stiger och sjunker. Den går över.','Din kropp förtjänar att få äta sig mätt.'];
@@ -608,16 +650,16 @@ function render(){
   $('#tabs').innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${cur===k?'aria-current="page"':''}>${ICONS[k]}<span>${l}</span></button>`).join('');
   const hasEx=S.entries.some(e=>e.example)||S.reasonsExample||S.ladder.some(l=>l.example)||S.goals.example;
   let h=`<header class="top"><div class="brand">${LOGO}</div>${cur==='stod'?'':'<button class="stod-btn" data-tab="stod">Behöver du stöd nu?</button>'}</header>`;
-  if(!S.settings.noticeHidden) h+=`<div class="notice"><p class="small"><strong>Grostund är inte vård.</strong> Appen är ett stöd för att logga och reflektera, gärna tillsammans med din behandlare. Den ställer inga diagnoser och ersätter inte kontakt med vården. Vid akut fara, ring 112.</p><p class="small" style="margin-top:8px"><strong>Det du skriver är ditt.</strong> Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p><button class="link-btn small" data-act="hideNotice">Jag förstår</button></div>`;
   if(hasEx) h+=`<div class="example-bar"><span>Du ser <strong>exempel</strong> för att känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort</button></div>`;
   if(!storageOk) h+=`<div class="example-bar">Webbläsaren tillåter inte att Grostund sparar allt. Det du skriver kan försvinna när du stänger sidan.</div>`;
   if(PARENT[view]){const b=backTo||PARENT[view];h+=`<button class="back" data-tab="${b}">‹ ${BACKLBL[b]||'Tillbaka'}</button>`}
-  h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips}[view])();
-  h+=`<footer class="disc">Grostund är ett självhjälpsverktyg och ingen vårdgivare. Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</footer>`;
+  h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips,om:vOm}[view])();
   $('#app').innerHTML=h;
-  if(view==='andas')startBreath();
+  if(view==='andas')startBreath();else stopBreath();if(view==='jord')startJord();
 }
 
+function tip(key,text){const seen=S.settings.tips||{};if(seen[key])return '';
+  return `<div class="tipnote" role="note"><span class="ic">${ICONS.info}</span><p>${text}</p><button class="x" data-tipok="${key}" aria-label="Okej, dölj">×</button></div>`}
 function entriesOn(d){return S.entries.filter(e=>e.date===d).sort((a,b)=>a.time.localeCompare(b.time))}
 function planStatus(d){
   const eaten=entriesOn(d).filter(e=>e.kind!=='dryck'),used=new Set();
@@ -631,28 +673,29 @@ function noteCard(e){
     <span class="meta">${e.example?'<span class="chip ex">exempel</span>':''}${e.place||e.company?`<span class="chip">${esc([e.place,e.company].filter(Boolean).join(' · '))}</span>`:''}${e.unplanned?'<span class="chip star">* oplanerat / för mycket</span>':''}${(e.beh||[]).map(b=>`<span class="chip b">${b}</span>`).join('')}${e.good.length||e.goodText?`<span class="chip g">Gott: ${esc(e.good.join(', ').toLowerCase()||'ja')}</span>`:''}${e.before!=null?`<span class="chip">Före: ${FEEL[e.before-1].toLowerCase()}${e.after!=null?', efter: '+FEEL[e.after-1].toLowerCase():''}</span>`:''}</span>
     ${e.note?`<span class="note">${esc(e.note)}</span>`:''}</span>${ph?`<img src="${ph}" alt="">`:''}</button>`;
 }
-const MOODS=[['Lugnt','Skönt. Ta med dig lugnet in i nästa måltid.'],['Okej','Okej räcker gott.'],['Tungt','Tack för att du säger det. Det är okej att det är tungt. Kanske hjälper det att andas en stund.'],['Stressigt','Stress gör maten svårare. Planen finns där så att du inte behöver bestämma allt i stunden.'],['Vet inte','Det är också ett svar. Du behöver inte veta.']];
+const MOODS=[['Lugnt','Skönt. Ta med dig lugnet in i nästa måltid.'],['Okej','Okej räcker gott.'],['Tungt','Tack för att du säger det. Andas gärna en stund.'],['Stressigt','Luta dig mot planen, du behöver inte bestämma allt nu.'],['Vet inte','Det är också ett svar.']];
 function greeting(){const h=new Date().getHours();return h<10?'God morgon':h<12?'God förmiddag':h<18?'God eftermiddag':'God kväll'}
 function vIdag(){
   day=today();
   const nowM=toMin(nowHM()), {slots,done}=planStatus(day), en=energyStatus(day), dn=drinksOn(day), mood=S.moods[day];
   const nextI=slots.findIndex(s=>!s.done&&toMin(s.t)>=nowM-60);
   const nx=nextI>=0?slots[nextI]:null;
-  const steps=[['andas','Andas i två minuter','En lugn stund för kroppen'],['tips','Läs ett tips','Korta påminnelser när det känns svårt'],['vaxa','Titta på din planta','Den växer när du tar hand om dig']];
+  const steps=[['andas','Andas en stund'],['tips','Läs ett tips'],['vaxa','Titta på din planta']];
   const st=mood==='Tungt'||mood==='Stressigt'?steps[0]:steps[new Date().getDate()%steps.length];
-  return `<section class="greet"><h1>${greeting()}</h1><p>Hur känns det just nu? Det finns inga fel svar.</p></section>
-  <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
-  ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
+  return `<section class="greet"><h1>${greeting()}</h1></section>
+  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
   <section class="daycard">
     <div class="leafrow" role="img" aria-label="${done} av ${slots.length} tillfällen i planen loggade">${slots.map(s=>leafIcon(s.done)).join('')}<span class="lbl">${done} av ${slots.length} i planen</span></div>
     ${en?`<div class="energy"><div class="ebar" role="img" aria-label="Energi idag"><i style="width:${Math.max(6,en.frac*100)}%"></i></div><p class="small muted">${esc(en.msg)}</p></div>`:''}
     <div class="nextrow">${nx?`<div><small>Nästa i planen</small><b>${esc(nx.n)} ${esc(nx.t)}</b></div><button class="go" data-slot="${nextI}">Logga</button>`:`<div><small>Planen</small><b>${done===slots.length?'Allt i planen är loggat idag':'Inget mer i planen just nu'}</b></div><button class="go" data-act="new">Logga</button>`}</div>
   </section>
   <section class="daycard"><div class="drinks"><div style="min-width:0"><b class="small">Dryck</b><div class="glasses" aria-label="${dn} glas">${Array.from({length:Math.max(8,dn)},(_,i)=>glass(i<dn)).join('')}</div>
-      <p class="small muted">${dn>=6?'Fint, kroppen får vätska.':'Sikta på 6–8 glas över dagen.'}</p></div>
+</div>
       <div class="step"><button data-act="drink-" aria-label="Ta bort ett glas">−</button><button class="add" data-act="drink+" aria-label="Lägg till ett glas">+</button></div></div></section>
-  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b><span class="sub">${st[2]}</span></span><span class="chev" aria-hidden="true">›</span></button>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span><small>Skriv i dagboken, gärna direkt efter maten</small></span></button>`;
+  <p class="eyebrow2">Hur känns det just nu?</p>
+  <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
+  ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
+  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b></span><span class="chev" aria-hidden="true">›</span></button>`;
 }
 function vDagbok(){
   const list=entriesOn(day), isToday=day===today(), nowM=toMin(nowHM());
@@ -673,10 +716,10 @@ function vDagbok(){
   return `<div class="pagehead"><h1>Dagbok</h1></div>
   <div class="dayhead"><div><p class="eyebrow">${isToday?'Idag':'Tillbakablick'}</p><p class="date">${esc(cap(dayLabel(day)))}</p></div>
     <div class="daynav"><button data-act="prev" aria-label="Föregående dag">‹</button><button data-act="next" aria-label="Nästa dag" ${isToday?'disabled':''}>›</button></div></div>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span><small>Skriv i dagboken, gärna direkt efter maten</small></span></button>
+  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
   <div class="tl" aria-label="Dagens tidslinje">${tl}</div>
   ${jn.length?`<section><p class="eyebrow2">Fritt skrivet</p>${jn.map(n=>`<div class="jnote"><p>${esc(n.text)}</p><button data-jdel="${n.id}" aria-label="Ta bort anteckningen">Ta bort</button></div>`).join('')}</section>`:''}
-  <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b><span class="sub">Skriv det som finns. Bara du ser det.</span></span><span class="chev" aria-hidden="true">›</span></button>
+  <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b></span><span class="chev" aria-hidden="true">›</span></button>
   <div class="btnrow"><button class="ghost" data-act="pdf">Ladda ner som PDF till vården</button></div>`;
 }
 
@@ -706,25 +749,24 @@ function vKurvor(){
   [0,4,8].forEach(g=>{dr+=`<line x1="${L}" x2="${W-R}" y1="${y3(g)}" y2="${y3(g)}" stroke="var(--line)"/><text x="${L-6}" y="${y3(g)+3}" text-anchor="end">${g}</text>`});
   data.forEach((v,i)=>{const x=L+i*cw+cw*.18,w=cw*.64,yy=y3(v.dr);dr+=`<rect x="${x}" y="${yy}" width="${w}" height="${Math.max(0,y3(0)-yy)}" rx="3" fill="var(--water)" opacity="${v.dr>=6?1:.55}"/>`+xl(i,v.d)});dr+='</svg>';
   const week=data.slice(-7), regular=week.filter(v=>v.n>=plan-1).length, logged=week.filter(v=>v.n>0).length, goodW=week.reduce((s,v)=>s+v.good,0);
-  let h=`<h2>Kurvor</h2><p class="muted">Här ser du mönster över tid: hur regelbundet du äter, hur det känns och vad som var gott. Inga kalorier, inga portioner.</p>
+  let h=`<h2>Kurvor</h2>${tip('kurvor','Mönster över tid. Inga kalorier, inga portioner.')}
   <div class="card"><div class="section-h"><h3>Regelbundenhet</h3><span class="small muted">senaste 14 dagarna</span></div>
     <div class="chart">${bars}</div>
     <div class="legend"><span><i style="background:var(--accent)"></i>Tillfällen i planen som loggats</span><span><i style="background:var(--lilac)"></i>Din plan (${plan} st)</span></div>
     <p class="small">Den här veckan har du loggat ${logged} av 7 dagar, och ${regular} dagar låg nära din plan.${goodW?` Du har hittat något gott ${goodW} gånger.`:''}</p></div>
   <div class="card"><div class="section-h"><h3>Oro kring maten</h3><span class="small muted">1 = lugn, 5 = panik</span></div>
     <div class="chart">${feel}</div>
-    <div class="legend"><span><i style="background:var(--lilac)"></i>Före</span><span><i style="background:var(--accent)"></i>Efter</span></div>
-    <p class="small muted">Oro brukar gå upp och ner. Att den finns betyder inte att det går dåligt, och den brukar minska när ätandet blir regelbundet.</p></div>
+    <div class="legend"><span><i style="background:var(--lilac)"></i>Före</span><span><i style="background:var(--accent)"></i>Efter</span></div></div>
   <div class="card"><div class="section-h"><h3>Dryck</h3><span class="small muted">glas per dag</span></div><div class="chart">${dr}</div></div>`;
   h+=vJourney();
   return h;
 }
 function vJourney(){
   const g=S.goals;
-  if(!S.settings.weightOn) return `<div class="card"><h3>Din resa</h3><p class="small muted">Vikten visas inte här som standard. Om du och din behandlare vill kan du slå på veckovägning under <button class="link-btn" data-act="settings">Inställningar och mål</button>. Du ser då bara hur du rör dig mot målet, inga siffror.</p></div>`;
+  if(!S.settings.weightOn) return `<div class="card"><h3>Din resa</h3><p class="small muted">Avstängd. <button class="link-btn" data-act="settings">Slå på i inställningarna</button></p></div>`;
   const w=S.weights.slice().sort((a,b)=>a.d.localeCompare(b.d));
   let h=`<div class="card journey"><div class="section-h"><h3>Din resa</h3><button class="ghost small" data-act="addWeight">Veckans vägning</button></div>`;
-  if(!g.start||!g.target||!w.length){h+=`<p class="small muted">${!g.start||!g.target?'Start och mål läggs in under Inställningar och mål, gärna tillsammans med din behandlare.':'Lägg in veckans vägning så visas din resa här.'}</p></div>`;return h}
+  if(!g.start||!g.target||!w.length){h+=`<p class="small muted">${!g.start||!g.target?'Lägg in start och mål i inställningarna.':'Lägg in veckans vägning.'}</p></div>`;return h}
   const cur=w[w.length-1].kg, f=Math.max(0,Math.min(1,(cur-g.start)/(g.target-g.start)));
   const pts=[[20,70],[90,40],[160,62],[230,30],[300,46]];
   const path='M20 70 C55 30 60 40 90 40 S130 70 160 62 S200 25 230 30 S280 50 300 46';
@@ -732,8 +774,7 @@ function vJourney(){
   h+=`<svg viewBox="0 0 320 100" role="img" aria-label="Du har kommit en bit på vägen mot ditt mål"><path d="${path}" fill="none" stroke="var(--line)" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 10"/>
     <circle cx="300" cy="46" r="10" fill="var(--soft)" stroke="var(--accent)" stroke-width="2"/><path d="M296 46l3 3 5-6" stroke="var(--accent)" stroke-width="2" fill="none"/>
     <circle cx="${px}" cy="${pts.reduce((a,p)=>Math.abs(p[0]-px)<Math.abs(a[0]-px)?p:a)[1]}" r="9" fill="var(--sun)" stroke="var(--surface)" stroke-width="3"/></svg>
-    <p class="small">${f>=1?'Du har nått det mål ni satt upp. Prata med din behandlare om vad som händer nu.':f>.5?'Du har kommit en bra bit på vägen. Kroppen tackar dig.':'Du är på väg. Varje vecka med regelbundna måltider tar dig framåt.'}</p>
-    <p class="small muted">Vikten i sig visas inte här. Siffrorna finns i PDF:en till din behandlare.</p></div>`;
+    <p class="small">${f>=1?'Du har nått det mål ni satt upp. Prata med din behandlare om vad som händer nu.':f>.5?'Du har kommit en bra bit på vägen. Kroppen tackar dig.':'Du är på väg. Varje vecka med regelbundna måltider tar dig framåt.'}</p></div>`;
   return h;
 }
 
@@ -775,24 +816,22 @@ const STAGES=['Ett frö','En grodd','En liten planta','Den växer','Den knoppas'
 function vFramsteg(){
   const p=points(),{svg,stage}=plantSvg(p),B=badges();
   const L=S.ladder.slice().sort((a,b)=>a.fear-b.fear);
-  return `<h2>Växa</h2>
-  <div class="garden">${svg}<p><strong>${STAGES[stage]}</strong> <span class="small muted">· ${p} blad</span></p>
-  <p class="small muted">Växten växer när du tar hand om dig: loggar, hittar något gott, vågar ett steg på stegen. Den vissnar aldrig och räknar inte dagar i rad.</p></div>
+  return `<h2>Växa</h2>${tip('vaxa','Plantan växer när du tar hand om dig. Den vissnar aldrig.')}
+  <div class="garden">${svg}<p><strong>${STAGES[stage]}</strong> <span class="small muted">· ${p} blad</span></p></div>
   <div class="section-h"><h3>Utmaningsstege</h3><span class="small muted">lättast längst ner</span></div>
-  <p class="small muted">Skriv upp mat du undviker eller tycker är svår. Börja nerifrån och ta ett steg i taget, i din egen takt. Gör gärna stegen tillsammans med din behandlare.</p>
+  ${tip('stege','Skriv upp mat som känns svår. Börja nerifrån, i din takt.')}
   <div class="ladder">${L.map(l=>`<div class="rung ${l.done?'ok':''}" id="rung-${l.id}"><div class="top"><b>${esc(l.food)}</b><span class="fear">${'●'.repeat(l.fear)}${'○'.repeat(5-l.fear)} svårt</span></div>
     <div class="section-h"><span class="dots" aria-label="Testat ${l.tries} gånger">${l.tries?Array.from({length:Math.min(l.tries,12)},()=>'<i></i>').join(''):'<span class="small muted">Inte testat än</span>'}${l.example?' <span class="chip ex">exempel</span>':''}</span>
     <span class="acts">${l.done?'<span class="small" style="color:var(--accent);font-weight:700">Känns okej nu</span>':`<button class="ghost" data-ltry="${l.id}">Jag testade!</button>${l.tries?`<button class="ghost" data-ldone="${l.id}">Känns okej nu</button>`:''}`}<button class="ghost" data-ldel="${l.id}" aria-label="Ta bort ${esc(l.food)}">×</button></span></div></div>`).join('')||'<p class="empty" style="position:relative;z-index:1;background:var(--surface);border-radius:12px">Stegen är tom. Lägg till din första mat nedan.</p>'}</div>
   <form class="card" id="ladd"><div class="field"><label for="l-food">Ny mat på stegen</label><input type="text" id="l-food" placeholder="T.ex. kanelbulle, pizza, äta ute"></div>
     <div class="field"><span class="lbl">Hur svårt känns det?</span><div class="seg" id="l-fear">${[1,2,3,4,5].map(n=>`<button type="button" data-v="${n}" aria-pressed="${n===ladderFear}">${['Lite','Ganska','Svårt','Mycket','Allra svårast'][n-1]}</button>`).join('')}</div></div>
     <button class="primary" type="submit">Lägg till på stegen</button></form>
-  <h3>Milstolpar</h3><div class="badges">${B.map(b=>`<div class="badge ${b[2]?'':'locked'}"><span class="ic">${b[2]?'✓':'○'}</span><b>${b[0]}</b><span class="small muted">${b[1]}</span></div>`).join('')}</div>
-  <p class="small muted">Grostund belönar aldrig att äta mindre, träna mer eller väga mindre.</p>`;
+  <h3>Milstolpar</h3><div class="badges">${B.map(b=>`<div class="badge ${b[2]?'':'locked'}"><span class="ic">${b[2]?'✓':'○'}</span><b>${b[0]}</b><span class="small muted">${b[1]}</span></div>`).join('')}</div>`;
 }
 function vMinnen(){
   const M=S.entries.filter(e=>e.photo||e.good.length||e.goodText).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
-  let h=`<h2>Minnen</h2><p class="muted">Stunder när maten var god, mysig eller när du klarade något. Bläddra här när det känns svårt, som en påminnelse om att mat också kan vara något fint.</p>`;
-  if(!M.length) return h+`<div class="card empty">Inga minnen än. När du loggar kan du fota maten och svara på vad som var gott, så hamnar det här.</div>`;
+  let h=`<h2>Minnen</h2>${tip('minnen','Stunder när maten var god. Bläddra här när det känns svårt.')}`;
+  if(!M.length) return h+`<div class="card empty">Inga minnen än.</div>`;
   h+='<div class="mem">'+M.map(e=>{const ph=e.photo?getPhoto(e.id):null;const g=[e.good.join(', '),e.goodText].filter(Boolean).join('. ');
     return `<button class="memc" data-edit="${e.id}">${ph?`<img src="${ph}" alt="${esc(e.what)}">`:`<div class="nophoto">${esc(g||e.what)}</div>`}
     <div class="b"><b>${esc(e.what)}</b>${g&&ph?`<span class="small">${esc(g)}</span>`:''}<small>${esc(e.label||'')} · ${esc(shortDate(e.date))}${e.company?' · '+esc(e.company):''}${e.example?' · exempel':''}</small></div></button>`}).join('')+'</div>';
@@ -804,87 +843,158 @@ function vJag(){
   const p=points(), pl=plantSvg(p), st=STAGES[pl.stage];
   const row=(attr,ic,t,sub)=>`<button ${attr}><span class="ic">${ICONS[ic]}</span><span><b>${t}</b>${sub?`<small>${sub}</small>`:''}</span><span class="chev" aria-hidden="true">›</span></button>`;
   return `<div class="pagehead"><h1>Jag</h1></div>
-  <button class="plantcard" data-go="vaxa">${pl.svg}<span><b>${esc(st)}</b><small>Din planta har ${p} blad. Den växer när du tar hand om dig.</small></span><span class="chev" aria-hidden="true">›</span></button>
-  <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor','Mönster i måltider, oro och dryck')}${row('data-go="skal"','skal','Skäl till förändring','Arbetsbladet, åt båda hållen')}${row('data-go="minnen"','foto','Minnen','Måltider du vill komma ihåg')}${row('data-act="pdf"','pdf','PDF till vården','Självobservationen som blanketten')}</div>
-  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål','Plan, mål med vården, dina uppgifter')}${row('data-act="about"','info','Om Grostund','Inte vård, och var det du skriver sparas')}</div>`;
+  <button class="plantcard" data-go="vaxa">${pl.svg}<span><b>${esc(st)}</b><small>${p} blad</small></span><span class="chev" aria-hidden="true">›</span></button>
+  <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor')}${row('data-go="skal"','skal','Skäl till förändring')}${row('data-go="minnen"','foto','Minnen')}${row('data-act="pdf"','pdf','PDF till vården')}</div>
+  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål')}${row('data-go="om"','info','Om Grostund')}</div>`;
 }
 function vStod(){
   const sms='sms:?&body='+encodeURIComponent('Hej, jag har det lite tufft just nu. Kan du höra av dig när du kan?');
-  return `<div class="pagehead"><div><h1>Du är inte ensam</h1><p class="muted">Här finns hjälp, nu eller senare.</p></div></div>
+  return `<div class="pagehead"><h1>Stöd</h1></div>
   <section class="callcard"><h2>Behöver du hjälp just nu?</h2>
     <a class="solid" href="tel:112">Akut fara <span>112</span></a>
     <a href="tel:1177">Vårdrådgivning <span>1177</span></a>
     <a class="leafy" href="tel:020208018">Ätstörningslinjen <span>020-20 80 18</span></a>
-    <p>Frisk &amp; Fri. Chatt och öppettider på <a href="https://friskfri.se" target="_blank" rel="noopener">friskfri.se</a>. Närstående: 0200-125 085. Under 18: Bris 116 111. Självmordstankar: Mind, 90101.</p></section>
+    <p>Chatt på <a href="https://friskfri.se" target="_blank" rel="noopener">friskfri.se</a> · Närstående 0200-125 085 · Under 18: Bris 116 111 · Mind 90101</p></section>
   <p class="eyebrow2">Verktyg för stunden</p>
   <div class="menu">
-    <button data-go="andas"><span class="ic">${ICONS.vaxa}</span><span><b>Andas i två minuter</b><small>Följ cirkeln, in och ut</small></span><span class="chev" aria-hidden="true">›</span></button>
-    <button data-go="jord"><span class="ic">${ICONS.idag}</span><span><b>Jordning: 5-4-3-2-1</b><small>Landa i rummet med dina sinnen</small></span><span class="chev" aria-hidden="true">›</span></button>
-    <a href="${sms}"><span class="ic">${ICONS.stod}</span><span><b>Skicka ett meddelande</b><small>Till någon du litar på</small></span><span class="chev" aria-hidden="true">›</span></a>
-    <button data-go="tips"><span class="ic">${ICONS.tips}</span><span><b>Tips när maten känns svår</b><small>Korta påminnelser</small></span><span class="chev" aria-hidden="true">›</span></button>
-  </div>
-  <div class="card"><h3>Din behandlare</h3><p class="small muted">Hör av dig till din vårdkontakt om det känns tyngre än vanligt, även mellan samtalen. Grostund kan inte se vad du skriver eller larma någon.</p></div>`;
+    <button data-go="andas"><span class="ic">${ICONS.vaxa}</span><span><b>Andas</b></span><span class="chev" aria-hidden="true">›</span></button>
+    <button data-go="jord"><span class="ic">${ICONS.idag}</span><span><b>Jordning 5-4-3-2-1</b></span><span class="chev" aria-hidden="true">›</span></button>
+    <a href="${sms}"><span class="ic">${ICONS.stod}</span><span><b>Skriv till någon du litar på</b></span><span class="chev" aria-hidden="true">›</span></a>
+    <button data-go="tips"><span class="ic">${ICONS.tips}</span><span><b>Tips när maten känns svår</b></span><span class="chev" aria-hidden="true">›</span></button>
+  </div>`;
 }
 function vSkriv(){
   const P=['Något som var svårt idag: ','Något som var okej: ','Det jag vill säga till mig själv: '];
-  return `<div class="pagehead"><div><h1>Skriv fritt</h1><p class="muted">Skriv det som finns. Bara du ser det.</p></div></div>
+  return `<div class="pagehead"><h1>Skriv fritt</h1></div>
   <label for="j-text" style="font-weight:700">Vad behöver du just nu?</label>
   <textarea id="j-text" class="jtext" placeholder="Skriv fritt här"></textarea>
   <p class="eyebrow2">Behöver du en ingång?</p>
   <div class="prompts">${P.map(t=>`<button data-jp="${esc(t)}">${esc(t.replace(/: $/,''))}</button>`).join('')}</div>
   <button class="primary" data-act="saveJournal">Spara i dagboken</button>`;
 }
+const BREATH={lugn:{n:'Lugn',seq:[['in',4],['ut',6]]},fyrkant:{n:'Fyrkant',seq:[['in',4],['håll',4],['ut',4],['vila',4]]},somna:{n:'Somna',seq:[['in',4],['håll',7],['ut',8]]}};
+const BWORD={in:'Andas in','håll':'Håll',ut:'Andas ut',vila:'Vila'};
+function bloomSvg(){let p='';for(let i=0;i<8;i++)p+=`<ellipse cx="100" cy="62" rx="22" ry="40" transform="rotate(${i*45} 100 100)"/>`;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true"><g class="halo"><circle cx="100" cy="100" r="96"/></g><g id="b-bloom" class="bloom">${p}</g><circle class="core" cx="100" cy="100" r="30"/></svg>`}
 function vAndas(){
-  const R=46,C=2*Math.PI*R;
-  return `<div class="pagehead"><div><h1>Andas i två minuter</h1><p class="muted">In i fyra sekunder, ut i sex. Avsluta när du vill.</p></div></div>
-  <section class="breathe" aria-label="Andningsövning">
-    <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="rt"/><circle cx="50" cy="50" r="${R}" class="rp" id="b-prog" style="stroke-dasharray:${C};stroke-dashoffset:${C}"/></svg>
-      <div class="rin"><i class="pulse"></i><b id="b-word" aria-live="polite">Andas in</b></div></div>
-    <p class="btime" id="b-time">02:00</p>
-    <div class="bbtn"><button class="primary" id="b-pause">Pausa</button><button class="ghost" data-tab="${backTo||'stod'}">Avsluta</button></div></section>`;
+  const b=S.settings.breath||(S.settings.breath={p:'lugn',min:2,sound:false});
+  return `<div class="pagehead"><h1>Andas</h1></div>
+  <section class="breathe" id="breathe" data-state="idle" aria-label="Andningsövning">
+    <div class="orb">${bloomSvg()}<div class="orbtxt"><b id="b-word" aria-live="polite">Redo?</b><span id="b-count"></span></div></div>
+    <div class="bmeta"><span id="b-time">${String(b.min).padStart(2,'0')}:00</span><span id="b-n"></span></div>
+    <div class="bset">
+      <div class="seg" id="b-pat" role="group" aria-label="Rytm">${Object.entries(BREATH).map(([k,v])=>`<button type="button" data-v="${k}" aria-pressed="${b.p===k}">${v.n} <small>${v.seq.map(x=>x[1]).join('-')}</small></button>`).join('')}</div>
+      <div class="seg" id="b-min" role="group" aria-label="Längd">${[1,2,3,5].map(m=>`<button type="button" data-v="${m}" aria-pressed="${b.min===m}">${m} min</button>`).join('')}</div>
+      <label class="switch"><span>Ljud</span><input type="checkbox" id="b-sound" ${b.sound?'checked':''}></label>
+      <button class="primary" id="b-start">Börja</button></div>
+    <div class="brun"><button class="primary" id="b-pause">Pausa</button><button class="ghost" id="b-stop">Avsluta</button></div>
+    <div class="bdone"><p class="bigq">Hur känns det nu?</p><div class="moods">${['Lugnare','Ungefär samma','Fortfarande tungt'].map(m=>`<button data-bfeel="${m}">${m}</button>`).join('')}</div>
+      <button class="ghost" id="b-again">En gång till</button></div>
+  </section>`;
 }
-let breathT=null;
-function startBreath(){clearInterval(breathT);const pr=$('#b-prog');if(!pr)return;const C=2*Math.PI*46,TOT=120;let t=0,paused=false;
-  const tick=()=>{if(!$('#b-prog')){clearInterval(breathT);return}if(paused)return;t=Math.min(TOT,t+.25);const ph=t%10;
-    $('#b-word').textContent=t>=TOT?'Bra gjort':ph<4?'Andas in':'Andas ut';
-    const left=Math.ceil(TOT-t);$('#b-time').textContent=`0${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;
-    pr.style.strokeDashoffset=C*(1-t/TOT);document.querySelector('.ring').dataset.ph=ph<4?'in':'ut';if(t>=TOT){clearInterval(breathT);$('#b-pause').textContent='Börja om';paused='done'}};
-  $('#b-pause').onclick=()=>{if(paused==='done'){startBreath();return}paused=!paused;$('#b-pause').textContent=paused?'Fortsätt':'Pausa';document.querySelector('.ring').classList.toggle('paused',paused)};
-  tick();breathT=setInterval(tick,250)}
+let breathRun=null;
+function stopBreath(){if(breathRun){cancelAnimationFrame(breathRun.raf);breathRun.audio&&breathRun.audio.close().catch(()=>{});breathRun.lock&&breathRun.lock.release().catch(()=>{});breathRun=null}}
+function startBreath(){
+  stopBreath();const sec=$('#breathe');if(!sec)return;const b=S.settings.breath;
+  const bloom=$('#b-bloom'),word=$('#b-word'),cnt=$('#b-count'),tm=$('#b-time'),nn=$('#b-n');
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const setScale=(k,ph)=>{bloom.style.transform=`scale(${.32+.68*k}) rotate(${RM?0:k*40}deg)`;sec.style.setProperty('--k',k.toFixed(3));sec.dataset.ph=ph||''};
+  setScale(0);
+  const pick=(id,key,num)=>$(id).addEventListener('click',e=>{const bt=e.target.closest('button');if(!bt)return;b[key]=num?+bt.dataset.v:bt.dataset.v;save();
+    $(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===bt));if(key==='min')tm.textContent=String(b.min).padStart(2,'0')+':00'});
+  pick('#b-pat','p');pick('#b-min','min',true);
+  $('#b-sound').onchange=e=>{b.sound=e.target.checked;save()};
+  const ease=x=>.5-.5*Math.cos(Math.PI*x);
+  function tone(ac,ph,dur){if(!ac||ph==='håll'||ph==='vila')return;const o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter(),t=ac.currentTime;
+    f.type='lowpass';f.frequency.value=900;o.type='sine';o.frequency.setValueAtTime(ph==='in'?196:262,t);o.frequency.linearRampToValueAtTime(ph==='in'?262:196,t+dur);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+Math.min(1.2,dur/3));g.gain.linearRampToValueAtTime(0,t+dur);o.connect(f).connect(g).connect(ac.destination);o.start(t);o.stop(t+dur+.05)}
+  function run(){
+    const seq=BREATH[b.p].seq,cyc=seq.reduce((a,x)=>a+x[1],0),TOT=b.min*60;
+    const st={t0:performance.now(),pausedAt:0,pausedTot:0,last:-1,raf:0,audio:null,lock:null};breathRun=st;
+    if(b.sound){try{st.audio=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+    try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>{st.lock=l}).catch(()=>{})}catch(e){}
+    sec.dataset.state='run';$('#b-pause').textContent='Pausa';
+    let k=0;
+    const frame=now=>{if(!$('#breathe')){stopBreath();return}
+      if(st.pausedAt){st.raf=requestAnimationFrame(frame);return}
+      const t=(now-st.t0-st.pausedTot)/1000;
+      if(t>=TOT&&(t%cyc)<.3||t>=TOT+cyc){finish();return}
+      let x=t%cyc,i=0;while(x>=seq[i][1]){x-=seq[i][1];i++}
+      const [ph,d]=seq[i],f=x/d,idx=Math.floor(t/cyc)*seq.length+i;
+      if(idx!==st.last){st.last=idx;tone(st.audio,ph,d);try{navigator.vibrate&&navigator.vibrate(ph==='in'?30:ph==='ut'?[15,60,15]:0)}catch(e){}
+        word.textContent=BWORD[ph]}
+      k=ph==='in'?ease(f):ph==='ut'?1-ease(f):ph==='håll'?1:0;
+      setScale(k,ph);cnt.textContent=Math.ceil(d-x);
+      const left=Math.max(0,Math.ceil(TOT-t));tm.textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;
+      const n=Math.floor(t/cyc);nn.textContent=n?`${n} andetag`:'';
+      st.raf=requestAnimationFrame(frame)};
+    st.raf=requestAnimationFrame(frame);
+    $('#b-pause').onclick=()=>{if(st.pausedAt){st.pausedTot+=performance.now()-st.pausedAt;st.pausedAt=0;$('#b-pause').textContent='Pausa';sec.classList.remove('paused')}
+      else{st.pausedAt=performance.now();$('#b-pause').textContent='Fortsätt';sec.classList.add('paused');word.textContent='Paus';cnt.textContent=''}};
+    $('#b-stop').onclick=()=>{stopBreath();sec.dataset.state='idle';word.textContent='Redo?';cnt.textContent='';nn.textContent='';tm.textContent=String(b.min).padStart(2,'0')+':00';setScale(0)};
+  }
+  function finish(){stopBreath();sec.dataset.state='done';setScale(.5,'done');word.textContent='Bra gjort';cnt.textContent='';tm.textContent='00:00'}
+  $('#b-start').onclick=run;$('#b-again').onclick=run;
+  sec.querySelectorAll('[data-bfeel]').forEach(x=>x.onclick=()=>{const m=x.dataset.bfeel;
+    if(m==='Fortfarande tungt'){helpSheet()}else{toast(m==='Lugnare'?'Skönt. Du kan komma hit när du vill.':'Det är okej. Ibland behövs en stund till.')}
+    sec.dataset.state='idle';word.textContent='Redo?';nn.textContent='';tm.textContent=String(b.min).padStart(2,'0')+':00';setScale(0)});
+}
+function vOm(){
+  const c=(ic,t,body)=>`<div class="card"><h3><span class="ic">${ICONS[ic]}</span>${t}</h3><p class="small muted">${body}</p></div>`;
+  return `<h2>Om Grostund</h2><div class="about">
+  ${c('shield','Ett stöd, inte vård','Grostund är ett självhjälpsverktyg mellan samtalen med din behandlare. Appen ställer inga diagnoser och ersätter inte vården.')}
+  ${c('lock','Det du skriver är ditt','Allt sparas bara i webbläsaren på den här telefonen. Ingen annan kan läsa det, inte heller den som gav dig appen. Rensar du webbläsardata försvinner det. Du väljer själv om du vill dela PDF:en.')}
+  ${c('info','Ingen ser dig i realtid','Grostund kan inte se vad du skriver eller larma någon. Hör av dig till din vårdkontakt om det känns tyngre än vanligt. Vid akut fara, ring 112.')}
+  ${c('vaxa','Inga siffror, inga krav','Du skriver med egna ord. Appen visar aldrig kalorier eller vikt, räknar inte dagar i rad och belönar aldrig att äta mindre.')}
+  ${c('pdf','Byggd på vårdens blanketter','Loggen följer självobservation enligt KBT-E (Fairburn, 2008). Skäl till förändring följer arbetsbladet med samma namn.')}
+  </div><button class="ghost" data-act="settings">Inställningar och dina uppgifter</button>`;
+}
 function vJord(){
-  const L=[['5','saker du kan se'],['4','saker du kan känna eller röra vid'],['3','ljud du kan höra'],['2','dofter du kan känna'],['1','smak i munnen, eller något du tycker om']];
-  return `<div class="pagehead"><div><h1>Jordning 5-4-3-2-1</h1><p class="muted">När tankarna snurrar kan sinnena hjälpa dig tillbaka till nuet. Gå igenom i lugn takt, gärna högt.</p></div></div>
-  <ol class="steps54">${L.map(([n,t])=>`<li><b>${n}</b><span>${t}</span></li>`).join('')}</ol>
-  <p class="small muted">Känns det fortfarande mycket? Andas en stund, eller hör av dig till någon. Stödlinjerna finns under Stöd.</p>`;
+  const L=[[5,'saker du kan se'],[4,'saker du kan känna eller röra vid'],[3,'ljud du kan höra'],[2,'dofter du kan känna'],[1,'smak i munnen, eller något du tycker om']];
+  return `<div class="pagehead"><h1>Jordning 5-4-3-2-1</h1></div>
+  <ol class="steps54" id="j54">${L.map(([n,t],i)=>`<li data-i="${i}" ${i?'':'class="cur"'}><b>${n}</b><span>${t}<span class="pips">${Array.from({length:n},()=>'<i></i>').join('')}</span></span></li>`).join('')}</ol>
+  <div class="j54done" hidden><p class="bigq">Du är här, nu.</p><div class="btnrow"><button class="ghost" data-go="andas">Andas en stund</button><button class="ghost" id="j-again">Börja om</button></div></div>`;
 }
+function startJord(){const ol=$('#j54');if(!ol)return;
+  ol.addEventListener('click',e=>{const li=e.target.closest('li.cur');if(!li)return;const p=li.querySelector('.pips i:not(.on)');if(!p)return;p.classList.add('on');try{navigator.vibrate&&navigator.vibrate(12)}catch(_){}
+    if(!li.querySelector('.pips i:not(.on)')){li.classList.remove('cur');li.classList.add('ok');const nx=li.nextElementSibling;
+      if(nx){nx.classList.add('cur');nx.scrollIntoView({behavior:'smooth',block:'center'})}else{$('.j54done').hidden=false;$('.j54done').scrollIntoView({behavior:'smooth',block:'center'})}}});
+  $('#j-again').onclick=()=>{render()}}
 const SPROUT_ICON='<svg viewBox="0 0 460.5 552.44" aria-hidden="true"><path fill="#9DBB8E" fill-rule="evenodd" d="M315.2 208C314.2 210.5 311.6 209.4 305.5 204.1C304 202.8 301.9 201.4 300.2 200.6C296.7 198.8 289.7 195.1 288.1 194C286.5 192.9 285.9 191.3 285.7 187.1C285.3 179.9 281.6 171.4 276.3 166C268.3 157.7 264.1 155.8 238.8 149.4C235.5 148.5 229.8 146.5 224.2 144C199.8 133.5 187.4 119.1 179 91.7C177.2 85.8 176 70.5 177.2 67.8C181.5 58.3 209.1 55.2 233.9 61.4C254.3 66.5 275.8 83.9 283.7 101.6C284.5 103.5 285.8 106.2 286.6 107.6C288.4 110.6 290.6 116.2 292.5 122.2C295.4 131.6 296.2 133.2 297.6 133.2C299.4 133.2 299.8 132 301 123.4C304 100.8 314.3 75 326.3 59.9C327.3 58.7 329.2 56.3 330.5 54.6C334.3 49.6 337.1 46.7 341.8 42.6C344.3 40.5 347.2 37.9 348.4 36.8C352 33.6 356.7 30.2 362.2 26.9C365 25.2 368.8 22.8 370.5 21.7C374.7 19 382.6 15 386.5 13.6C388.2 13 392 11.5 394.8 10.4C400.3 8.2 405.7 6.5 412.3 5.1C414.5 4.6 418.7 3.7 421.5 3.1C429.4 1.3 432 1 440.6 0.4C459.4 -0.8 460.5 -0.2 460.5 10.6C460.5 29.2 452.9 56.5 443 73.6C436.2 85.2 434.9 87.2 430.4 92.1C429.1 93.6 426.9 96.1 425.6 97.6C414.3 110.8 392.6 124.9 372.5 132C353.4 138.7 335.9 151.6 328.5 164.4C320.6 178 317.3 188.2 316 202.2C315.8 204.9 315.4 207.5 315.2 208Z"/><path fill="#F2F3EB" fill-rule="evenodd" d="M0 359.9C0 253.6 86.2 167.4 192.5 167.4C298.8 167.4 385 253.6 385 359.9C385 466.2 298.8 552.4 192.5 552.4C86.2 552.4 0 466.2 0 359.9ZM103.5 360.4C103.5 414.8 143.3 458.9 192.5 458.9C241.7 458.9 281.5 414.8 281.5 360.4C281.5 306 241.7 261.9 192.5 261.9C143.3 261.9 103.5 306 103.5 360.4Z"/><path fill="#9DBB8E" fill-rule="evenodd" d="M162 347.4H180V329.4C180 322.5 185.6 316.9 192.5 316.9C199.4 316.9 205 322.5 205 329.4V347.4H223C229.9 347.4 235.5 353 235.5 359.9C235.5 366.8 229.9 372.4 223 372.4H205V390.4C205 397.3 199.4 402.9 192.5 402.9C185.6 402.9 180 397.3 180 390.4V372.4H162C155.1 372.4 149.5 366.8 149.5 359.9C149.5 353 155.1 347.4 162 347.4Z"/></svg>';
 function vOnboard(){
-  const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
-  if(obStep===0) return `<div class="ob"><div class="center">${LOGO}<h1>Ett steg i taget</h1><p class="lead">Stöd när du vill ha det. I din takt, utan krav och utan siffror.</p></div>
-    <div class="foot"><button class="primary" data-ob="1">Kom igång</button><p class="small muted">Allt du skriver sparas bara på din telefon.</p><p class="small muted">Grostund är ett stöd och ersätter inte vård eller behandling.</p></div></div>`;
-  if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1><p class="lead">Tre saker som är bra att veta om Grostund.</p></div>
-    <div class="obitem"><span class="ic">${ICONS.shield}</span><div><b>Grostund är inte vård</b><p>Ett stöd att logga och reflektera, gärna tillsammans med din behandlare.</p></div></div>
-    <div class="obitem"><span class="ic">${PENCIL}</span><div><b>Inga siffror att räkna</b><p>Du skriver vad du åt med egna ord. Inga kalorier, gram eller vikt på skärmen.</p></div></div>
-    <div class="obitem"><span class="ic">${ICONS.lock}</span><div><b>Det du skriver är ditt</b><p>Allt sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p></div></div>
-    <p class="alert112">Vid akut fara, ring <b>112</b>. Stöd finns alltid ett tryck bort.</p>
+  const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+  if(obStep===0) return `<div class="ob"><div class="center">${LOGO}<h1>Ett steg i taget</h1><p class="lead">En stund att gro, i din takt.</p></div>
+    <div class="foot"><button class="primary" data-ob="1">Kom igång</button></div></div>`;
+  if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1></div>
+    <div class="obitem"><span class="ic">${ICONS.shield}</span><div><b>Ett stöd, inte vård</b><p>Mellan samtalen med din behandlare.</p></div></div>
+    <div class="obitem"><span class="ic">${PENCIL}</span><div><b>Inga siffror</b><p>Du skriver med egna ord.</p></div></div>
+    <div class="obitem"><span class="ic">${ICONS.lock}</span><div><b>Bara på din telefon</b><p>Ingen annan kan läsa det du skriver.</p></div></div>
+    <p class="alert112">Akut fara? Ring <b>112</b>.</p>
     <div class="foot"><button class="primary" data-ob="2">Jag förstår</button></div></div>`;
-  if(obStep===2) return `<div class="ob">${bars(2)}<div><h1>Din måltidsplan</h1><p class="lead">Regelbundna måltider är första steget. Gör planen gärna tillsammans med din behandlare, du kan ändra den när som helst.</p></div>
+  if(obStep===2) return `<div class="ob">${bars(2)}<div><h1>Din måltidsplan</h1><p class="lead">Gör den gärna med din behandlare.</p></div>
     <div class="planrows">${S.plan.map((p,i)=>`<div><input type="text" data-pn="${i}" value="${esc(p.n)}" aria-label="Måltid ${i+1}"><input type="time" data-pt="${i}" value="${esc(p.t)}" aria-label="Klockslag för ${esc(p.n)}"><button data-prm="${i}" aria-label="Ta bort ${esc(p.n)}">×</button></div>`).join('')}</div>
     <button class="dashbtn" data-act="obAdd">+ Lägg till en måltid</button>
     <div class="foot"><button class="primary" data-ob="3">Fortsätt</button><button class="link-btn" style="text-align:center" data-ob="1">Tillbaka</button></div></div>`;
+  if(obStep===3) return `<div class="ob">${bars(3)}<div><h1>Skäl till förändring</h1><p class="lead">Några ord räcker. Du kan ändra dem när du vill under Jag.</p></div>
+    ${quadHTML()}
+    <div class="foot"><button class="primary" data-ob="4">Fortsätt</button><button class="link-btn" style="text-align:center" data-ob="2">Tillbaka</button></div></div>`;
   const g=S.goals.example?{}:S.goals;
-  return `<div class="ob">${bars(3)}<div><h1>Mål med vården</h1><p class="lead">Fyll i det här en gång, helst med din behandlare. Sedan ligger det i bakgrunden.</p></div>
+  return `<div class="ob">${bars(4)}<div><h1>Mål med vården</h1><p class="lead">Fylls i en gång, helst med din behandlare.</p></div>
     <div class="card"><div class="two-in"><div class="field"><label for="o-start">Startvikt (kg)</label><input type="number" step="0.1" min="20" max="250" id="o-start" value="${g.start??''}"></div><div class="field"><label for="o-target">Mål (kg)</label><input type="number" step="0.1" min="20" max="250" id="o-target" value="${g.target??''}"></div></div>
-      <p class="small muted">Takt: ca 0,5 kg i veckan, om ni inte bestämt något annat.</p></div>
-    <div class="obitem" style="background:var(--soft)"><span class="ic" style="background:var(--surface)">${ICONS.info}</span><p style="color:var(--ink)">Siffrorna visas aldrig i appen. De följer bara med i PDF:en till vården, om du väljer att ladda ner den.</p></div>
-    <label class="switch"><span><b>Visa exempel först</b><br><span class="small muted">Påhittade loggar så att du kan se hur det ser ut. Du kan ta bort dem när som helst.</span></span><input type="checkbox" id="o-ex"></label>
-    <div class="foot"><button class="primary" data-act="obDone">Klart, till Idag</button><button class="link-btn" style="text-align:center" data-act="obSkip">Hoppa över, fyll i senare</button></div></div>`;
+      </div>
+    <div class="obitem" style="background:var(--soft)"><span class="ic" style="background:var(--surface)">${ICONS.info}</span><p style="color:var(--ink)">Visas aldrig i appen, bara i PDF:en.</p></div>
+    <label class="switch"><span><b>Visa exempel först</b><br><span class="small muted">Påhittade loggar som du kan ta bort.</span></span><input type="checkbox" id="o-ex"></label>
+    <div class="foot"><button class="primary" data-act="obDone">Klart, till Idag</button><button class="link-btn" style="text-align:center" data-ob="3">Tillbaka</button><button class="link-btn" style="text-align:center" data-act="obSkip">Hoppa över, fyll i senare</button></div></div>`;
+}
+function quadHTML(){
+  const own=!(S.reasonsExample&&!S.settings.onboarded);let h='<div class="quad">';
+  QUAD.forEach(([k,t,c])=>{h+=`<div class="qbox ${c}"><h3>${t}</h3><ul>${own?(S.reasons[k]||[]).map((r,i)=>`<li><button class="rtxt" data-redit="${k}:${i}" aria-label="Ändra: ${esc(r)}">${esc(r)}</button> <button aria-label="Ta bort" data-rdel="${k}:${i}">×</button></li>`).join(''):''}</ul>
+    <form class="addline" data-radd="${k}"><input type="text" id="r-${k}" placeholder="Skriv ett skäl" aria-label="Nytt skäl: ${t}"><button type="submit">Lägg till</button></form></div>`});
+  return h+'</div>';
 }
 function vSkal(){
-  let h=`<h2>Skäl till förändring</h2><p class="muted">Det är okej att det finns skäl åt båda hållen. Ätstörningen fyller ofta en funktion. Att se skälen bredvid varandra kan göra det lättare att välja, och att prata om dem med din behandlare.</p><div class="quad">`;
-  QUAD.forEach(([k,t,c])=>{h+=`<div class="qbox ${c}"><h3>${t}</h3><ul>${(S.reasons[k]||[]).map((r,i)=>`<li>${esc(r)} <button aria-label="Ta bort" data-rdel="${k}:${i}">×</button></li>`).join('')}</ul>
-    <form class="addline" data-radd="${k}"><input type="text" id="r-${k}" placeholder="Skriv ett skäl" aria-label="Nytt skäl: ${t}"><button type="submit">Lägg till</button></form></div>`});
-  h+=`</div><button class="ghost" data-act="reasonsPdf">Ladda ner Skäl till förändring som PDF</button><p class="small muted" id="r-msg" role="status"></p><p class="small muted">Tips: läs dina förändringsskäl när det är svårt inför en måltid. Skälen kan också följa med i den stora PDF:en med loggen.</p>`;
+  let h=`<h2>Skäl till förändring</h2>${tip('skal','Tryck på ett skäl för att ändra det. Det är okej att det finns skäl åt båda hållen.')}${quadHTML()}`;
+  h+=`<button class="ghost" data-act="reasonsPdf">Ladda ner Skäl till förändring som PDF</button><p class="small muted" id="r-msg" role="status"></p>`;
   return h;
 }
 
@@ -903,7 +1013,7 @@ const TIPS=[
  ['Stöd','Ta med loggen till samtalet','Ladda ner din logg som PDF och ta med den till din behandlare. Den ser ut som pappersblanketten ni är vana vid.']
 ];
 function vTips(){
-  return `<h2>Tips och trix</h2><p class="muted">Korta påminnelser att ta till när det behövs. De ersätter inte råd från din behandlare.</p><div class="tips">`+
+  return `<h2>Tips och trix</h2><div class="tips">`+
   TIPS.map((t,i)=>`<details class="tip" data-tip="${i}"><summary><span><span class="tag">${t[0]}</span><br>${esc(t[1])}</span></summary><p>${esc(t[2])}</p></details>`).join('')+'</div>';
 }
 
@@ -941,14 +1051,14 @@ function entrySheet(e,preset){
     const chipList=(name,opts,val)=>`<div class="seg" data-pick="${name}">${opts.map(o=>`<button type="button" data-v="${esc(o)}" aria-pressed="${val===o}">${esc(o)}</button>`).join('')}</div>`;
     const faces=(name,val)=>`<div class="faces" data-scale="${name}">${FEEL.map((l,i)=>`<button type="button" data-v="${i+1}" aria-pressed="${val===i+1}">${face(i+1)}${l}</button>`).join('')}</div>`;
     function feelReact(){
-      if(d.before>=4&&d.after!=null&&d.after<d.before) return `<p class="react">Oron sjönk efteråt. Lägg märke till det, det är kroppen som lär sig att maten är trygg.</p>`;
+      if(d.before>=4&&d.after!=null&&d.after<d.before) return `<p class="react">Oron sjönk efteråt. Kroppen lär sig att maten är trygg.</p>`;
       if(d.before>=4) return `<p class="react l">Du åt fast oron var hög. Det är precis så förändring går till.</p>`;
-      if(d.after>=4) return `<p class="react l">Det låter tufft just nu. Känslan brukar gå över. Under Tips finns saker att göra efter maten.</p>`;
+      if(d.after>=4) return `<p class="react l">Det låter tufft. Känslan brukar gå över.</p>`;
       if(d.before!=null&&d.before<=2) return `<p class="react">Skönt att det kändes ganska lugnt.</p>`;
       return '';
     }
     function photoBox(){
-      const txt=aiState==='busy'?'Grostund tittar på bilden…':aiState==='done'&&aiDesc?'Grostund föreslog en beskrivning. Ändra gärna.':photoData?'Fint foto! Det sparas bland dina minnen.':'Fota maten så slipper du skriva lika mycket. Bilden sparas bara hos dig.';
+      const txt=aiState==='busy'?'Grostund tittar på bilden…':aiState==='done'&&aiDesc?'Grostund föreslog en beskrivning. Ändra gärna.':photoData?'Sparas bland dina minnen.':'Lägg till ett foto om du vill.';
       return `<div class="photo">${photoData?`<img src="${photoData}" alt="Ditt foto">`:`<span class="ph-ic">${CAM}</span>`}
         <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="small">${txt}</span>
         <span><label class="ghost small" for="f-photo">${photoData?'Byt foto':'Fota eller välj bild'}</label><input type="file" id="f-photo" accept="image/*" capture="environment"> ${photoData?'<button type="button" class="link-btn small" data-rmphoto>Ta bort</button>':''}</span></div></div>`;
@@ -960,8 +1070,7 @@ function entrySheet(e,preset){
         <div class="meals" data-meal>${MEALS.map(([l])=>`<button type="button" data-v="${l}" aria-pressed="${d.label===l}">${MEAL_IC[l]}${l}</button>`).join('')}</div>
         ${photoBox()}
         <div class="field"><label for="f-what">Beskriv med egna ord</label><input type="text" id="f-what" value="${esc(d.what)}" placeholder="T.ex. smörgås med ost och ett glas mjölk" autocomplete="off">
-          ${recent.length?`<div class="seg quick" data-quick>${recent.map(r=>`<button type="button" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>`:''}
-          <span class="hint">Inga kalorier, gram eller mått behövs. En ungefärlig beskrivning räcker.</span></div>
+          ${recent.length?`<div class="seg quick" data-quick>${recent.map(r=>`<button type="button" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>`:''}</div>
         <div class="field" style="max-width:180px"><label for="f-time">Klockan</label><input type="time" id="f-time" value="${esc(d.time)}"></div>`;
       if(step===1) body=`<p class="bigq">Var var du, och med vem?</p>
         <div class="field"><span class="lbl">Plats</span>${chipList('place',recentPlaces,d.place)}<input type="text" id="f-place" value="${esc(d.place)}" placeholder="Eller skriv själv, t.ex. sovrummet" aria-label="Plats"></div>
@@ -972,18 +1081,15 @@ function entrySheet(e,preset){
       if(step===3) body=`<p class="bigq">Fanns det något gott eller fint med måltiden?</p>
         <div class="seg gd" data-good>${GOOD.map(g=>`<button type="button" data-v="${esc(g)}" aria-pressed="${d.good.includes(g)}">${esc(g)}</button>`).join('')}</div>
         <div class="field"><label for="f-goodtext">Med egna ord (valfritt)</label><input type="text" id="f-goodtext" value="${esc(d.goodText)}" placeholder="T.ex. vi skrattade mycket vid bordet"></div>
-        <p class="hint">Även en liten sak räknas. Det är okej om svaret är "inget" idag.</p>
         ${isNew&&openLadder.length?`<div class="field"><span class="lbl">Var det ett steg på din utmaningsstege?</span><div class="seg" data-ladder>${openLadder.map(l=>`<button type="button" data-v="${l.id}" aria-pressed="${ladderPick===l.id}">${esc(l.food)}</button>`).join('')}</div></div>`:''}`;
       if(step===4) body=`<p class="bigq">Vad tänkte och kände du?</p>
         <div class="field"><label for="f-note">Tankar och känslor${needNote()?' <span class="req">(behövs för att spara)</span>':''}</label>
           <div class="seg quick" data-starter>${STARTERS.map(s=>`<button type="button" data-v="${esc(s)}">${esc(s.trim())}…</button>`).join('')}</div>
           <textarea id="f-note" placeholder="Vad hände innan? Vad tänkte du? Vad hjälpte?" ${needNote()?'aria-required="true"':''}>${esc(d.note)}</textarea>
-          <span class="hint">${needNote()?'Det här hamnar i loggen till din behandlare. Några ord räcker, och det finns inga fel svar.':'Valfritt för dryck.'}</span></div>
-        <div class="field"><button type="button" class="toggle star" id="f-star" aria-pressed="${d.unplanned}">* Oplanerat, eller kändes som för mycket</button>
-          <span class="hint">Det är din egen känsla som gäller, inte vad andra skulle tycka.</span></div>
+          ${needNote()?'':'<span class="hint">Valfritt för dryck.</span>'}</div>
+        <div class="field"><button type="button" class="toggle star" id="f-star" aria-pressed="${d.unplanned}">* Oplanerat, eller kändes som för mycket</button></div>
         <details class="more" ${d.beh.length?'open':''}><summary>Ätstörningsbeteenden (valfritt)</summary>
-          <div class="field"><div class="seg b" data-multi>${BEH.map(([k,l])=>`<button type="button" data-v="${k}" aria-pressed="${d.beh.includes(k)}">${k} · ${l}</button>`).join('')}</div>
-          <span class="hint">Att skriva ner det är modigt och hjälper dig och din behandlare att förstå. Det påverkar aldrig din trädgård negativt.</span></div></details>
+          <div class="field"><div class="seg b" data-multi>${BEH.map(([k,l])=>`<button type="button" data-v="${k}" aria-pressed="${d.beh.includes(k)}">${k} · ${l}</button>`).join('')}</div></div></details>
         `;
       const last=step===N-1, can=!!d.what.trim()&&(!last||!needNote()||!!d.note.trim());
       wz.innerHTML=`<header>${dots}<button class="x" data-act="close" aria-label="Stäng">×</button></header>${body}
@@ -1078,7 +1184,7 @@ function celebrate(d,gained,ladder){
 
 function helpSheet(){
   openSheet(`<header><h2>Hjälp och stöd</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
-  <p class="muted">Du behöver inte klara allt själv. Här finns människor som vill hjälpa.</p>
+  
   <div class="help-list">
    <div class="help-item urgent"><b>Akut fara för liv eller hälsa</b><span class="num">112</span><span class="small">Ring om du eller någon annan är i fara just nu.</span></div>
    <div class="help-item"><b>Självmordstankar</b><span class="num">90101</span><span class="small">Självmordslinjen, Mind. Du kan också chatta på <a href="https://mind.se" target="_blank" rel="noopener">mind.se</a>.</span></div>
@@ -1086,15 +1192,14 @@ function helpSheet(){
    <div class="help-item"><b>Ätstörningslinjen, Frisk &amp; Fri</b><span class="num">020-20 80 18</span><span class="small">För dig som har en ätstörning. Chatt och öppettider på <a href="https://friskfri.se" target="_blank" rel="noopener">friskfri.se</a>. För närstående: Närståendelinjen 0200-125 085.</span></div>
    <div class="help-item"><b>Bris, för dig under 18</b><span class="num">116 111</span><span class="small">Prata eller chatta med en kurator på <a href="https://www.bris.se" target="_blank" rel="noopener">bris.se</a>.</span></div>
    <div class="help-item"><b>Din behandlare</b><span class="small">Hör av dig till din vårdkontakt om det känns tyngre än vanligt, även mellan samtalen.</span></div>
-  </div>
-  <p class="small muted">Grostund är inte en vårdinstans och kan inte se vad du skriver eller larma någon.</p>`);
+  </div>`);
 }
 
 function settingsSheet(){
   const g=S.goals, sug=g.start?Math.max(2000,Math.round((g.start*35+g.pace*1100)/50)*50):null;
   openSheet(`<header><h2>Inställningar och mål</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
    <div class="card"><h3>Mål tillsammans med vården</h3>
-     <p class="small muted">Fyll i det här en gång, helst tillsammans med din behandlare. Siffrorna visas sedan inte i appen. De finns bara med i PDF:en till vården.</p>
+     <p class="small muted">Visas bara i PDF:en till vården.</p>
      <details ${g.start?'':'open'}><summary class="small" style="cursor:pointer;font-weight:700">${g.start?'Visa och ändra siffrorna':'Fyll i'}</summary>
      <form id="gf" style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
       <div class="two"><div class="field"><label for="g-start">Startvikt (kg)</label><input type="number" step="0.1" min="20" max="250" id="g-start" value="${g.start??''}"></div>
@@ -1103,12 +1208,12 @@ function settingsSheet(){
       <div class="field"><label for="g-pace">Takt (kg per vecka)</label><select id="g-pace">${[0.25,0.5,0.75,1].map(p=>`<option value="${p}" ${+g.pace===p?'selected':''}>${String(p).replace('.',',')}</option>`).join('')}</select></div></div>
       <button class="ghost" type="submit">Spara målen</button></form></details>
      </div>
-   <div class="card"><div class="switch"><label for="s-weight"><b>Veckovägning och Din resa</b><br><span class="small muted">Av som standard. Slå bara på om du och din behandlare har kommit överens om det. Du ser hur du rör dig mot målet, aldrig vikten.</span></label><input type="checkbox" id="s-weight" ${S.settings.weightOn?'checked':''}></div></div>
-   <div class="card"><h3>Måltidsplan</h3><p class="small muted">Gör gärna planen tillsammans med din behandlare. Ett tillfälle per rad, t.ex. <em>Lunch 12:00</em>.</p>
+   <div class="card"><div class="switch"><label for="s-weight"><b>Veckovägning och Din resa</b><br><span class="small muted">Slå på om ni kommit överens om det.</span></label><input type="checkbox" id="s-weight" ${S.settings.weightOn?'checked':''}></div></div>
+   <div class="card"><h3>Måltidsplan</h3>
      <textarea id="s-plan" aria-label="Måltidsplan">${esc(S.plan.map(p=>p.n+' '+p.t).join('\n'))}</textarea><button class="ghost" data-act="savePlan">Spara planen</button></div>
-   <div class="card"><h3>Påminnelser</h3><p class="small muted">Lägg in din måltidsplan i telefonens kalender, så får du en lugn påminnelse vid varje tillfälle. Du kan ta bort dem i kalendern när du vill.</p><button class="ghost" data-act="ics">Lägg in påminnelser i kalendern</button></div>
-   <div class="card"><h3>Till din behandlare</h3><p class="small muted">Ladda ner loggen som PDF, i samma upplägg som pappersblanketten.</p><button class="ghost" data-act="pdf">Ladda ner PDF</button></div>
-   <div class="card"><h3>Dina uppgifter</h3><p class="small muted">Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p>
+   <div class="card"><h3>Påminnelser</h3><button class="ghost" data-act="ics">Lägg in påminnelser i kalendern</button></div>
+   <div class="card"><h3>Till din behandlare</h3><button class="ghost" data-act="pdf">Ladda ner PDF</button></div>
+   <div class="card"><h3>Dina uppgifter</h3><p class="small muted">Sparas bara på den här telefonen.</p>
      <button class="ghost" data-act="wipe">Radera allt jag skrivit</button></div>`,()=>{
     $('#s-weight').addEventListener('change',ev=>{S.settings.weightOn=ev.target.checked;save();render()});
         $('#gf').addEventListener('submit',ev=>{ev.preventDefault();
@@ -1137,7 +1242,7 @@ function pdfPreview(from,to,withEx){
 function pdfSheet(){
   const to=day, from=addDays(day,-6);
   openSheet(`<header><h2>Ladda ner som PDF</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
-   <p class="muted">PDF:en ser ut som pappersblanketten för självobservation, med en sida per dag. Ta med den till ditt nästa samtal eller skicka den till din behandlare.</p>
+   <p class="muted">Som pappersblanketten, en sida per dag.</p>
    <div class="pdfwrap" id="p-prev"></div>
    <div class="two"><div class="field"><label for="p-from">Från</label><input type="date" id="p-from" value="${from}" max="${today()}"></div>
    <div class="field"><label for="p-to">Till</label><input type="date" id="p-to" value="${to}" max="${today()}"></div></div>
@@ -1278,14 +1383,16 @@ document.addEventListener('click',ev=>{
   const t=ev.target;
   if(t.matches('[data-scrim]')){closeSheet();return}
   const tab=t.closest('[data-tab]');if(tab){view=tab.dataset.tab;backTo=null;if(view==='dagbok'&&!tab.closest('nav'))day=day;render();toTop();return}
+  const tk=t.closest('[data-tipok]');if(tk){S.settings.tips=Object.assign({},S.settings.tips,{[tk.dataset.tipok]:1});save();render();return}
   const go=t.closest('[data-go]');if(go){backTo=PARENT[view]?backTo:view;view=go.dataset.go;render();toTop();return}
   const mo=t.closest('[data-mood]');if(mo){const m=mo.dataset.mood;S.moods[today()]=S.moods[today()]===m?undefined:m;save();render();return}
   const jp=t.closest('[data-jp]');if(jp){const ta=$('#j-text');ta.value=(ta.value?ta.value.replace(/\s*$/,'\n'):'')+jp.dataset.jp;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);return}
   const jd=t.closest('[data-jdel]');if(jd){if(jd.dataset.sure){S.journal=S.journal.filter(n=>n.id!==jd.dataset.jdel);save();render()}else{jd.dataset.sure='1';jd.textContent='Säker?'}return}
-  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();obStep=+ob.dataset.ob;render();toTop();return}
+  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();if(obStep===3)QUAD.forEach(([k])=>{const n=$('#r-'+k),v=n&&n.value.trim();if(v){if(S.reasonsExample)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save()}});obStep=+ob.dataset.ob;render();toTop();return}
   const prm=t.closest('[data-prm]');if(prm){readPlan();S.plan.splice(+prm.dataset.prm,1);save();render();return}
   const sl=t.closest('[data-slot]');if(sl){const s=S.plan[+sl.dataset.slot];const past=day!==today()||toMin(s.t)<toMin(nowHM())-45;entrySheet(null,{label:MEALS.some(m=>m[0]===s.n)?s.n:guessMeal(s.t),time:past?s.t:nowHM()});return}
   const ed=t.closest('[data-edit]');if(ed){entrySheet(S.entries.find(e=>e.id===ed.dataset.edit));return}
+  const re=t.closest('[data-redit]');if(re){const[k,i]=re.dataset.redit.split(':');const v=S.reasons[k].splice(+i,1)[0];save();render();const n=$('#r-'+k);if(n){n.value=v;n.focus();n.setSelectionRange(v.length,v.length)}return}
   const rd=t.closest('[data-rdel]');if(rd){const[k,i]=rd.dataset.rdel.split(':');S.reasons[k].splice(+i,1);save();render();return}
   const lf=t.closest('#l-fear button');if(lf){ladderFear=+lf.dataset.v;lf.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===lf));return}
   const lt=t.closest('[data-ltry]');if(lt){const l=S.ladder.find(x=>x.id===lt.dataset.ltry);l.tries++;l.example=false;save();render();const r=$('#rung-'+l.id);r&&r.classList.add('pop');
@@ -1301,7 +1408,7 @@ document.addEventListener('click',ev=>{
   if(act==='obDone'||act==='obSkip'){const keep=$('#o-ex')&&$('#o-ex').checked;const num=id=>{const el=$(id);const v=el?parseFloat(el.value):NaN;return isFinite(v)&&v>0?v:null};
     const st=num('#o-start'),tg=num('#o-target');if(!keep)clearExamples();
     if(act==='obDone'&&st){Object.assign(S.goals,{start:st,target:tg,startDate:today(),pace:0.5,example:false})}
-    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();toTop();toast(keep?'Välkommen. Exemplen kan du ta bort när du vill.':'Välkommen. Allt här är ditt.')}
+    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();toTop();toast('Välkommen till Grostund.',2600)}
   if(act==='close')closeSheet();
   if(act==='help')helpSheet();
   if(act==='settings')settingsSheet();
@@ -1328,7 +1435,7 @@ document.addEventListener('click',ev=>{
 document.addEventListener('submit',ev=>{
   if(ev.target.id==='ladd'){ev.preventDefault();const v=$('#l-food').value.trim();if(!v)return;S.ladder.push({id:uid(),food:v,fear:ladderFear,tries:0,done:false});save();render();toast('Tillagd på stegen.');return}
   const f=ev.target.closest('[data-radd]');if(!f)return;ev.preventDefault();const k=f.dataset.radd,inp=f.querySelector('input'),v=inp.value.trim();if(!v)return;
-  S.reasonsExample=false;S.reasons[k].push(v);save();render();const n=$('#r-'+k);n&&n.focus()});
+  if(S.reasonsExample&&!S.settings.onboarded)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save();render();const n=$('#r-'+k);n&&n.focus()});
 document.addEventListener('toggle',ev=>{const d=ev.target;if(d.matches&&d.matches('[data-tip]')&&d.open){const i=+d.dataset.tip;if(!S.tipsRead.includes(i)){S.tipsRead.push(i);save()}}},true);
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
 render();
