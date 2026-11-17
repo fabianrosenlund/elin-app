@@ -1,14 +1,14 @@
 {
- "name": "ELIN",
- "short_name": "ELIN",
+ "name": "Grostund",
+ "short_name": "Grostund",
  "description": "Ett steg i taget. Stöd för att logga mat och mående. Inte vård.",
  "lang": "sv",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#F3F4EC",
- "theme_color": "#F3F4EC",
+ "background_color": "#25372B",
+ "theme_color": "#F2F3EB",
  "icons": [
   {
    "src": "icon-192.png",
@@ -21,7 +21,7 @@
    "type": "image/png"
   },
   {
-   "src": "icon-512.png",
+   "src": "icon-maskable-512.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"

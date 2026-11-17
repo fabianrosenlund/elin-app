@@ -1,14 +1,14 @@
-<title>ELIN</title>
+<title>Grostund</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&family=Noto+Sans:wght@400;500;700&display=swap">
 <style>
-/* Brand: ELIN brandbook (01 Grodden). Noto Sans 400/700, palette Skogsgrön #25372B, Krämvit #F2F3EB, Ljus salvia #DCE5D0, Groddgrön #86A97A (accent only, never body text).
+/* Brand: Grostund (Gro brandpack, wordmark grostund-logga). Noto Sans 400/700, palette Skogsgrön #25372B, Krämvit #F2F3EB, Ljus salvia #DCE5D0, Groddgrön #86A97A (accent only, never body text).
    Layout: a diary on paper. One column; Idag is a day page with a dotted timeline where entries land at their time. Brand from the logo: forest ink, two leaf greens, paper. User's own words in the logo's rounded type. */
 :root{
   --bg:#F2F3EB; --surface:#FAFBF5; --sunk:#E6EADC; --ink:#25372B; --muted:#66705F;
-  --line:#D6DBC8; --accent:#4A7052; --accent-ink:#F7F8F1; --soft:#DCE5D0; --leaf:#86A97A;
-  --lilac:#5F7F95; --lilac-soft:#E2E9EC; --warm:#A9563C; --warm-soft:#F4E2D8; --sun:#D49B3A; --water:#5E8FAE; --water-soft:#E1EBF0;
+  --line:#D6DBC8; --accent:#4A7052; --accent-ink:#F7F8F1; --soft:#DCE5D0; --leaf:#708C5A;
+  --lilac:#5F7F95; --lilac-soft:#E2E9EC; --warm:#A9563C; --warm-soft:#F4E2D8; --sun:#D49B3A; --water:#708C5A; --water-soft:#DCE5D0;
   --display:"Noto Sans", system-ui, -apple-system, sans-serif;
   --body:"Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --hand:"Noto Sans", system-ui, sans-serif;
@@ -16,12 +16,12 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#6E8F5E;
-  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#8DB8D4; --water-soft:#22323B; color-scheme:dark}}
+  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#6E8F5E;
-  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#8DB8D4; --water-soft:#22323B; color-scheme:dark}
+  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);overscroll-behavior:none;-webkit-tap-highlight-color:transparent;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{position:fixed;inset:0;width:100%;margin:0}
@@ -44,16 +44,17 @@ button{cursor:pointer}
 :focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
 
 header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:max(20px,calc(env(safe-area-inset-top,0px) + 10px))}
-.logo{font-family:'Nunito',var(--display);font-weight:900;font-size:2.5rem;letter-spacing:-.01em;line-height:1;color:var(--ink);display:inline-flex;align-items:baseline;white-space:nowrap;padding-top:.22em}
-.logo .li{position:relative;display:inline-block}
-.logo .li svg{position:absolute;left:50%;top:-.07em;width:.48em;height:.36em;transform:translateX(-50%);overflow:visible}
+.logo{display:inline-flex;line-height:0;color:var(--ink)}
+.logo svg{height:2.05rem;width:auto;display:block}
+.ob .logo svg{height:3.3rem}.logo .lk{fill:var(--ink)}.logo .lg{fill:var(--leaf)}
 .brand{display:flex;flex-direction:column;gap:2px}
 .brand small{color:var(--muted);font-size:.78rem;letter-spacing:.04em}
 .help-btn{background:var(--warm-soft);color:var(--warm);border:0;padding:9px 14px;border-radius:999px;font-weight:700;font-size:.9rem;white-space:nowrap}
 .notice{border-left:3px solid var(--leaf);padding:4px 0 4px 14px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 .notice p{min-width:0}
 .link-btn{background:none;border:0;color:var(--accent);font-weight:700;padding:0;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-align:left}
-.example-bar{border:1.5px dashed var(--line);border-radius:14px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;font-size:.88rem;color:var(--muted)}
+.example-bar{background:var(--sunk);border-radius:999px;padding:8px 16px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.example-bar .link-btn{padding:6px 0}
 
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);
   padding:6px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
@@ -125,7 +126,7 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .card{background:var(--surface);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .section-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
 .lead{color:var(--muted);max-width:60ch}
-.back{background:none;border:0;color:var(--accent);font-weight:700;padding:0;align-self:flex-start}
+.back{background:none;border:0;color:var(--accent);font-weight:700;padding:10px 14px 10px 0;margin:-6px 0;min-height:44px;align-self:flex-start}
 
 /* Mer menu */
 .menu{display:flex;flex-direction:column;background:var(--surface);border-radius:var(--r);overflow:hidden}
@@ -142,9 +143,8 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .scrim{position:fixed;inset:0;background:color-mix(in srgb,#141a15 50%,transparent);z-index:20;display:flex;align-items:flex-end;justify-content:center}
 #splash{position:fixed;inset:0;z-index:50;background:#25372B;overflow:hidden;transition:opacity .5s ease}
 #splash.out{opacity:0;pointer-events:none}
-.sp-word{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:'Nunito',var(--display);font-weight:900;font-size:min(19vw,88px);line-height:1;color:#F2F3EB;white-space:nowrap;opacity:0;letter-spacing:-.01em}
-.sp-word .sp-i{color:transparent}
 .sp-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sp-tag{font-family:var(--body);font-size:17px;font-weight:400;letter-spacing:.04em;fill:#DCE5D0}
 .sheet::before{content:"";display:block;width:40px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto -6px;flex:none}
 .sheet{background:var(--bg);width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:24px 24px 0 0;
   padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
@@ -280,7 +280,10 @@ details.more[open] summary{margin-bottom:10px}
 .num{font-size:1.4rem;font-weight:700;letter-spacing:-.01em;user-select:all;font-variant-numeric:tabular-nums}
 footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px}
 .switch{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.switch input{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.switch input{appearance:none;-webkit-appearance:none;width:50px;height:30px;border-radius:999px;background:var(--line);position:relative;flex:none;cursor:pointer;transition:background .2s;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch input:checked{background:var(--accent)}.switch input:checked::after{transform:translateX(20px)}
+.switch input:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
 .pdfwrap{background:var(--tile,#DFE6D2);border-radius:16px;padding:14px 12px 10px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .pdfprev{background:#fff;color:#111;width:100%;aspect-ratio:297/210;box-shadow:0 2px 10px rgba(44,58,47,.18);border-radius:3px;padding:4.5% 4% 3%;font-family:Arial,Helvetica,sans-serif;font-size:clamp(5px,1.65vw,7.5px);line-height:1.25;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
 .pdfprev .pt{font-size:1.7em;font-weight:700;text-align:center;margin-bottom:.4em}
@@ -294,7 +297,7 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .journey svg{width:100%;height:auto;display:block}
 
 .top .logo{font-size:2rem}
-.stod-btn{background:var(--soft);color:var(--ink);border:0;padding:9px 14px;border-radius:999px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.stod-btn{background:var(--soft);color:var(--ink);border:0;padding:10px 14px;min-height:40px;flex:none;border-radius:999px;font-weight:700;font-size:.88rem;white-space:nowrap}
 .greet h1{font-size:1.75rem;line-height:1.22}
 .greet p{color:var(--muted);margin-top:4px}
 .moods{display:flex;flex-wrap:wrap;gap:8px}
@@ -347,7 +350,8 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .steps54 b{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--accent);width:28px;text-align:center;flex:none}
 .plantcard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:0;border-radius:var(--r);padding:14px 16px}
 .plantcard svg{width:64px;height:64px;flex:none}
-.plantcard span{flex:1;min-width:0}
+.plantcard>span:not(.chev){flex:1;min-width:0}
+.plantcard .chev{flex:none;color:var(--muted);font-size:1.3rem}
 .plantcard b{display:block;font-family:var(--display);font-size:1.05rem}
 .plantcard small{color:var(--muted)}
 body.ob nav.tabs{display:none}
@@ -358,8 +362,8 @@ body.ob nav.tabs{display:none}
 .ob .lead{margin-top:6px}
 .ob .foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;align-items:stretch;text-align:center}
 .ob .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
-.appicon{width:96px;height:96px;border-radius:26px;background:#2C3A2F;display:flex;align-items:center;justify-content:center}
-.appicon svg{width:52px;height:64px}
+.appicon{width:96px;height:96px;border-radius:26px;background:#25372B;display:flex;align-items:center;justify-content:center}
+.appicon svg{width:56px;height:67px}
 .obitem{display:flex;gap:14px;background:var(--surface);border-radius:18px;padding:16px}
 .obitem .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
 .obitem .ic svg{width:22px;height:22px}
@@ -379,14 +383,18 @@ body.ob nav.tabs{display:none}
 .plantcard svg{overflow:visible}
 </style>
 
-<div id="splash" aria-hidden="true"><div class="sp-word"><span class="sp-a">el</span><span class="sp-i">ı</span><span class="sp-b">n</span></div><svg class="sp-svg"></svg></div><main id="scroller"><div class="wrap" id="app"></div></main>
+<div id="splash" aria-hidden="true"><svg class="sp-svg"><g class="sp-L" opacity="0"><g class="sp-gr"><path fill="#F2F3EB" fill-rule="evenodd" d="M184 674.6C118.8 677.6 58.6 655.1 34.8 618.8C20.8 597.5 26.1 571 47.4 556C62.9 545.1 86.2 544.2 103.7 553.8C104.9 554.4 108.3 556.3 111.3 558C114.4 559.6 119 562.3 121.7 563.9C127 567.1 138.5 573 142.2 574.3C175.4 586.7 211.7 582.4 234.8 563.2C243.8 555.9 247.4 551.8 254.9 540.6C257.2 537.2 262.8 525.7 263.8 522.6C267.9 508.9 269.5 498.5 267.9 496.1C266.7 494.4 265.6 494.8 258.7 500C244.7 510.3 229.3 518.3 212.4 523.7C191.6 530.5 157.2 531.1 132.6 525C91.5 514.9 53.6 487.8 28.7 450.4C-2.9 403.2 -9 335.9 13.4 282.4C37.6 224.8 83.3 187.9 144.7 176.8C187.3 169 234.5 178 269.2 200.5C280.9 208.1 280.9 208.1 284.8 202.2C297.2 183.3 315.7 174.8 335.5 178.8C358.7 183.5 372.5 200.5 373.6 225.7C374.1 236.2 373.8 499.7 373.3 506.1C369.6 556.7 350.4 595.8 314 627.2C280.9 655.9 236.3 672.1 184 674.6ZM179.3 436.9C196.6 437.5 212.7 433.6 226.3 425.4C245.2 413.9 260.9 390.6 265.5 367C277.7 304 227.2 250.8 166.5 262.9C137.2 268.8 112.3 293.6 105 324.4C91.3 381.5 126.5 434.8 179.3 436.9Z"/><path fill="#F2F3EB" d="M459.6 543.7C432.5 548.5 407.2 529.8 402.8 501.6C402 496.5 401.8 309.4 402.6 301.1C407.9 245 443.9 200.5 498.8 182.2C566.7 159.5 635 175.5 648.7 217.2C656.9 242.6 642.9 270 617 279.2C604.7 283.5 594 282.8 579.7 276.7C570 272.7 564.8 271.7 556.9 272.5C530.7 275.1 510.2 294.3 503.5 322.6C501.4 331.4 501.6 325.8 501.3 415.4C501.2 490.4 501.1 497.4 500.6 500.9C497.2 523.4 481.4 539.9 459.6 543.7Z"/></g><g class="sp-st"><path fill="#F2F3EB" d="M1277.3 558.8Q1242.3 558.8 1206.1 553.6Q1169.9 548.4 1140.5 534.9Q1120.6 526.9 1112.2 513.4Q1103.9 499.9 1104.3 484.8Q1104.7 469.7 1113 457.3Q1121.4 445 1135.3 439.8Q1149.2 434.7 1166.7 441Q1200.1 453 1226.8 458.1Q1253.4 463.3 1278.1 463.3Q1307.5 463.3 1320.2 454.9Q1333 446.6 1333 433.1Q1333 421.1 1324.6 414.8Q1316.2 408.4 1301.1 406L1212.8 391.7Q1163.5 383 1136.5 355.5Q1109.4 328.1 1109.4 283.5Q1109.4 242.2 1132.9 212.3Q1156.4 182.5 1197.3 166.2Q1238.3 149.9 1291.6 149.9Q1327.4 149.9 1356.8 155.1Q1386.2 160.2 1414.1 173.8Q1431.6 180.9 1438.8 194.4Q1445.9 208 1444.3 222.7Q1442.7 237.4 1434.4 249.7Q1426 262 1411.7 266.4Q1397.4 270.8 1378.3 264.4Q1352 254.1 1331.8 249.3Q1311.5 244.5 1294 244.5Q1261.4 244.5 1247.8 253.3Q1234.3 262 1234.3 275.6Q1234.3 285.9 1241.5 292.7Q1248.6 299.4 1263.8 301.8L1352 316.9Q1403 324.9 1430.4 351.5Q1457.8 378.2 1457.8 423.5Q1457.8 488 1408.5 523.4Q1359.2 558.8 1277.3 558.8Z M1715.1 558.8Q1655.5 558.8 1616.9 540.5Q1578.3 522.2 1559.2 485.2Q1540.1 448.2 1540.1 392.5V262.8H1513.1Q1487.6 262.8 1473.7 249.3Q1459.8 235.8 1459.8 210.3Q1459.8 184.9 1473.7 171.8Q1487.6 158.6 1513.1 158.6H1540.1V109.3Q1540.1 74.3 1558.4 56Q1576.7 37.7 1610.9 37.7Q1645.1 37.7 1663.4 56Q1681.7 74.3 1681.7 109.3V158.6H1747Q1773.2 158.6 1787.1 171.8Q1801 184.9 1801 210.3Q1801 235.8 1787.1 249.3Q1773.2 262.8 1747 262.8H1681.7V387.7Q1681.7 417.2 1695.6 431.1Q1709.6 445 1739.8 445Q1750.9 445 1761.3 442.6Q1771.6 440.2 1780.4 440.2Q1793.1 439.4 1801 447.8Q1809 456.1 1809 485.6Q1809 509.4 1801.8 525.7Q1794.7 542 1776.4 549.2Q1765.2 553.2 1746.2 556Q1727.1 558.8 1715.1 558.8Z M1989.1 558.8Q1938.2 558.8 1905.6 540.1Q1873 521.4 1856.7 484Q1840.4 446.6 1840.4 389.3V222.3Q1840.4 187.3 1858.7 169.4Q1877 151.5 1911.2 151.5Q1945.4 151.5 1963.7 169.4Q1982 187.3 1982 222.3V393.3Q1982 421.9 1993.9 436.2Q2005.8 450.6 2031.3 450.6Q2059.9 450.6 2078.2 429.9Q2096.5 409.2 2096.5 375V222.3Q2096.5 187.3 2114.8 169.4Q2133.1 151.5 2167.3 151.5Q2201.5 151.5 2219.8 169.4Q2238.1 187.3 2238.1 222.3V485.6Q2238.1 557.2 2169.7 557.2Q2136.3 557.2 2118 538.9Q2103.7 524.5 2100.5 499.9Q2085.4 523.8 2063.9 538.1Q2032.1 558.8 1989.1 558.8Z M2384.8 557.2Q2351.4 557.2 2333.1 538.9Q2314.8 520.6 2314.8 485.6V222.3Q2314.8 188.1 2332.7 169.8Q2350.6 151.5 2384 151.5Q2417.5 151.5 2435 169.8Q2450.1 185.7 2452.5 212.7Q2470 185.7 2498.6 169.8Q2533.6 149.9 2578.9 149.9Q2625.9 149.9 2656.1 167.8Q2686.3 185.7 2701.4 223.5Q2716.5 261.2 2716.5 318.5V485.6Q2716.5 520.6 2698.2 538.9Q2680 557.2 2645.8 557.2Q2611.5 557.2 2593.2 538.9Q2575 520.6 2575 485.6V324.1Q2575 288.3 2562.6 273.2Q2550.3 258.1 2526.4 258.1Q2494.6 258.1 2475.5 278.4Q2456.4 298.6 2456.4 332.8V485.6Q2456.4 557.2 2384.8 557.2Z M2943.6 558.8Q2893.5 558.8 2854.9 534.1Q2816.3 509.4 2794.5 463.3Q2772.6 417.2 2772.6 354.3Q2772.6 289.9 2794.5 244.5Q2816.3 199.2 2854.9 174.5Q2893.5 149.9 2943.6 149.9Q2987.4 149.9 3022.4 170.6Q3047 185.7 3060.5 206.4V53.6Q3060.5 18.6 3078.8 0.3Q3097.1 -18 3131.3 -18Q3164.8 -18 3183.4 0.3Q3202.1 18.6 3202.1 53.6V485.6Q3202.1 520.6 3184.2 538.9Q3166.3 557.2 3132.1 557.2Q3098.7 557.2 3080.4 538.9Q3065.3 523.8 3062.9 498.3Q3050.2 521.4 3024.8 536.5Q2989 558.8 2943.6 558.8ZM2989 454.5Q3010.4 454.5 3027.1 443.8Q3043.8 433.1 3053 411.2Q3062.1 389.3 3062.1 354.3Q3062.1 301 3041.5 277.6Q3020.8 254.1 2989 254.1Q2967.5 254.1 2950.8 264.4Q2934.1 274.8 2924.5 296.6Q2915 318.5 2915 354.3Q2915 406.8 2935.7 430.7Q2956.3 454.5 2989 454.5Z"/></g><path class="sp-stem" fill="none" stroke="#9DBB8E" stroke-linecap="round"/><g class="sp-side"></g><path class="sp-o" fill="#F2F3EB" fill-rule="evenodd" d="M625.5 359.9C625.5 253.6 711.7 167.4 818 167.4C924.3 167.4 1010.5 253.6 1010.5 359.9C1010.5 466.2 924.3 552.4 818 552.4C711.7 552.4 625.5 466.2 625.5 359.9ZM729 360.4C729 414.8 768.8 458.9 818 458.9C867.2 458.9 907 414.8 907 360.4C907 306 867.2 261.9 818 261.9C768.8 261.9 729 306 729 360.4Z"/><path class="sp-plus" fill="#9DBB8E" d="M787.5 347.4H805.5V329.4C805.5 322.5 811.1 316.9 818 316.9C824.9 316.9 830.5 322.5 830.5 329.4V347.4H848.5C855.4 347.4 861 353 861 359.9C861 366.8 855.4 372.4 848.5 372.4H830.5V390.4C830.5 397.3 824.9 402.9 818 402.9C811.1 402.9 805.5 397.3 805.5 390.4V372.4H787.5C780.6 372.4 775 366.8 775 359.9C775 353 780.6 347.4 787.5 347.4Z"/><g class="sp-tip"><path fill="#9DBB8E" d="M940.7 208C939.7 210.5 937.1 209.4 931 204.1C929.5 202.8 927.4 201.4 925.7 200.6C922.2 198.8 915.2 195.1 913.6 194C912 192.9 911.4 191.3 911.2 187.1C910.8 179.9 907.1 171.4 901.8 166C893.8 157.7 889.6 155.8 864.3 149.4C861 148.5 855.3 146.5 849.7 144C825.3 133.5 812.9 119.1 804.5 91.7C802.7 85.8 801.5 70.5 802.7 67.8C807 58.3 834.6 55.2 859.4 61.4C879.8 66.5 901.3 83.9 909.2 101.6C910 103.5 911.3 106.2 912.1 107.6C913.9 110.6 916.1 116.2 918 122.2C920.9 131.6 921.7 133.2 923.1 133.2C924.9 133.2 925.3 132 926.5 123.4C929.5 100.8 939.8 75 951.8 59.9C952.8 58.7 954.7 56.3 956 54.6C959.8 49.6 962.6 46.7 967.3 42.6C969.8 40.5 972.7 37.9 973.9 36.8C977.5 33.6 982.2 30.2 987.7 26.9C990.5 25.2 994.3 22.8 996 21.7C1000.2 19 1008.1 15 1012 13.6C1013.7 13 1017.5 11.5 1020.3 10.4C1025.8 8.2 1031.2 6.5 1037.8 5.1C1040 4.6 1044.2 3.7 1047 3.1C1054.9 1.3 1057.5 1 1066.1 0.4C1084.9 -0.8 1086 -0.2 1086 10.6C1086 29.2 1078.4 56.5 1068.5 73.6C1061.7 85.2 1060.4 87.2 1055.9 92.1C1054.6 93.6 1052.4 96.1 1051.1 97.6C1039.8 110.8 1018.1 124.9 998 132C978.9 138.7 961.4 151.6 954 164.4C946.1 178 942.8 188.2 941.5 202.2C941.3 204.9 940.9 207.5 940.7 208Z"/></g></g><text class="sp-tag" text-anchor="middle" opacity="0">en stund att gro</text></svg></div><main id="scroller"><div class="wrap" id="app"></div></main>
 <nav class="tabs" aria-label="Huvudmeny"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (function(){
-const KEY='elin.v1', PKEY='elin.ph.';
+const KEY='grostund.v1', PKEY='grostund.ph.';
+/* Move data saved under the app's old name to the new keys, once. */
+try{if(!localStorage.getItem(KEY)){const OLD='el'+'in.v1',OLDP='el'+'in.ph.',old=localStorage.getItem(OLD);
+  if(old){localStorage.setItem(KEY,old);const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(OLDP))ks.push(k)}
+    ks.forEach(k=>{localStorage.setItem(PKEY+k.slice(OLDP.length),localStorage.getItem(k));localStorage.removeItem(k)});localStorage.removeItem(OLD)}}}catch(e){}
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad=n=>String(n).padStart(2,'0');
@@ -458,51 +466,51 @@ const delPhoto=id=>{try{localStorage.removeItem(PKEY+id)}catch(e){}};
 const ON_CLAUDE=!!(window.claude&&window.claude.use);
 const STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
 (function(){const sp=document.getElementById('splash');if(!sp)return;
-  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;let done=false,timer;
-  const go=()=>{if(done)return;done=true;clearTimeout(timer);sp.classList.add('out');setTimeout(()=>sp.remove(),550)};
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;let done=false,timer,raf;
+  const go=()=>{if(done)return;done=true;clearTimeout(timer);cancelAnimationFrame(raf);sp.classList.add('out');setTimeout(()=>sp.remove(),550)};
   sp.addEventListener('click',go);timer=setTimeout(go,6000);
-  const NS='http://www.w3.org/2000/svg',mk=(t,a)=>{const el=document.createElementNS(NS,t);for(const k in a)el.setAttribute(k,a[k]);return el};
+  /* The full growth plays on the first opening of the day; later openings get a short greeting. */
+  const today=new Date().toDateString();let seen=false;try{seen=localStorage.getItem('grostund.splash')===today;localStorage.setItem('grostund.splash',today)}catch(e){}
+  const q=c=>sp.querySelector(c),NS='http://www.w3.org/2000/svg',svg=q('.sp-svg'),L=q('.sp-L'),GR=q('.sp-gr'),ST=q('.sp-st'),PL=q('.sp-plus'),stem=q('.sp-stem'),tip=q('.sp-tip'),side=q('.sp-side'),tag=q('.sp-tag');
+  /* Logo units (viewBox of grostund-logga): the o is centred at OX,OY with radius OR; the logo's sprout rises from LX,LY. */
+  const OX=817.5,OY=360,OR=192.5,LX=925,LY=212,SW=60,CX=1623,CY=339;
+  const W=innerWidth,H=innerHeight;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const k=Math.min(W*.76,380)/3276,x0=W/2-CX*k,y0=H*.46-CY*k;
+  const k2=k*1.7,growTo=Math.min(H*.25,210),Lg=growTo/k2;
+  const x1=W/2-OX*k2,y1=H*.47+growTo*.5-OY*k2;
+  tag.setAttribute('x',W/2);tag.setAttribute('y',y1+(OY+OR)*k2+44);
+  const place=(tx,ty,sc)=>L.setAttribute('transform',`translate(${tx} ${ty}) scale(${sc})`);
+  if(rm||seen){place(x0,y0,k);stem.setAttribute('opacity',0);side.setAttribute('opacity',0);
+    const t0=performance.now(),fade=now=>{if(done)return;const v=Math.min(1,(now-t0)/400);L.setAttribute('opacity',1-Math.pow(1-v,2));if(v<1)raf=requestAnimationFrame(fade)};
+    if(rm)L.setAttribute('opacity',1);else raf=requestAnimationFrame(fade);timer=setTimeout(go,rm?900:1100);return}
+  /* A gently bent stem: it leans one way, then the other, and ends upright under the sprout. */
+  const top0=OY-OR+SW;
+  stem.setAttribute('d',`M${OX} ${top0}C${OX-90} ${top0-Lg*.38} ${OX+90} ${top0-Lg*.68} ${OX} ${top0-Lg}`);stem.setAttribute('stroke-width',SW);
+  const SL=stem.getTotalLength();stem.setAttribute('stroke-dasharray',SL);stem.setAttribute('stroke-dashoffset',SL);
   const LEAF_L='M20 30C12 30 3.5 25 1 15c9.5-1.5 17.5 4 19 15z',LEAF_R='M20 30C20.5 18 27.5 8.5 39 6.5c1 12-7 21.5-19 23.5z';
-  const start=()=>{if(done)return;
-    const word=sp.querySelector('.sp-word'),iEl=sp.querySelector('.sp-i'),svg=sp.querySelector('.sp-svg');
-    const F=parseFloat(getComputedStyle(word).fontSize);
-    /* Nunito Black metrics for the dotless i, per em: ink starts .045, ink width .193, x-height .511, ascent 1.011 (line-height 1). Constants keep the drawn i aligned even before the web font is measurable. */
-    const r=iEl.getBoundingClientRect(),base=r.top+F*1.011,w=F*.193,cx=r.left+(r.width-F*.281)/2+F*.045+w/2,asc=F*.511,top0=base-asc;
-    const W=innerWidth,H=innerHeight,dx=W/2-cx,growTo=Math.min(H*.34,300),dy=(H*.5+growTo*.45)-base;
-    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-    const g=mk('g',{});svg.appendChild(g);
-    const len=asc+growTo-w, stem=mk('line',{x1:cx,y1:base-w/2,x2:cx,y2:top0-growTo+w/2,stroke:'#F2F3EB','stroke-width':w,'stroke-linecap':'round','stroke-dasharray':len,'stroke-dashoffset':growTo});g.appendChild(stem);
-    const lw=.48*F,lh=.36*F,lt=base-.899*F; // logo sprout box
-    const tip=mk('g',{});g.appendChild(tip);
-    const tipLeaves=mk('g',{});tip.appendChild(tipLeaves);
-    const sx=lw/40,sy=lh/30,ox=cx-lw/2,oy=lt;
-    tipLeaves.setAttribute('transform',`translate(${ox} ${oy}) scale(${sx} ${sy})`);
-    [LEAF_L,LEAF_R].forEach(d=>tipLeaves.appendChild(mk('path',{d,fill:'#86A97A'})));
-    const bud=mk('circle',{cx,cy:oy+lh*.45,r:F*.045,fill:'#DCE5D0',opacity:0});tip.appendChild(bud);
-    const side=[];const N=8;
-    for(let k=0;k<N;k++){const f=(k+.6)/(N+.8),y=base-asc*.3-(asc*.7+growTo)*f,dir=k%2?1:-1,sz=F*(.78-.04*k);
-      const lg=mk('g',{});lg.style.transformBox='view-box';lg.style.transformOrigin=`${cx}px ${y}px`;lg.style.transform='scale(0)';
-      lg.appendChild(mk('path',{d:dir<0?LEAF_L:LEAF_R,fill:k%3===2?'#DCE5D0':'#86A97A',transform:`translate(${cx-20*sz/30} ${y-sz}) scale(${sz/30})`}));
-      g.insertBefore(lg,tip);side.push({lg,f})}
-    const A=(el,kf,o)=>el.animate(kf,Object.assign({fill:'forwards',easing:'cubic-bezier(.35,.0,.25,1)'},o));
-    word.style.opacity=1;
-    if(rm){g.style.opacity=1;timer=setTimeout(go,900);return}
-    A(word,[{opacity:0,filter:'blur(4px)'},{opacity:1,filter:'blur(0)'}],{duration:500});
-    A(g,[{opacity:0},{opacity:1}],{duration:500});
-    [sp.querySelector('.sp-a'),sp.querySelector('.sp-b')].forEach((el,j)=>A(el,[{opacity:1,filter:'blur(0)',transform:'translateX(0)'},{opacity:0,filter:'blur(10px)',transform:`translateX(${j?'.25em':'-.25em'})`}],{duration:550,delay:700}));
-    const mv=[{transform:'translate(-50%,-50%)'},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`}];
-    A(word,mv,{duration:550,delay:1150,easing:'cubic-bezier(.45,0,.2,1)'});
-    A(g,[{transform:'translate(0,0)'},{transform:`translate(${dx}px,${dy}px)`}],{duration:550,delay:1150,easing:'cubic-bezier(.45,0,.2,1)'});
-    const G0=1650,GD=1200;
-    A(stem,[{strokeDashoffset:growTo},{strokeDashoffset:0}],{duration:GD,delay:G0,easing:'cubic-bezier(.3,.1,.25,1)'});
-    tip.style.transformBox='view-box';tip.style.transformOrigin=`${cx}px ${oy+lh}px`;
-    A(tip,[{transform:'translateY(0) scale(1)'},{transform:`translateY(${-growTo+(top0-(oy+lh))+F*.05}px) scale(2.3)`}],{duration:GD,delay:G0,easing:'cubic-bezier(.3,.1,.25,1)'});
-    side.forEach(({lg,f},k)=>A(lg,[{transform:'scale(0) rotate(0deg)'},{transform:`scale(1.08) rotate(${k%2?-6:6}deg)`,offset:.7},{transform:'scale(1) rotate(0)'}],{duration:620,delay:G0+GD*Math.min(.92,f*.95),easing:'ease-out'}));
-    A(bud,[{opacity:0},{opacity:1}],{duration:400,delay:G0+GD+80});
-    timer=setTimeout(go,G0+GD+550);
+  const leaves=[.3,.52,.72].map((f,i)=>{const dir=i%2?1:-1,p=document.createElementNS(NS,'path');p.setAttribute('d',dir<0?LEAF_L:LEAF_R);p.setAttribute('fill',i===1?'#DCE5D0':'#9DBB8E');
+    const g=document.createElementNS(NS,'g');g.appendChild(p);side.appendChild(g);const pt=stem.getPointAtLength(SL*f);return {g,f,dir,pt,sz:(1-.1*i)*430}});
+  const cl=v=>v<0?0:v>1?1:v,ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,
+        back=t=>{const c=1.6;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)},P=(t,a,d)=>cl((t-a)/d);
+  const frame=t=>{
+    L.setAttribute('opacity',ease(P(t,0,500)));
+    const dis=ease(P(t,650,500));GR.setAttribute('opacity',1-dis);ST.setAttribute('opacity',1-dis);
+    GR.setAttribute('transform',`translate(${-140*dis} 0)`);ST.setAttribute('transform',`translate(${220*dis} 0)`);
+    const mv=ease(P(t,1000,550));place(x0+(x1-x0)*mv,y0+(y1-y0)*mv,k+(k2-k)*mv);
+    const gr=P(t,1450,1100),gE=1-Math.pow(1-gr,2.4),len=SL*gE;stem.setAttribute('stroke-dashoffset',SL-len);
+    const pt=len>0?stem.getPointAtLength(len):{x:OX,y:top0};
+    // the logo's sprout slides onto the stem, then rides up on its tip and opens a little
+    const sl=ease(P(t,1250,350)),s=1+.9*gE,ax=OX,ay=OY-OR+14;
+    const bx=LX+(ax-LX)*sl+(pt.x-OX)*(gr>0?1:0),by=LY+(ay-LY)*sl+(pt.y-top0)*(gr>0?1:0);
+    const sway=gr>=1?Math.sin((t-2550)/260)*3*Math.max(0,1-(t-2550)/900):0;
+    tip.setAttribute('transform',`translate(${bx} ${by}) rotate(${sway}) scale(${s}) translate(${-LX} ${-LY})`);
+    leaves.forEach(({g,f,dir,pt:lp,sz})=>{const a=len>=SL*f?P(t,1450+1100*f*.9,520):0,sc=a?back(a):0;
+      g.setAttribute('transform',`translate(${lp.x} ${lp.y}) rotate(${dir*(1-a)*-14}) scale(${sc*sz/30}) translate(-20 -29)`)});
+    const pu=P(t,2550,500);PL.setAttribute('transform',`translate(${OX} ${OY}) scale(${1+.2*Math.sin(Math.PI*pu)}) translate(${-OX} ${-OY})`);
+    const tg=ease(P(t,2600,600));tag.setAttribute('opacity',tg);tag.setAttribute('transform',`translate(0 ${8*(1-tg)})`);
   };
-  const ready=document.fonts&&document.fonts.load?Promise.race([document.fonts.load('900 64px Nunito'),new Promise(r=>setTimeout(r,600))]):Promise.resolve();
-  ready.then(()=>requestAnimationFrame(start));})();
+  let t0=null;const loop=now=>{if(done)return;if(t0===null)t0=now;const t=now-t0;frame(t);if(t<3700)raf=requestAnimationFrame(loop);else timer=setTimeout(go,100)};
+  frame(0);raf=requestAnimationFrame(loop);})();
 /* Standalone builds fill these in so estimates run through a Supabase Edge Function. */
 const ESTIMATE_URL='', ESTIMATE_KEY='';
 /* Calorie estimates are switched off (user's decision 2026-11-12). The hooks stay for later. */
@@ -565,7 +573,7 @@ const ICONS={
   help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V8a5 5 0 0 1 10 0v3"/><path d="M5 11h3v6H6a1 1 0 0 1-1-1zM19 11h-3v6h2a1 1 0 0 0 1-1z"/><path d="M16 17c0 2-2 3-4 3"/></svg>'
 };
 const SPROUT='<svg viewBox="0 0 40 30" aria-hidden="true"><path d="M20 30C12 30 3.5 25 1 15c9.5-1.5 17.5 4 19 15z" fill="var(--leaf)"/><path d="M20 30C20.5 18 27.5 8.5 39 6.5c1 12-7 21.5-19 23.5z" fill="var(--leaf)"/></svg>';
-const LOGO=`<span class="logo" role="img" aria-label="elin">el<span class="li">ı${SPROUT}</span>n</span>`;
+const LOGO=`<span class="logo" role="img" aria-label="Grostund"><svg viewBox="-15 -15 3276 708" aria-hidden="true"><path class="lk" fill-rule="evenodd" d="M184 674.6C118.8 677.6 58.6 655.1 34.8 618.8C20.8 597.5 26.1 571 47.4 556C62.9 545.1 86.2 544.2 103.7 553.8C104.9 554.4 108.3 556.3 111.3 558C114.4 559.6 119 562.3 121.7 563.9C127 567.1 138.5 573 142.2 574.3C175.4 586.7 211.7 582.4 234.8 563.2C243.8 555.9 247.4 551.8 254.9 540.6C257.2 537.2 262.8 525.7 263.8 522.6C267.9 508.9 269.5 498.5 267.9 496.1C266.7 494.4 265.6 494.8 258.7 500C244.7 510.3 229.3 518.3 212.4 523.7C191.6 530.5 157.2 531.1 132.6 525C91.5 514.9 53.6 487.8 28.7 450.4C-2.9 403.2 -9 335.9 13.4 282.4C37.6 224.8 83.3 187.9 144.7 176.8C187.3 169 234.5 178 269.2 200.5C280.9 208.1 280.9 208.1 284.8 202.2C297.2 183.3 315.7 174.8 335.5 178.8C358.7 183.5 372.5 200.5 373.6 225.7C374.1 236.2 373.8 499.7 373.3 506.1C369.6 556.7 350.4 595.8 314 627.2C280.9 655.9 236.3 672.1 184 674.6ZM179.3 436.9C196.6 437.5 212.7 433.6 226.3 425.4C245.2 413.9 260.9 390.6 265.5 367C277.7 304 227.2 250.8 166.5 262.9C137.2 268.8 112.3 293.6 105 324.4C91.3 381.5 126.5 434.8 179.3 436.9Z M459.6 543.7C432.5 548.5 407.2 529.8 402.8 501.6C402 496.5 401.8 309.4 402.6 301.1C407.9 245 443.9 200.5 498.8 182.2C566.7 159.5 635 175.5 648.7 217.2C656.9 242.6 642.9 270 617 279.2C604.7 283.5 594 282.8 579.7 276.7C570 272.7 564.8 271.7 556.9 272.5C530.7 275.1 510.2 294.3 503.5 322.6C501.4 331.4 501.6 325.8 501.3 415.4C501.2 490.4 501.1 497.4 500.6 500.9C497.2 523.4 481.4 539.9 459.6 543.7Z M625.5 359.9C625.5 253.6 711.7 167.4 818 167.4C924.3 167.4 1010.5 253.6 1010.5 359.9C1010.5 466.2 924.3 552.4 818 552.4C711.7 552.4 625.5 466.2 625.5 359.9ZM729 360.4C729 414.8 768.8 458.9 818 458.9C867.2 458.9 907 414.8 907 360.4C907 306 867.2 261.9 818 261.9C768.8 261.9 729 306 729 360.4Z M1277.3 558.8Q1242.3 558.8 1206.1 553.6Q1169.9 548.4 1140.5 534.9Q1120.6 526.9 1112.2 513.4Q1103.9 499.9 1104.3 484.8Q1104.7 469.7 1113 457.3Q1121.4 445 1135.3 439.8Q1149.2 434.7 1166.7 441Q1200.1 453 1226.8 458.1Q1253.4 463.3 1278.1 463.3Q1307.5 463.3 1320.2 454.9Q1333 446.6 1333 433.1Q1333 421.1 1324.6 414.8Q1316.2 408.4 1301.1 406L1212.8 391.7Q1163.5 383 1136.5 355.5Q1109.4 328.1 1109.4 283.5Q1109.4 242.2 1132.9 212.3Q1156.4 182.5 1197.3 166.2Q1238.3 149.9 1291.6 149.9Q1327.4 149.9 1356.8 155.1Q1386.2 160.2 1414.1 173.8Q1431.6 180.9 1438.8 194.4Q1445.9 208 1444.3 222.7Q1442.7 237.4 1434.4 249.7Q1426 262 1411.7 266.4Q1397.4 270.8 1378.3 264.4Q1352 254.1 1331.8 249.3Q1311.5 244.5 1294 244.5Q1261.4 244.5 1247.8 253.3Q1234.3 262 1234.3 275.6Q1234.3 285.9 1241.5 292.7Q1248.6 299.4 1263.8 301.8L1352 316.9Q1403 324.9 1430.4 351.5Q1457.8 378.2 1457.8 423.5Q1457.8 488 1408.5 523.4Q1359.2 558.8 1277.3 558.8Z M1715.1 558.8Q1655.5 558.8 1616.9 540.5Q1578.3 522.2 1559.2 485.2Q1540.1 448.2 1540.1 392.5V262.8H1513.1Q1487.6 262.8 1473.7 249.3Q1459.8 235.8 1459.8 210.3Q1459.8 184.9 1473.7 171.8Q1487.6 158.6 1513.1 158.6H1540.1V109.3Q1540.1 74.3 1558.4 56Q1576.7 37.7 1610.9 37.7Q1645.1 37.7 1663.4 56Q1681.7 74.3 1681.7 109.3V158.6H1747Q1773.2 158.6 1787.1 171.8Q1801 184.9 1801 210.3Q1801 235.8 1787.1 249.3Q1773.2 262.8 1747 262.8H1681.7V387.7Q1681.7 417.2 1695.6 431.1Q1709.6 445 1739.8 445Q1750.9 445 1761.3 442.6Q1771.6 440.2 1780.4 440.2Q1793.1 439.4 1801 447.8Q1809 456.1 1809 485.6Q1809 509.4 1801.8 525.7Q1794.7 542 1776.4 549.2Q1765.2 553.2 1746.2 556Q1727.1 558.8 1715.1 558.8Z M1989.1 558.8Q1938.2 558.8 1905.6 540.1Q1873 521.4 1856.7 484Q1840.4 446.6 1840.4 389.3V222.3Q1840.4 187.3 1858.7 169.4Q1877 151.5 1911.2 151.5Q1945.4 151.5 1963.7 169.4Q1982 187.3 1982 222.3V393.3Q1982 421.9 1993.9 436.2Q2005.8 450.6 2031.3 450.6Q2059.9 450.6 2078.2 429.9Q2096.5 409.2 2096.5 375V222.3Q2096.5 187.3 2114.8 169.4Q2133.1 151.5 2167.3 151.5Q2201.5 151.5 2219.8 169.4Q2238.1 187.3 2238.1 222.3V485.6Q2238.1 557.2 2169.7 557.2Q2136.3 557.2 2118 538.9Q2103.7 524.5 2100.5 499.9Q2085.4 523.8 2063.9 538.1Q2032.1 558.8 1989.1 558.8Z M2384.8 557.2Q2351.4 557.2 2333.1 538.9Q2314.8 520.6 2314.8 485.6V222.3Q2314.8 188.1 2332.7 169.8Q2350.6 151.5 2384 151.5Q2417.5 151.5 2435 169.8Q2450.1 185.7 2452.5 212.7Q2470 185.7 2498.6 169.8Q2533.6 149.9 2578.9 149.9Q2625.9 149.9 2656.1 167.8Q2686.3 185.7 2701.4 223.5Q2716.5 261.2 2716.5 318.5V485.6Q2716.5 520.6 2698.2 538.9Q2680 557.2 2645.8 557.2Q2611.5 557.2 2593.2 538.9Q2575 520.6 2575 485.6V324.1Q2575 288.3 2562.6 273.2Q2550.3 258.1 2526.4 258.1Q2494.6 258.1 2475.5 278.4Q2456.4 298.6 2456.4 332.8V485.6Q2456.4 557.2 2384.8 557.2Z M2943.6 558.8Q2893.5 558.8 2854.9 534.1Q2816.3 509.4 2794.5 463.3Q2772.6 417.2 2772.6 354.3Q2772.6 289.9 2794.5 244.5Q2816.3 199.2 2854.9 174.5Q2893.5 149.9 2943.6 149.9Q2987.4 149.9 3022.4 170.6Q3047 185.7 3060.5 206.4V53.6Q3060.5 18.6 3078.8 0.3Q3097.1 -18 3131.3 -18Q3164.8 -18 3183.4 0.3Q3202.1 18.6 3202.1 53.6V485.6Q3202.1 520.6 3184.2 538.9Q3166.3 557.2 3132.1 557.2Q3098.7 557.2 3080.4 538.9Q3065.3 523.8 3062.9 498.3Q3050.2 521.4 3024.8 536.5Q2989 558.8 2943.6 558.8ZM2989 454.5Q3010.4 454.5 3027.1 443.8Q3043.8 433.1 3053 411.2Q3062.1 389.3 3062.1 354.3Q3062.1 301 3041.5 277.6Q3020.8 254.1 2989 254.1Q2967.5 254.1 2950.8 264.4Q2934.1 274.8 2924.5 296.6Q2915 318.5 2915 354.3Q2915 406.8 2935.7 430.7Q2956.3 454.5 2989 454.5Z"/><path class="lg" d="M940.7 208C939.7 210.5 937.1 209.4 931 204.1C929.5 202.8 927.4 201.4 925.7 200.6C922.2 198.8 915.2 195.1 913.6 194C912 192.9 911.4 191.3 911.2 187.1C910.8 179.9 907.1 171.4 901.8 166C893.8 157.7 889.6 155.8 864.3 149.4C861 148.5 855.3 146.5 849.7 144C825.3 133.5 812.9 119.1 804.5 91.7C802.7 85.8 801.5 70.5 802.7 67.8C807 58.3 834.6 55.2 859.4 61.4C879.8 66.5 901.3 83.9 909.2 101.6C910 103.5 911.3 106.2 912.1 107.6C913.9 110.6 916.1 116.2 918 122.2C920.9 131.6 921.7 133.2 923.1 133.2C924.9 133.2 925.3 132 926.5 123.4C929.5 100.8 939.8 75 951.8 59.9C952.8 58.7 954.7 56.3 956 54.6C959.8 49.6 962.6 46.7 967.3 42.6C969.8 40.5 972.7 37.9 973.9 36.8C977.5 33.6 982.2 30.2 987.7 26.9C990.5 25.2 994.3 22.8 996 21.7C1000.2 19 1008.1 15 1012 13.6C1013.7 13 1017.5 11.5 1020.3 10.4C1025.8 8.2 1031.2 6.5 1037.8 5.1C1040 4.6 1044.2 3.7 1047 3.1C1054.9 1.3 1057.5 1 1066.1 0.4C1084.9 -0.8 1086 -0.2 1086 10.6C1086 29.2 1078.4 56.5 1068.5 73.6C1061.7 85.2 1060.4 87.2 1055.9 92.1C1054.6 93.6 1052.4 96.1 1051.1 97.6C1039.8 110.8 1018.1 124.9 998 132C978.9 138.7 961.4 151.6 954 164.4C946.1 178 942.8 188.2 941.5 202.2C941.3 204.9 940.9 207.5 940.7 208Z M787.5 347.4H805.5V329.4C805.5 322.5 811.1 316.9 818 316.9C824.9 316.9 830.5 322.5 830.5 329.4V347.4H848.5C855.4 347.4 861 353 861 359.9C861 366.8 855.4 372.4 848.5 372.4H830.5V390.4C830.5 397.3 824.9 402.9 818 402.9C811.1 402.9 805.5 397.3 805.5 390.4V372.4H787.5C780.6 372.4 775 366.8 775 359.9C775 353 780.6 347.4 787.5 347.4Z"/></svg></span>`;
 const leafIcon=on=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20C4 11 10 5 20 4c0 9-6 15-15 16z" fill="${on?'var(--accent)':'none'}" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 19l8-8" stroke="${on?'var(--surface)':'var(--line)'}" stroke-width="1.3" stroke-linecap="round"/></svg>`;
 const DOT_OPEN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/></svg>';
 const DOT_MISS='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="2.5 2.5"/></svg>';
@@ -600,12 +608,12 @@ function render(){
   $('#tabs').innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${cur===k?'aria-current="page"':''}>${ICONS[k]}<span>${l}</span></button>`).join('');
   const hasEx=S.entries.some(e=>e.example)||S.reasonsExample||S.ladder.some(l=>l.example)||S.goals.example;
   let h=`<header class="top"><div class="brand">${LOGO}</div>${cur==='stod'?'':'<button class="stod-btn" data-tab="stod">Behöver du stöd nu?</button>'}</header>`;
-  if(!S.settings.noticeHidden) h+=`<div class="notice"><p class="small"><strong>ELIN är inte vård.</strong> Appen är ett stöd för att logga och reflektera, gärna tillsammans med din behandlare. Den ställer inga diagnoser och ersätter inte kontakt med vården. Vid akut fara, ring 112.</p><p class="small" style="margin-top:8px"><strong>Det du skriver är ditt.</strong> Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p><button class="link-btn small" data-act="hideNotice">Jag förstår</button></div>`;
-  if(hasEx) h+=`<div class="example-bar"><span>Det du ser är <strong>exempel</strong>, så att du kan känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort exemplen</button></div>`;
-  if(!storageOk) h+=`<div class="example-bar">Webbläsaren tillåter inte att ELIN sparar allt. Det du skriver kan försvinna när du stänger sidan.</div>`;
+  if(!S.settings.noticeHidden) h+=`<div class="notice"><p class="small"><strong>Grostund är inte vård.</strong> Appen är ett stöd för att logga och reflektera, gärna tillsammans med din behandlare. Den ställer inga diagnoser och ersätter inte kontakt med vården. Vid akut fara, ring 112.</p><p class="small" style="margin-top:8px"><strong>Det du skriver är ditt.</strong> Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p><button class="link-btn small" data-act="hideNotice">Jag förstår</button></div>`;
+  if(hasEx) h+=`<div class="example-bar"><span>Du ser <strong>exempel</strong> för att känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort</button></div>`;
+  if(!storageOk) h+=`<div class="example-bar">Webbläsaren tillåter inte att Grostund sparar allt. Det du skriver kan försvinna när du stänger sidan.</div>`;
   if(PARENT[view]){const b=backTo||PARENT[view];h+=`<button class="back" data-tab="${b}">‹ ${BACKLBL[b]||'Tillbaka'}</button>`}
   h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips}[view])();
-  h+=`<footer class="disc">ELIN är ett självhjälpsverktyg och ingen vårdgivare. Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</footer>`;
+  h+=`<footer class="disc">Grostund är ett självhjälpsverktyg och ingen vårdgivare. Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</footer>`;
   $('#app').innerHTML=h;
   if(view==='andas')startBreath();
 }
@@ -779,7 +787,7 @@ function vFramsteg(){
     <div class="field"><span class="lbl">Hur svårt känns det?</span><div class="seg" id="l-fear">${[1,2,3,4,5].map(n=>`<button type="button" data-v="${n}" aria-pressed="${n===ladderFear}">${['Lite','Ganska','Svårt','Mycket','Allra svårast'][n-1]}</button>`).join('')}</div></div>
     <button class="primary" type="submit">Lägg till på stegen</button></form>
   <h3>Milstolpar</h3><div class="badges">${B.map(b=>`<div class="badge ${b[2]?'':'locked'}"><span class="ic">${b[2]?'✓':'○'}</span><b>${b[0]}</b><span class="small muted">${b[1]}</span></div>`).join('')}</div>
-  <p class="small muted">ELIN belönar aldrig att äta mindre, träna mer eller väga mindre.</p>`;
+  <p class="small muted">Grostund belönar aldrig att äta mindre, träna mer eller väga mindre.</p>`;
 }
 function vMinnen(){
   const M=S.entries.filter(e=>e.photo||e.good.length||e.goodText).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
@@ -798,7 +806,7 @@ function vJag(){
   return `<div class="pagehead"><h1>Jag</h1></div>
   <button class="plantcard" data-go="vaxa">${pl.svg}<span><b>${esc(st)}</b><small>Din planta har ${p} blad. Den växer när du tar hand om dig.</small></span><span class="chev" aria-hidden="true">›</span></button>
   <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor','Mönster i måltider, oro och dryck')}${row('data-go="skal"','skal','Skäl till förändring','Arbetsbladet, åt båda hållen')}${row('data-go="minnen"','foto','Minnen','Måltider du vill komma ihåg')}${row('data-act="pdf"','pdf','PDF till vården','Självobservationen som blanketten')}</div>
-  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål','Plan, mål med vården, dina uppgifter')}${row('data-act="about"','info','Om ELIN','Inte vård, och var det du skriver sparas')}</div>`;
+  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål','Plan, mål med vården, dina uppgifter')}${row('data-act="about"','info','Om Grostund','Inte vård, och var det du skriver sparas')}</div>`;
 }
 function vStod(){
   const sms='sms:?&body='+encodeURIComponent('Hej, jag har det lite tufft just nu. Kan du höra av dig när du kan?');
@@ -815,7 +823,7 @@ function vStod(){
     <a href="${sms}"><span class="ic">${ICONS.stod}</span><span><b>Skicka ett meddelande</b><small>Till någon du litar på</small></span><span class="chev" aria-hidden="true">›</span></a>
     <button data-go="tips"><span class="ic">${ICONS.tips}</span><span><b>Tips när maten känns svår</b><small>Korta påminnelser</small></span><span class="chev" aria-hidden="true">›</span></button>
   </div>
-  <div class="card"><h3>Din behandlare</h3><p class="small muted">Hör av dig till din vårdkontakt om det känns tyngre än vanligt, även mellan samtalen. ELIN kan inte se vad du skriver eller larma någon.</p></div>`;
+  <div class="card"><h3>Din behandlare</h3><p class="small muted">Hör av dig till din vårdkontakt om det känns tyngre än vanligt, även mellan samtalen. Grostund kan inte se vad du skriver eller larma någon.</p></div>`;
 }
 function vSkriv(){
   const P=['Något som var svårt idag: ','Något som var okej: ','Det jag vill säga till mig själv: '];
@@ -849,13 +857,13 @@ function vJord(){
   <ol class="steps54">${L.map(([n,t])=>`<li><b>${n}</b><span>${t}</span></li>`).join('')}</ol>
   <p class="small muted">Känns det fortfarande mycket? Andas en stund, eller hör av dig till någon. Stödlinjerna finns under Stöd.</p>`;
 }
-const SPROUT_ICON='<svg viewBox="0 0 40 50" aria-hidden="true"><rect x="15" y="18" width="10" height="30" rx="5" fill="#F1F2E8"/><path d="M20 19C12.5 19 4.5 14.5 2 5c9-1.5 16.5 3.5 18 14z" fill="#93B07D"/><path d="M20 19C20.5 8 27 0 38 0c1 11-6.5 18-18 19z" fill="#93B07D"/></svg>';
+const SPROUT_ICON='<svg viewBox="0 0 460.5 552.44" aria-hidden="true"><path fill="#9DBB8E" fill-rule="evenodd" d="M315.2 208C314.2 210.5 311.6 209.4 305.5 204.1C304 202.8 301.9 201.4 300.2 200.6C296.7 198.8 289.7 195.1 288.1 194C286.5 192.9 285.9 191.3 285.7 187.1C285.3 179.9 281.6 171.4 276.3 166C268.3 157.7 264.1 155.8 238.8 149.4C235.5 148.5 229.8 146.5 224.2 144C199.8 133.5 187.4 119.1 179 91.7C177.2 85.8 176 70.5 177.2 67.8C181.5 58.3 209.1 55.2 233.9 61.4C254.3 66.5 275.8 83.9 283.7 101.6C284.5 103.5 285.8 106.2 286.6 107.6C288.4 110.6 290.6 116.2 292.5 122.2C295.4 131.6 296.2 133.2 297.6 133.2C299.4 133.2 299.8 132 301 123.4C304 100.8 314.3 75 326.3 59.9C327.3 58.7 329.2 56.3 330.5 54.6C334.3 49.6 337.1 46.7 341.8 42.6C344.3 40.5 347.2 37.9 348.4 36.8C352 33.6 356.7 30.2 362.2 26.9C365 25.2 368.8 22.8 370.5 21.7C374.7 19 382.6 15 386.5 13.6C388.2 13 392 11.5 394.8 10.4C400.3 8.2 405.7 6.5 412.3 5.1C414.5 4.6 418.7 3.7 421.5 3.1C429.4 1.3 432 1 440.6 0.4C459.4 -0.8 460.5 -0.2 460.5 10.6C460.5 29.2 452.9 56.5 443 73.6C436.2 85.2 434.9 87.2 430.4 92.1C429.1 93.6 426.9 96.1 425.6 97.6C414.3 110.8 392.6 124.9 372.5 132C353.4 138.7 335.9 151.6 328.5 164.4C320.6 178 317.3 188.2 316 202.2C315.8 204.9 315.4 207.5 315.2 208Z"/><path fill="#F2F3EB" fill-rule="evenodd" d="M0 359.9C0 253.6 86.2 167.4 192.5 167.4C298.8 167.4 385 253.6 385 359.9C385 466.2 298.8 552.4 192.5 552.4C86.2 552.4 0 466.2 0 359.9ZM103.5 360.4C103.5 414.8 143.3 458.9 192.5 458.9C241.7 458.9 281.5 414.8 281.5 360.4C281.5 306 241.7 261.9 192.5 261.9C143.3 261.9 103.5 306 103.5 360.4Z"/><path fill="#9DBB8E" fill-rule="evenodd" d="M162 347.4H180V329.4C180 322.5 185.6 316.9 192.5 316.9C199.4 316.9 205 322.5 205 329.4V347.4H223C229.9 347.4 235.5 353 235.5 359.9C235.5 366.8 229.9 372.4 223 372.4H205V390.4C205 397.3 199.4 402.9 192.5 402.9C185.6 402.9 180 397.3 180 390.4V372.4H162C155.1 372.4 149.5 366.8 149.5 359.9C149.5 353 155.1 347.4 162 347.4Z"/></svg>';
 function vOnboard(){
   const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
-  if(obStep===0) return `<div class="ob"><div class="center"><div class="appicon">${SPROUT_ICON}</div>${LOGO}<h1>Ett steg i taget</h1><p class="lead">Stöd när du vill ha det. I din takt, utan krav och utan siffror.</p></div>
-    <div class="foot"><button class="primary" data-ob="1">Kom igång</button><p class="small muted">Allt du skriver sparas bara på din telefon.</p><p class="small muted">ELIN är ett stöd och ersätter inte vård eller behandling.</p></div></div>`;
-  if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1><p class="lead">Tre saker som är bra att veta om ELIN.</p></div>
-    <div class="obitem"><span class="ic">${ICONS.shield}</span><div><b>ELIN är inte vård</b><p>Ett stöd att logga och reflektera, gärna tillsammans med din behandlare.</p></div></div>
+  if(obStep===0) return `<div class="ob"><div class="center">${LOGO}<h1>Ett steg i taget</h1><p class="lead">Stöd när du vill ha det. I din takt, utan krav och utan siffror.</p></div>
+    <div class="foot"><button class="primary" data-ob="1">Kom igång</button><p class="small muted">Allt du skriver sparas bara på din telefon.</p><p class="small muted">Grostund är ett stöd och ersätter inte vård eller behandling.</p></div></div>`;
+  if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1><p class="lead">Tre saker som är bra att veta om Grostund.</p></div>
+    <div class="obitem"><span class="ic">${ICONS.shield}</span><div><b>Grostund är inte vård</b><p>Ett stöd att logga och reflektera, gärna tillsammans med din behandlare.</p></div></div>
     <div class="obitem"><span class="ic">${PENCIL}</span><div><b>Inga siffror att räkna</b><p>Du skriver vad du åt med egna ord. Inga kalorier, gram eller vikt på skärmen.</p></div></div>
     <div class="obitem"><span class="ic">${ICONS.lock}</span><div><b>Det du skriver är ditt</b><p>Allt sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p></div></div>
     <p class="alert112">Vid akut fara, ring <b>112</b>. Stöd finns alltid ett tryck bort.</p>
@@ -940,7 +948,7 @@ function entrySheet(e,preset){
       return '';
     }
     function photoBox(){
-      const txt=aiState==='busy'?'ELIN tittar på bilden…':aiState==='done'&&aiDesc?'ELIN föreslog en beskrivning. Ändra gärna.':photoData?'Fint foto! Det sparas bland dina minnen.':'Fota maten så slipper du skriva lika mycket. Bilden sparas bara hos dig.';
+      const txt=aiState==='busy'?'Grostund tittar på bilden…':aiState==='done'&&aiDesc?'Grostund föreslog en beskrivning. Ändra gärna.':photoData?'Fint foto! Det sparas bland dina minnen.':'Fota maten så slipper du skriva lika mycket. Bilden sparas bara hos dig.';
       return `<div class="photo">${photoData?`<img src="${photoData}" alt="Ditt foto">`:`<span class="ph-ic">${CAM}</span>`}
         <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="small">${txt}</span>
         <span><label class="ghost small" for="f-photo">${photoData?'Byt foto':'Fota eller välj bild'}</label><input type="file" id="f-photo" accept="image/*" capture="environment"> ${photoData?'<button type="button" class="link-btn small" data-rmphoto>Ta bort</button>':''}</span></div></div>`;
@@ -1079,7 +1087,7 @@ function helpSheet(){
    <div class="help-item"><b>Bris, för dig under 18</b><span class="num">116 111</span><span class="small">Prata eller chatta med en kurator på <a href="https://www.bris.se" target="_blank" rel="noopener">bris.se</a>.</span></div>
    <div class="help-item"><b>Din behandlare</b><span class="small">Hör av dig till din vårdkontakt om det känns tyngre än vanligt, även mellan samtalen.</span></div>
   </div>
-  <p class="small muted">ELIN är inte en vårdinstans och kan inte se vad du skriver eller larma någon.</p>`);
+  <p class="small muted">Grostund är inte en vårdinstans och kan inte se vad du skriver eller larma någon.</p>`);
 }
 
 function settingsSheet(){
@@ -1123,7 +1131,7 @@ function pdfPreview(from,to,withEx){
     <div class="pd"><span>Datum och veckodag: ${esc(dayLabel(show))}</span><span>${esc(S.settings.name||'')}</span></div>
     <table><colgroup>${W.map(w=>`<col style="width:${w}%">`).join('')}</colgroup>
     <tr><th>Kl</th><th>Måltid</th><th>Plats</th><th>*</th><th>K/V/L/T/H</th><th>Kommentarer, tankar, känslor</th></tr>${body}</table>
-    <div class="pf"><span>Skapad i ELIN</span><span>Sida ${days.indexOf(show)+1} av ${days.length}</span></div></div>
+    <div class="pf"><span>Skapad i Grostund</span><span>Sida ${days.indexOf(show)+1} av ${days.length}</span></div></div>
     <p class="pdfcap">Så ser en sida ut. Du får en sida per dag, ${days.length} ${days.length===1?'sida':'sidor'} totalt.</p>`;
 }
 function pdfSheet(){
@@ -1168,7 +1176,7 @@ function buildPdf(from,to,opts){
   function footer(legend=true){doc.setFont('helvetica','normal');doc.setTextColor(20);
     if(legend){doc.setFontSize(9.5);doc.text('(H) Hetsätning/överätning (K) Kräkning (V) Vätskedrivande (L) Laxerande (T) Träning',X,BOTTOM+7)}
     doc.setFontSize(7.5);doc.setTextColor(110);
-    doc.text('Skapad i ELIN, ett självhjälpsverktyg som inte är vård. Upplägg enligt självobservation i KBT-E (Fairburn, 2008).',X,BOTTOM+13);
+    doc.text('Skapad i Grostund, ett självhjälpsverktyg som inte är vård. Upplägg enligt självobservation i KBT-E (Fairburn, 2008).',X,BOTTOM+13);
     doc.text('Sida '+(++page),X+W,BOTTOM+13,{align:'right'});doc.setTextColor(20)}
   const g=S.goals;
   if(opts.sum){
@@ -1237,18 +1245,18 @@ function drawReasons(doc){
       doc.setFont('helvetica','normal');doc.setFontSize(9.5);let yy=cy+21;
       (S.reasons[k]||[]).forEach(r=>{const ls=doc.splitTextToSize('• '+r,gw-8);if(yy+ls.length*4.2<cy+gh-2){doc.text(ls,cx+4,yy);yy+=ls.length*4.2+1.5}})});
 }
-window.__elinBuildPdf=buildPdf;
+window.__grostundBuildPdf=buildPdf;
 async function downloadReasons(){
   const msg=$('#r-msg');
   if(!Object.values(S.reasons).some(a=>a.length)){msg.textContent='Skriv minst ett skäl först, så finns det något att ladda ner.';return}
   if(!window.jspdf){msg.textContent='PDF-verktyget kunde inte laddas. Kontrollera internetanslutningen och försök igen.';return}
   const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);
-  doc.setFontSize(7.5);doc.setTextColor(110);doc.text('Skapad i ELIN (inte vård). Efter arbetsbladet Skäl till förändring, Linder & Nyman Carlsson (2019).',15,281);
+  doc.setFontSize(7.5);doc.setTextColor(110);doc.text('Skapad i Grostund (inte vård). Efter arbetsbladet Skäl till förändring, Linder & Nyman Carlsson (2019).',15,281);
   msg.textContent='Förbereder…';
   try{msg.textContent=await saveFile(doc.output('blob'),'skal-till-forandring-'+today()+'.pdf')}
   catch(e){msg.textContent=e&&e.code==='declined'?'Nedladdningen avbröts.':e&&e.code==='rate_limited'?'Vänta en stund och försök igen.':'Det gick inte att spara filen här.'}
 }
-window.__elinReasons=()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);return doc.output('blob')};
+window.__grostundReasons=()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);return doc.output('blob')};
 
 async function saveFile(blob,name,kind='PDF:en'){
   let dl=null;try{dl=ON_CLAUDE?await window.claude.use('downloads'):null}catch(e){dl=null}
@@ -1309,9 +1317,9 @@ document.addEventListener('click',ev=>{
     <p class="small muted">Gärna samma veckodag och tid som du kommit överens om med din behandlare. Siffran sparas till PDF:en och visas inte i appen.</p><button class="primary" type="submit">Spara</button></form>`,()=>{
     $('#wf').addEventListener('submit',e=>{e.preventDefault();const kg=parseFloat($('#w-kg').value);if(!kg)return;S.weights=S.weights.filter(w=>w.d!==today());S.weights.push({d:today(),kg});save();closeSheet();render();toast('Sparat. Tack för att du gör det här.')})})}
   if(act==='ics'){const p2=n=>String(n).padStart(2,'0'),d=new Date(),ds=`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}`;
-    const ev=S.plan.map((x,i)=>{const [h,m]=x.t.split(':');return ['BEGIN:VEVENT',`UID:elin-${ds}-${i}@elin`,`DTSTAMP:${ds}T000000Z`,`DTSTART:${ds}T${p2(h)}${p2(m)}00`,'DURATION:PT15M','RRULE:FREQ=DAILY',`SUMMARY:${x.n} 🌱`,'DESCRIPTION:Dags för '+x.n.toLowerCase()+'. Logga i ELIN när du vill.','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+x.n,'TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n')});
-    const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ELIN//SV','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
-    saveFile(new Blob([ics],{type:'text/calendar'}),'elin-paminnelser.ics','Kalenderfilen').then(m=>toast(m+' Öppna den och välj Lägg till alla.'));return}
+    const ev=S.plan.map((x,i)=>{const [h,m]=x.t.split(':');return ['BEGIN:VEVENT',`UID:grostund-${ds}-${i}@grostund`,`DTSTAMP:${ds}T000000Z`,`DTSTART:${ds}T${p2(h)}${p2(m)}00`,'DURATION:PT15M','RRULE:FREQ=DAILY',`SUMMARY:${x.n} 🌱`,'DESCRIPTION:Dags för '+x.n.toLowerCase()+'. Logga i Grostund när du vill.','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+x.n,'TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n')});
+    const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Grostund//SV','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
+    saveFile(new Blob([ics],{type:'text/calendar'}),'grostund-paminnelser.ics','Kalenderfilen').then(m=>toast(m+' Öppna den och välj Lägg till alla.'));return}
   if(act==='savePlan'){const lines=$('#s-plan').value.split('\n').map(l=>l.trim()).filter(Boolean);
     const p=lines.map(l=>{const m=l.match(/^(.*?)\s*(\d{1,2})[:.](\d{2})$/);return m?{n:m[1]||'Måltid',t:pad(+m[2])+':'+m[3]}:null}).filter(Boolean);
     if(p.length){S.plan=p.sort((a,b)=>a.t.localeCompare(b.t));save();render();toast('Planen är sparad.')}else toast('Skriv ett tillfälle per rad med klockslag, t.ex. Lunch 12:00.')}
