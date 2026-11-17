@@ -233,6 +233,7 @@ details.more[open] summary{margin-bottom:10px}
 .qbox h3{font-size:.92rem}
 .qbox ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--hand);font-size:1rem;font-weight:700;line-height:1.35}
 .qbox li{overflow-wrap:anywhere}
+.qbox li .rtxt{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:text}
 .qbox li button{background:none;border:0;color:var(--muted);padding:0 4px;font-size:.85rem;font-family:var(--body)}
 .addline{display:flex;gap:6px}
 .addline input{flex:1;min-width:0;background:var(--bg)}
@@ -892,7 +893,7 @@ function vJord(){
 }
 const SPROUT_ICON='<svg viewBox="0 0 460.5 552.44" aria-hidden="true"><path fill="#9DBB8E" fill-rule="evenodd" d="M315.2 208C314.2 210.5 311.6 209.4 305.5 204.1C304 202.8 301.9 201.4 300.2 200.6C296.7 198.8 289.7 195.1 288.1 194C286.5 192.9 285.9 191.3 285.7 187.1C285.3 179.9 281.6 171.4 276.3 166C268.3 157.7 264.1 155.8 238.8 149.4C235.5 148.5 229.8 146.5 224.2 144C199.8 133.5 187.4 119.1 179 91.7C177.2 85.8 176 70.5 177.2 67.8C181.5 58.3 209.1 55.2 233.9 61.4C254.3 66.5 275.8 83.9 283.7 101.6C284.5 103.5 285.8 106.2 286.6 107.6C288.4 110.6 290.6 116.2 292.5 122.2C295.4 131.6 296.2 133.2 297.6 133.2C299.4 133.2 299.8 132 301 123.4C304 100.8 314.3 75 326.3 59.9C327.3 58.7 329.2 56.3 330.5 54.6C334.3 49.6 337.1 46.7 341.8 42.6C344.3 40.5 347.2 37.9 348.4 36.8C352 33.6 356.7 30.2 362.2 26.9C365 25.2 368.8 22.8 370.5 21.7C374.7 19 382.6 15 386.5 13.6C388.2 13 392 11.5 394.8 10.4C400.3 8.2 405.7 6.5 412.3 5.1C414.5 4.6 418.7 3.7 421.5 3.1C429.4 1.3 432 1 440.6 0.4C459.4 -0.8 460.5 -0.2 460.5 10.6C460.5 29.2 452.9 56.5 443 73.6C436.2 85.2 434.9 87.2 430.4 92.1C429.1 93.6 426.9 96.1 425.6 97.6C414.3 110.8 392.6 124.9 372.5 132C353.4 138.7 335.9 151.6 328.5 164.4C320.6 178 317.3 188.2 316 202.2C315.8 204.9 315.4 207.5 315.2 208Z"/><path fill="#F2F3EB" fill-rule="evenodd" d="M0 359.9C0 253.6 86.2 167.4 192.5 167.4C298.8 167.4 385 253.6 385 359.9C385 466.2 298.8 552.4 192.5 552.4C86.2 552.4 0 466.2 0 359.9ZM103.5 360.4C103.5 414.8 143.3 458.9 192.5 458.9C241.7 458.9 281.5 414.8 281.5 360.4C281.5 306 241.7 261.9 192.5 261.9C143.3 261.9 103.5 306 103.5 360.4Z"/><path fill="#9DBB8E" fill-rule="evenodd" d="M162 347.4H180V329.4C180 322.5 185.6 316.9 192.5 316.9C199.4 316.9 205 322.5 205 329.4V347.4H223C229.9 347.4 235.5 353 235.5 359.9C235.5 366.8 229.9 372.4 223 372.4H205V390.4C205 397.3 199.4 402.9 192.5 402.9C185.6 402.9 180 397.3 180 390.4V372.4H162C155.1 372.4 149.5 366.8 149.5 359.9C149.5 353 155.1 347.4 162 347.4Z"/></svg>';
 function vOnboard(){
-  const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+  const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
   if(obStep===0) return `<div class="ob"><div class="center">${LOGO}<h1>Ett steg i taget</h1><p class="lead">En stund att gro, i din takt.</p></div>
     <div class="foot"><button class="primary" data-ob="1">Kom igång</button></div></div>`;
   if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1></div>
@@ -905,19 +906,26 @@ function vOnboard(){
     <div class="planrows">${S.plan.map((p,i)=>`<div><input type="text" data-pn="${i}" value="${esc(p.n)}" aria-label="Måltid ${i+1}"><input type="time" data-pt="${i}" value="${esc(p.t)}" aria-label="Klockslag för ${esc(p.n)}"><button data-prm="${i}" aria-label="Ta bort ${esc(p.n)}">×</button></div>`).join('')}</div>
     <button class="dashbtn" data-act="obAdd">+ Lägg till en måltid</button>
     <div class="foot"><button class="primary" data-ob="3">Fortsätt</button><button class="link-btn" style="text-align:center" data-ob="1">Tillbaka</button></div></div>`;
+  if(obStep===3) return `<div class="ob">${bars(3)}<div><h1>Skäl till förändring</h1><p class="lead">Några ord räcker. Du kan ändra dem när du vill under Jag.</p></div>
+    ${quadHTML()}
+    <div class="foot"><button class="primary" data-ob="4">Fortsätt</button><button class="link-btn" style="text-align:center" data-ob="2">Tillbaka</button></div></div>`;
   const g=S.goals.example?{}:S.goals;
-  return `<div class="ob">${bars(3)}<div><h1>Mål med vården</h1><p class="lead">Fylls i en gång, helst med din behandlare.</p></div>
+  return `<div class="ob">${bars(4)}<div><h1>Mål med vården</h1><p class="lead">Fylls i en gång, helst med din behandlare.</p></div>
     <div class="card"><div class="two-in"><div class="field"><label for="o-start">Startvikt (kg)</label><input type="number" step="0.1" min="20" max="250" id="o-start" value="${g.start??''}"></div><div class="field"><label for="o-target">Mål (kg)</label><input type="number" step="0.1" min="20" max="250" id="o-target" value="${g.target??''}"></div></div>
       </div>
     <div class="obitem" style="background:var(--soft)"><span class="ic" style="background:var(--surface)">${ICONS.info}</span><p style="color:var(--ink)">Visas aldrig i appen, bara i PDF:en.</p></div>
     <label class="switch"><span><b>Visa exempel först</b><br><span class="small muted">Påhittade loggar som du kan ta bort.</span></span><input type="checkbox" id="o-ex"></label>
-    <div class="foot"><button class="primary" data-act="obDone">Klart, till Idag</button><button class="link-btn" style="text-align:center" data-act="obSkip">Hoppa över, fyll i senare</button></div></div>`;
+    <div class="foot"><button class="primary" data-act="obDone">Klart, till Idag</button><button class="link-btn" style="text-align:center" data-ob="3">Tillbaka</button><button class="link-btn" style="text-align:center" data-act="obSkip">Hoppa över, fyll i senare</button></div></div>`;
+}
+function quadHTML(){
+  const own=!(S.reasonsExample&&!S.settings.onboarded);let h='<div class="quad">';
+  QUAD.forEach(([k,t,c])=>{h+=`<div class="qbox ${c}"><h3>${t}</h3><ul>${own?(S.reasons[k]||[]).map((r,i)=>`<li><button class="rtxt" data-redit="${k}:${i}" aria-label="Ändra: ${esc(r)}">${esc(r)}</button> <button aria-label="Ta bort" data-rdel="${k}:${i}">×</button></li>`).join(''):''}</ul>
+    <form class="addline" data-radd="${k}"><input type="text" id="r-${k}" placeholder="Skriv ett skäl" aria-label="Nytt skäl: ${t}"><button type="submit">Lägg till</button></form></div>`});
+  return h+'</div>';
 }
 function vSkal(){
-  let h=`<h2>Skäl till förändring</h2>${tip('skal','Det är okej att det finns skäl åt båda hållen.')}<div class="quad">`;
-  QUAD.forEach(([k,t,c])=>{h+=`<div class="qbox ${c}"><h3>${t}</h3><ul>${(S.reasons[k]||[]).map((r,i)=>`<li>${esc(r)} <button aria-label="Ta bort" data-rdel="${k}:${i}">×</button></li>`).join('')}</ul>
-    <form class="addline" data-radd="${k}"><input type="text" id="r-${k}" placeholder="Skriv ett skäl" aria-label="Nytt skäl: ${t}"><button type="submit">Lägg till</button></form></div>`});
-  h+=`</div><button class="ghost" data-act="reasonsPdf">Ladda ner Skäl till förändring som PDF</button><p class="small muted" id="r-msg" role="status"></p>`;
+  let h=`<h2>Skäl till förändring</h2>${tip('skal','Tryck på ett skäl för att ändra det. Det är okej att det finns skäl åt båda hållen.')}${quadHTML()}`;
+  h+=`<button class="ghost" data-act="reasonsPdf">Ladda ner Skäl till förändring som PDF</button><p class="small muted" id="r-msg" role="status"></p>`;
   return h;
 }
 
@@ -1311,10 +1319,11 @@ document.addEventListener('click',ev=>{
   const mo=t.closest('[data-mood]');if(mo){const m=mo.dataset.mood;S.moods[today()]=S.moods[today()]===m?undefined:m;save();render();return}
   const jp=t.closest('[data-jp]');if(jp){const ta=$('#j-text');ta.value=(ta.value?ta.value.replace(/\s*$/,'\n'):'')+jp.dataset.jp;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);return}
   const jd=t.closest('[data-jdel]');if(jd){if(jd.dataset.sure){S.journal=S.journal.filter(n=>n.id!==jd.dataset.jdel);save();render()}else{jd.dataset.sure='1';jd.textContent='Säker?'}return}
-  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();obStep=+ob.dataset.ob;render();toTop();return}
+  const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();if(obStep===3)QUAD.forEach(([k])=>{const n=$('#r-'+k),v=n&&n.value.trim();if(v){if(S.reasonsExample)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save()}});obStep=+ob.dataset.ob;render();toTop();return}
   const prm=t.closest('[data-prm]');if(prm){readPlan();S.plan.splice(+prm.dataset.prm,1);save();render();return}
   const sl=t.closest('[data-slot]');if(sl){const s=S.plan[+sl.dataset.slot];const past=day!==today()||toMin(s.t)<toMin(nowHM())-45;entrySheet(null,{label:MEALS.some(m=>m[0]===s.n)?s.n:guessMeal(s.t),time:past?s.t:nowHM()});return}
   const ed=t.closest('[data-edit]');if(ed){entrySheet(S.entries.find(e=>e.id===ed.dataset.edit));return}
+  const re=t.closest('[data-redit]');if(re){const[k,i]=re.dataset.redit.split(':');const v=S.reasons[k].splice(+i,1)[0];save();render();const n=$('#r-'+k);if(n){n.value=v;n.focus();n.setSelectionRange(v.length,v.length)}return}
   const rd=t.closest('[data-rdel]');if(rd){const[k,i]=rd.dataset.rdel.split(':');S.reasons[k].splice(+i,1);save();render();return}
   const lf=t.closest('#l-fear button');if(lf){ladderFear=+lf.dataset.v;lf.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===lf));return}
   const lt=t.closest('[data-ltry]');if(lt){const l=S.ladder.find(x=>x.id===lt.dataset.ltry);l.tries++;l.example=false;save();render();const r=$('#rung-'+l.id);r&&r.classList.add('pop');
@@ -1357,7 +1366,7 @@ document.addEventListener('click',ev=>{
 document.addEventListener('submit',ev=>{
   if(ev.target.id==='ladd'){ev.preventDefault();const v=$('#l-food').value.trim();if(!v)return;S.ladder.push({id:uid(),food:v,fear:ladderFear,tries:0,done:false});save();render();toast('Tillagd på stegen.');return}
   const f=ev.target.closest('[data-radd]');if(!f)return;ev.preventDefault();const k=f.dataset.radd,inp=f.querySelector('input'),v=inp.value.trim();if(!v)return;
-  S.reasonsExample=false;S.reasons[k].push(v);save();render();const n=$('#r-'+k);n&&n.focus()});
+  if(S.reasonsExample&&!S.settings.onboarded)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save();render();const n=$('#r-'+k);n&&n.focus()});
 document.addEventListener('toggle',ev=>{const d=ev.target;if(d.matches&&d.matches('[data-tip]')&&d.open){const i=+d.dataset.tip;if(!S.tipsRead.includes(i)){S.tipsRead.push(i);save()}}},true);
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
 render();
