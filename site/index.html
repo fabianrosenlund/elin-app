@@ -232,8 +232,10 @@ details.more[open] summary{margin-bottom:10px}
   @keyframes pop{from{transform:scale(.5)}}
   @keyframes spark{0%{opacity:0;transform:translateY(6px)}40%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
 }
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:var(--bg);
-  padding:12px 16px;border-radius:14px;max-width:min(92vw,460px);font-size:.95rem;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top,0px));z-index:30;background:var(--ink);color:var(--bg);
+  padding:12px 18px;border-radius:16px;width:max-content;max-width:min(calc(100vw - 32px),460px);font-size:.95rem;box-shadow:0 8px 28px rgba(0,0,0,.18);animation:toastin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,-16px)}}
+@media (prefers-reduced-motion: reduce){.toast{animation:none}}
 
 .chart svg{width:100%;height:auto;display:block}
 .chart text{fill:var(--muted);font-size:10px;font-family:var(--body)}
@@ -349,20 +351,33 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .callcard a.leafy{border-color:#93B07D}
 .callcard p{font-size:.82rem;color:#C9D3B8;line-height:1.45}
 .callcard p a{display:inline;border:0;padding:0;color:#F1F2E8;text-decoration:underline;font-weight:700}
-.breathe{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:8px 0 4px}
-.ring{position:relative;width:min(260px,72vw);aspect-ratio:1}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring .rt{fill:none;stroke:var(--soft);stroke-width:7}
-.ring .rp{fill:none;stroke:var(--leaf);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .25s linear}
-.rin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.rin b{position:relative;font-size:1.25rem;font-weight:700;color:var(--ink)}
-.pulse{position:absolute;width:58%;aspect-ratio:1;border-radius:50%;background:var(--soft);transform:scale(.72);transition:transform 4s ease-in-out}
-.ring[data-ph="in"] .pulse{transform:scale(1.12);transition-duration:4s}
-.ring[data-ph="ut"] .pulse{transform:scale(.72);transition-duration:6s}
-.ring.paused .pulse{transition:none}
-.btime{font-size:1rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.bbtn{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
-@media (prefers-reduced-motion: reduce){.pulse{transition:none!important}}
+.breathe{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;padding:4px 0}
+.orb{position:relative;width:min(280px,74vw);aspect-ratio:1}
+.orb svg{width:100%;height:100%;overflow:visible}
+.orb .halo circle{fill:var(--soft);opacity:calc(.35 + var(--k,0)*.5);transform-origin:100px 100px;transform:scale(calc(.55 + var(--k,0)*.45))}
+.orb .bloom{transform-origin:100px 100px;transform:scale(.32)}
+.orb .bloom ellipse{fill:var(--leaf);opacity:.3}
+.orb .core{fill:var(--bg)}
+.orbtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none}
+.orbtxt b{font-size:1.3rem;font-weight:700;color:var(--ink)}
+.orbtxt span{font-size:1rem;color:var(--muted);font-variant-numeric:tabular-nums;min-height:1.2em}
+.breathe.paused .orb{opacity:.6}
+.bmeta{display:flex;gap:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bmeta span:empty{display:none}
+.bset,.brun,.bdone{display:none;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.breathe[data-state="idle"] .bset,.breathe[data-state="run"] .brun,.breathe[data-state="done"] .bdone{display:flex}
+.breathe[data-state="run"] .bmeta,.breathe[data-state="idle"] #b-n{}
+.bset .seg button small{opacity:.6;font-weight:500;margin-left:2px}
+.bdone .moods{justify-content:center}
+.steps54 .pips{display:flex;gap:6px;margin-top:8px}
+.steps54 .pips i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);transition:background .2s,border-color .2s,transform .2s}
+.steps54 .pips i.on{background:var(--leaf);border-color:var(--leaf);transform:scale(1.15)}
+.steps54 li{transition:opacity .3s,box-shadow .3s}
+.steps54 li:not(.cur):not(.ok){opacity:.45}
+.steps54 li.cur{box-shadow:0 0 0 2px var(--leaf);cursor:pointer}
+.steps54 li.ok{background:var(--soft)}
+.steps54 li>span{display:flex;flex-direction:column}
+.j54done{text-align:center;padding:8px 0}
 .steps54{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
 .steps54 li{display:flex;gap:14px;align-items:center;background:var(--surface);border-radius:16px;padding:14px 16px}
 .steps54 b{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--accent);width:28px;text-align:center;flex:none}
@@ -657,7 +672,7 @@ function render(){
   if(PARENT[view]){const b=backTo||PARENT[view];h+=`<button class="back" data-tab="${b}">‹ ${BACKLBL[b]||'Tillbaka'}</button>`}
   h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips,om:vOm}[view])();
   $('#app').innerHTML=h;
-  if(view==='andas')startBreath();
+  if(view==='andas')startBreath();else stopBreath();if(view==='jord')startJord();
 }
 
 function tip(key,text){const seen=S.settings.tips||{};if(seen[key])return '';
@@ -675,14 +690,14 @@ function noteCard(e){
     <span class="meta">${e.example?'<span class="chip ex">exempel</span>':''}${e.place||e.company?`<span class="chip">${esc([e.place,e.company].filter(Boolean).join(' · '))}</span>`:''}${e.unplanned?'<span class="chip star">* oplanerat / för mycket</span>':''}${(e.beh||[]).map(b=>`<span class="chip b">${b}</span>`).join('')}${e.good.length||e.goodText?`<span class="chip g">Gott: ${esc(e.good.join(', ').toLowerCase()||'ja')}</span>`:''}${e.before!=null?`<span class="chip">Före: ${FEEL[e.before-1].toLowerCase()}${e.after!=null?', efter: '+FEEL[e.after-1].toLowerCase():''}</span>`:''}</span>
     ${e.note?`<span class="note">${esc(e.note)}</span>`:''}</span>${ph?`<img src="${ph}" alt="">`:''}</button>`;
 }
-const MOODS=[['Lugnt','Skönt. Ta med dig lugnet in i nästa måltid.'],['Okej','Okej räcker gott.'],['Tungt','Tack för att du säger det. Det är okej att det är tungt. Kanske hjälper det att andas en stund.'],['Stressigt','Stress gör maten svårare. Planen finns där så att du inte behöver bestämma allt i stunden.'],['Vet inte','Det är också ett svar. Du behöver inte veta.']];
+const MOODS=[['Lugnt','Skönt. Ta med dig lugnet in i nästa måltid.'],['Okej','Okej räcker gott.'],['Tungt','Tack för att du säger det. Andas gärna en stund.'],['Stressigt','Luta dig mot planen, du behöver inte bestämma allt nu.'],['Vet inte','Det är också ett svar.']];
 function greeting(){const h=new Date().getHours();return h<10?'God morgon':h<12?'God förmiddag':h<18?'God eftermiddag':'God kväll'}
 function vIdag(){
   day=today();
   const nowM=toMin(nowHM()), {slots,done}=planStatus(day), en=energyStatus(day), dn=drinksOn(day), mood=S.moods[day];
   const nextI=slots.findIndex(s=>!s.done&&toMin(s.t)>=nowM-60);
   const nx=nextI>=0?slots[nextI]:null;
-  const steps=[['andas','Andas i två minuter','En lugn stund för kroppen'],['tips','Läs ett tips','Korta påminnelser när det känns svårt'],['vaxa','Titta på din planta','Den växer när du tar hand om dig']];
+  const steps=[['andas','Andas en stund'],['tips','Läs ett tips'],['vaxa','Titta på din planta']];
   const st=mood==='Tungt'||mood==='Stressigt'?steps[0]:steps[new Date().getDate()%steps.length];
   return `<section class="greet"><h1>${greeting()}</h1></section>
   <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
@@ -692,12 +707,12 @@ function vIdag(){
     <div class="nextrow">${nx?`<div><small>Nästa i planen</small><b>${esc(nx.n)} ${esc(nx.t)}</b></div><button class="go" data-slot="${nextI}">Logga</button>`:`<div><small>Planen</small><b>${done===slots.length?'Allt i planen är loggat idag':'Inget mer i planen just nu'}</b></div><button class="go" data-act="new">Logga</button>`}</div>
   </section>
   <section class="daycard"><div class="drinks"><div style="min-width:0"><b class="small">Dryck</b><div class="glasses" aria-label="${dn} glas">${Array.from({length:Math.max(8,dn)},(_,i)=>glass(i<dn)).join('')}</div>
-      <p class="small muted">${dn>=6?'Fint, kroppen får vätska.':'Sikta på 6–8 glas över dagen.'}</p></div>
+</div>
       <div class="step"><button data-act="drink-" aria-label="Ta bort ett glas">−</button><button class="add" data-act="drink+" aria-label="Lägg till ett glas">+</button></div></div></section>
   <p class="eyebrow2">Hur känns det just nu?</p>
   <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
   ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
-  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b><span class="sub">${st[2]}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
+  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b></span><span class="chev" aria-hidden="true">›</span></button>`;
 }
 function vDagbok(){
   const list=entriesOn(day), isToday=day===today(), nowM=toMin(nowHM());
@@ -721,7 +736,7 @@ function vDagbok(){
   <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
   <div class="tl" aria-label="Dagens tidslinje">${tl}</div>
   ${jn.length?`<section><p class="eyebrow2">Fritt skrivet</p>${jn.map(n=>`<div class="jnote"><p>${esc(n.text)}</p><button data-jdel="${n.id}" aria-label="Ta bort anteckningen">Ta bort</button></div>`).join('')}</section>`:''}
-  <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b><span class="sub">Skriv det som finns. Bara du ser det.</span></span><span class="chev" aria-hidden="true">›</span></button>
+  <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b></span><span class="chev" aria-hidden="true">›</span></button>
   <div class="btnrow"><button class="ghost" data-act="pdf">Ladda ner som PDF till vården</button></div>`;
 }
 
@@ -765,10 +780,10 @@ function vKurvor(){
 }
 function vJourney(){
   const g=S.goals;
-  if(!S.settings.weightOn) return `<div class="card"><h3>Din resa</h3><p class="small muted">Vikten visas inte här som standard. Om du och din behandlare vill kan du slå på veckovägning under <button class="link-btn" data-act="settings">Inställningar och mål</button>. Du ser då bara hur du rör dig mot målet, inga siffror.</p></div>`;
+  if(!S.settings.weightOn) return `<div class="card"><h3>Din resa</h3><p class="small muted">Avstängd. <button class="link-btn" data-act="settings">Slå på i inställningarna</button></p></div>`;
   const w=S.weights.slice().sort((a,b)=>a.d.localeCompare(b.d));
   let h=`<div class="card journey"><div class="section-h"><h3>Din resa</h3><button class="ghost small" data-act="addWeight">Veckans vägning</button></div>`;
-  if(!g.start||!g.target||!w.length){h+=`<p class="small muted">${!g.start||!g.target?'Start och mål läggs in under Inställningar och mål, gärna tillsammans med din behandlare.':'Lägg in veckans vägning så visas din resa här.'}</p></div>`;return h}
+  if(!g.start||!g.target||!w.length){h+=`<p class="small muted">${!g.start||!g.target?'Lägg in start och mål i inställningarna.':'Lägg in veckans vägning.'}</p></div>`;return h}
   const cur=w[w.length-1].kg, f=Math.max(0,Math.min(1,(cur-g.start)/(g.target-g.start)));
   const pts=[[20,70],[90,40],[160,62],[230,30],[300,46]];
   const path='M20 70 C55 30 60 40 90 40 S130 70 160 62 S200 25 230 30 S280 50 300 46';
@@ -776,8 +791,7 @@ function vJourney(){
   h+=`<svg viewBox="0 0 320 100" role="img" aria-label="Du har kommit en bit på vägen mot ditt mål"><path d="${path}" fill="none" stroke="var(--line)" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 10"/>
     <circle cx="300" cy="46" r="10" fill="var(--soft)" stroke="var(--accent)" stroke-width="2"/><path d="M296 46l3 3 5-6" stroke="var(--accent)" stroke-width="2" fill="none"/>
     <circle cx="${px}" cy="${pts.reduce((a,p)=>Math.abs(p[0]-px)<Math.abs(a[0]-px)?p:a)[1]}" r="9" fill="var(--sun)" stroke="var(--surface)" stroke-width="3"/></svg>
-    <p class="small">${f>=1?'Du har nått det mål ni satt upp. Prata med din behandlare om vad som händer nu.':f>.5?'Du har kommit en bra bit på vägen. Kroppen tackar dig.':'Du är på väg. Varje vecka med regelbundna måltider tar dig framåt.'}</p>
-    <p class="small muted">Vikten i sig visas inte här. Siffrorna finns i PDF:en till din behandlare.</p></div>`;
+    <p class="small">${f>=1?'Du har nått det mål ni satt upp. Prata med din behandlare om vad som händer nu.':f>.5?'Du har kommit en bra bit på vägen. Kroppen tackar dig.':'Du är på väg. Varje vecka med regelbundna måltider tar dig framåt.'}</p></div>`;
   return h;
 }
 
@@ -834,7 +848,7 @@ function vFramsteg(){
 function vMinnen(){
   const M=S.entries.filter(e=>e.photo||e.good.length||e.goodText).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
   let h=`<h2>Minnen</h2>${tip('minnen','Stunder när maten var god. Bläddra här när det känns svårt.')}`;
-  if(!M.length) return h+`<div class="card empty">Inga minnen än. När du loggar kan du fota maten och svara på vad som var gott, så hamnar det här.</div>`;
+  if(!M.length) return h+`<div class="card empty">Inga minnen än.</div>`;
   h+='<div class="mem">'+M.map(e=>{const ph=e.photo?getPhoto(e.id):null;const g=[e.good.join(', '),e.goodText].filter(Boolean).join('. ');
     return `<button class="memc" data-edit="${e.id}">${ph?`<img src="${ph}" alt="${esc(e.what)}">`:`<div class="nophoto">${esc(g||e.what)}</div>`}
     <div class="b"><b>${esc(e.what)}</b>${g&&ph?`<span class="small">${esc(g)}</span>`:''}<small>${esc(e.label||'')} · ${esc(shortDate(e.date))}${e.company?' · '+esc(e.company):''}${e.example?' · exempel':''}</small></div></button>`}).join('')+'</div>';
@@ -847,8 +861,8 @@ function vJag(){
   const row=(attr,ic,t,sub)=>`<button ${attr}><span class="ic">${ICONS[ic]}</span><span><b>${t}</b>${sub?`<small>${sub}</small>`:''}</span><span class="chev" aria-hidden="true">›</span></button>`;
   return `<div class="pagehead"><h1>Jag</h1></div>
   <button class="plantcard" data-go="vaxa">${pl.svg}<span><b>${esc(st)}</b><small>${p} blad</small></span><span class="chev" aria-hidden="true">›</span></button>
-  <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor','Mönster i måltider, oro och dryck')}${row('data-go="skal"','skal','Skäl till förändring','Arbetsbladet, åt båda hållen')}${row('data-go="minnen"','foto','Minnen','Måltider du vill komma ihåg')}${row('data-act="pdf"','pdf','PDF till vården','Självobservationen som blanketten')}</div>
-  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål','Plan, mål med vården, dina uppgifter')}${row('data-go="om"','info','Om Grostund','Integritet och trygghet')}</div>`;
+  <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor')}${row('data-go="skal"','skal','Skäl till förändring')}${row('data-go="minnen"','foto','Minnen')}${row('data-act="pdf"','pdf','PDF till vården')}</div>
+  <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål')}${row('data-go="om"','info','Om Grostund')}</div>`;
 }
 function vStod(){
   const sms='sms:?&body='+encodeURIComponent('Hej, jag har det lite tufft just nu. Kan du höra av dig när du kan?');
@@ -860,38 +874,88 @@ function vStod(){
     <p>Chatt på <a href="https://friskfri.se" target="_blank" rel="noopener">friskfri.se</a> · Närstående 0200-125 085 · Under 18: Bris 116 111 · Mind 90101</p></section>
   <p class="eyebrow2">Verktyg för stunden</p>
   <div class="menu">
-    <button data-go="andas"><span class="ic">${ICONS.vaxa}</span><span><b>Andas i två minuter</b><small>Följ cirkeln, in och ut</small></span><span class="chev" aria-hidden="true">›</span></button>
-    <button data-go="jord"><span class="ic">${ICONS.idag}</span><span><b>Jordning: 5-4-3-2-1</b><small>Landa i rummet med dina sinnen</small></span><span class="chev" aria-hidden="true">›</span></button>
-    <a href="${sms}"><span class="ic">${ICONS.stod}</span><span><b>Skicka ett meddelande</b><small>Till någon du litar på</small></span><span class="chev" aria-hidden="true">›</span></a>
-    <button data-go="tips"><span class="ic">${ICONS.tips}</span><span><b>Tips när maten känns svår</b><small>Korta påminnelser</small></span><span class="chev" aria-hidden="true">›</span></button>
+    <button data-go="andas"><span class="ic">${ICONS.vaxa}</span><span><b>Andas</b></span><span class="chev" aria-hidden="true">›</span></button>
+    <button data-go="jord"><span class="ic">${ICONS.idag}</span><span><b>Jordning 5-4-3-2-1</b></span><span class="chev" aria-hidden="true">›</span></button>
+    <a href="${sms}"><span class="ic">${ICONS.stod}</span><span><b>Skriv till någon du litar på</b></span><span class="chev" aria-hidden="true">›</span></a>
+    <button data-go="tips"><span class="ic">${ICONS.tips}</span><span><b>Tips när maten känns svår</b></span><span class="chev" aria-hidden="true">›</span></button>
   </div>`;
 }
 function vSkriv(){
   const P=['Något som var svårt idag: ','Något som var okej: ','Det jag vill säga till mig själv: '];
-  return `<div class="pagehead"><div><h1>Skriv fritt</h1><p class="muted">Bara du ser det.</p></div></div>
+  return `<div class="pagehead"><h1>Skriv fritt</h1></div>
   <label for="j-text" style="font-weight:700">Vad behöver du just nu?</label>
   <textarea id="j-text" class="jtext" placeholder="Skriv fritt här"></textarea>
   <p class="eyebrow2">Behöver du en ingång?</p>
   <div class="prompts">${P.map(t=>`<button data-jp="${esc(t)}">${esc(t.replace(/: $/,''))}</button>`).join('')}</div>
   <button class="primary" data-act="saveJournal">Spara i dagboken</button>`;
 }
+const BREATH={lugn:{n:'Lugn',seq:[['in',4],['ut',6]]},fyrkant:{n:'Fyrkant',seq:[['in',4],['håll',4],['ut',4],['vila',4]]},somna:{n:'Somna',seq:[['in',4],['håll',7],['ut',8]]}};
+const BWORD={in:'Andas in','håll':'Håll',ut:'Andas ut',vila:'Vila'};
+function bloomSvg(){let p='';for(let i=0;i<8;i++)p+=`<ellipse cx="100" cy="62" rx="22" ry="40" transform="rotate(${i*45} 100 100)"/>`;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true"><g class="halo"><circle cx="100" cy="100" r="96"/></g><g id="b-bloom" class="bloom">${p}</g><circle class="core" cx="100" cy="100" r="30"/></svg>`}
 function vAndas(){
-  const R=46,C=2*Math.PI*R;
-  return `<div class="pagehead"><div><h1>Andas i två minuter</h1><p class="muted">In i fyra sekunder, ut i sex. Avsluta när du vill.</p></div></div>
-  <section class="breathe" aria-label="Andningsövning">
-    <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="rt"/><circle cx="50" cy="50" r="${R}" class="rp" id="b-prog" style="stroke-dasharray:${C};stroke-dashoffset:${C}"/></svg>
-      <div class="rin"><i class="pulse"></i><b id="b-word" aria-live="polite">Andas in</b></div></div>
-    <p class="btime" id="b-time">02:00</p>
-    <div class="bbtn"><button class="primary" id="b-pause">Pausa</button><button class="ghost" data-tab="${backTo||'stod'}">Avsluta</button></div></section>`;
+  const b=S.settings.breath||(S.settings.breath={p:'lugn',min:2,sound:false});
+  return `<div class="pagehead"><h1>Andas</h1></div>
+  <section class="breathe" id="breathe" data-state="idle" aria-label="Andningsövning">
+    <div class="orb">${bloomSvg()}<div class="orbtxt"><b id="b-word" aria-live="polite">Redo?</b><span id="b-count"></span></div></div>
+    <div class="bmeta"><span id="b-time">${String(b.min).padStart(2,'0')}:00</span><span id="b-n"></span></div>
+    <div class="bset">
+      <div class="seg" id="b-pat" role="group" aria-label="Rytm">${Object.entries(BREATH).map(([k,v])=>`<button type="button" data-v="${k}" aria-pressed="${b.p===k}">${v.n} <small>${v.seq.map(x=>x[1]).join('-')}</small></button>`).join('')}</div>
+      <div class="seg" id="b-min" role="group" aria-label="Längd">${[1,2,3,5].map(m=>`<button type="button" data-v="${m}" aria-pressed="${b.min===m}">${m} min</button>`).join('')}</div>
+      <label class="switch"><span>Ljud</span><input type="checkbox" id="b-sound" ${b.sound?'checked':''}></label>
+      <button class="primary" id="b-start">Börja</button></div>
+    <div class="brun"><button class="primary" id="b-pause">Pausa</button><button class="ghost" id="b-stop">Avsluta</button></div>
+    <div class="bdone"><p class="bigq">Hur känns det nu?</p><div class="moods">${['Lugnare','Ungefär samma','Fortfarande tungt'].map(m=>`<button data-bfeel="${m}">${m}</button>`).join('')}</div>
+      <button class="ghost" id="b-again">En gång till</button></div>
+  </section>`;
 }
-let breathT=null;
-function startBreath(){clearInterval(breathT);const pr=$('#b-prog');if(!pr)return;const C=2*Math.PI*46,TOT=120;let t=0,paused=false;
-  const tick=()=>{if(!$('#b-prog')){clearInterval(breathT);return}if(paused)return;t=Math.min(TOT,t+.25);const ph=t%10;
-    $('#b-word').textContent=t>=TOT?'Bra gjort':ph<4?'Andas in':'Andas ut';
-    const left=Math.ceil(TOT-t);$('#b-time').textContent=`0${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;
-    pr.style.strokeDashoffset=C*(1-t/TOT);document.querySelector('.ring').dataset.ph=ph<4?'in':'ut';if(t>=TOT){clearInterval(breathT);$('#b-pause').textContent='Börja om';paused='done'}};
-  $('#b-pause').onclick=()=>{if(paused==='done'){startBreath();return}paused=!paused;$('#b-pause').textContent=paused?'Fortsätt':'Pausa';document.querySelector('.ring').classList.toggle('paused',paused)};
-  tick();breathT=setInterval(tick,250)}
+let breathRun=null;
+function stopBreath(){if(breathRun){cancelAnimationFrame(breathRun.raf);breathRun.audio&&breathRun.audio.close().catch(()=>{});breathRun.lock&&breathRun.lock.release().catch(()=>{});breathRun=null}}
+function startBreath(){
+  stopBreath();const sec=$('#breathe');if(!sec)return;const b=S.settings.breath;
+  const bloom=$('#b-bloom'),word=$('#b-word'),cnt=$('#b-count'),tm=$('#b-time'),nn=$('#b-n');
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const setScale=(k,ph)=>{bloom.style.transform=`scale(${.32+.68*k}) rotate(${RM?0:k*40}deg)`;sec.style.setProperty('--k',k.toFixed(3));sec.dataset.ph=ph||''};
+  setScale(0);
+  const pick=(id,key,num)=>$(id).addEventListener('click',e=>{const bt=e.target.closest('button');if(!bt)return;b[key]=num?+bt.dataset.v:bt.dataset.v;save();
+    $(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===bt));if(key==='min')tm.textContent=String(b.min).padStart(2,'0')+':00'});
+  pick('#b-pat','p');pick('#b-min','min',true);
+  $('#b-sound').onchange=e=>{b.sound=e.target.checked;save()};
+  const ease=x=>.5-.5*Math.cos(Math.PI*x);
+  function tone(ac,ph,dur){if(!ac||ph==='håll'||ph==='vila')return;const o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter(),t=ac.currentTime;
+    f.type='lowpass';f.frequency.value=900;o.type='sine';o.frequency.setValueAtTime(ph==='in'?196:262,t);o.frequency.linearRampToValueAtTime(ph==='in'?262:196,t+dur);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+Math.min(1.2,dur/3));g.gain.linearRampToValueAtTime(0,t+dur);o.connect(f).connect(g).connect(ac.destination);o.start(t);o.stop(t+dur+.05)}
+  function run(){
+    const seq=BREATH[b.p].seq,cyc=seq.reduce((a,x)=>a+x[1],0),TOT=b.min*60;
+    const st={t0:performance.now(),pausedAt:0,pausedTot:0,last:-1,raf:0,audio:null,lock:null};breathRun=st;
+    if(b.sound){try{st.audio=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+    try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>{st.lock=l}).catch(()=>{})}catch(e){}
+    sec.dataset.state='run';$('#b-pause').textContent='Pausa';
+    let k=0;
+    const frame=now=>{if(!$('#breathe')){stopBreath();return}
+      if(st.pausedAt){st.raf=requestAnimationFrame(frame);return}
+      const t=(now-st.t0-st.pausedTot)/1000;
+      if(t>=TOT&&(t%cyc)<.3||t>=TOT+cyc){finish();return}
+      let x=t%cyc,i=0;while(x>=seq[i][1]){x-=seq[i][1];i++}
+      const [ph,d]=seq[i],f=x/d,idx=Math.floor(t/cyc)*seq.length+i;
+      if(idx!==st.last){st.last=idx;tone(st.audio,ph,d);try{navigator.vibrate&&navigator.vibrate(ph==='in'?30:ph==='ut'?[15,60,15]:0)}catch(e){}
+        word.textContent=BWORD[ph]}
+      k=ph==='in'?ease(f):ph==='ut'?1-ease(f):ph==='håll'?1:0;
+      setScale(k,ph);cnt.textContent=Math.ceil(d-x);
+      const left=Math.max(0,Math.ceil(TOT-t));tm.textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;
+      const n=Math.floor(t/cyc);nn.textContent=n?`${n} andetag`:'';
+      st.raf=requestAnimationFrame(frame)};
+    st.raf=requestAnimationFrame(frame);
+    $('#b-pause').onclick=()=>{if(st.pausedAt){st.pausedTot+=performance.now()-st.pausedAt;st.pausedAt=0;$('#b-pause').textContent='Pausa';sec.classList.remove('paused')}
+      else{st.pausedAt=performance.now();$('#b-pause').textContent='Fortsätt';sec.classList.add('paused');word.textContent='Paus';cnt.textContent=''}};
+    $('#b-stop').onclick=()=>{stopBreath();sec.dataset.state='idle';word.textContent='Redo?';cnt.textContent='';nn.textContent='';tm.textContent=String(b.min).padStart(2,'0')+':00';setScale(0)};
+  }
+  function finish(){stopBreath();sec.dataset.state='done';setScale(.5,'done');word.textContent='Bra gjort';cnt.textContent='';tm.textContent='00:00'}
+  $('#b-start').onclick=run;$('#b-again').onclick=run;
+  sec.querySelectorAll('[data-bfeel]').forEach(x=>x.onclick=()=>{const m=x.dataset.bfeel;
+    if(m==='Fortfarande tungt'){helpSheet()}else{toast(m==='Lugnare'?'Skönt. Du kan komma hit när du vill.':'Det är okej. Ibland behövs en stund till.')}
+    sec.dataset.state='idle';word.textContent='Redo?';nn.textContent='';tm.textContent=String(b.min).padStart(2,'0')+':00';setScale(0)});
+}
 function vOm(){
   const c=(ic,t,body)=>`<div class="card"><h3><span class="ic">${ICONS[ic]}</span>${t}</h3><p class="small muted">${body}</p></div>`;
   return `<h2>Om Grostund</h2><div class="about">
@@ -903,11 +967,16 @@ function vOm(){
   </div><button class="ghost" data-act="settings">Inställningar och dina uppgifter</button>`;
 }
 function vJord(){
-  const L=[['5','saker du kan se'],['4','saker du kan känna eller röra vid'],['3','ljud du kan höra'],['2','dofter du kan känna'],['1','smak i munnen, eller något du tycker om']];
-  return `<div class="pagehead"><div><h1>Jordning 5-4-3-2-1</h1><p class="muted">Gå igenom i lugn takt.</p></div></div>
-  <ol class="steps54">${L.map(([n,t])=>`<li><b>${n}</b><span>${t}</span></li>`).join('')}</ol>
-  <p class="small muted">Känns det fortfarande mycket? Andas en stund, eller hör av dig till någon. Stödlinjerna finns under Stöd.</p>`;
+  const L=[[5,'saker du kan se'],[4,'saker du kan känna eller röra vid'],[3,'ljud du kan höra'],[2,'dofter du kan känna'],[1,'smak i munnen, eller något du tycker om']];
+  return `<div class="pagehead"><h1>Jordning 5-4-3-2-1</h1></div>
+  <ol class="steps54" id="j54">${L.map(([n,t],i)=>`<li data-i="${i}" ${i?'':'class="cur"'}><b>${n}</b><span>${t}<span class="pips">${Array.from({length:n},()=>'<i></i>').join('')}</span></span></li>`).join('')}</ol>
+  <div class="j54done" hidden><p class="bigq">Du är här, nu.</p><div class="btnrow"><button class="ghost" data-go="andas">Andas en stund</button><button class="ghost" id="j-again">Börja om</button></div></div>`;
 }
+function startJord(){const ol=$('#j54');if(!ol)return;
+  ol.addEventListener('click',e=>{const li=e.target.closest('li.cur');if(!li)return;const p=li.querySelector('.pips i:not(.on)');if(!p)return;p.classList.add('on');try{navigator.vibrate&&navigator.vibrate(12)}catch(_){}
+    if(!li.querySelector('.pips i:not(.on)')){li.classList.remove('cur');li.classList.add('ok');const nx=li.nextElementSibling;
+      if(nx){nx.classList.add('cur');nx.scrollIntoView({behavior:'smooth',block:'center'})}else{$('.j54done').hidden=false;$('.j54done').scrollIntoView({behavior:'smooth',block:'center'})}}});
+  $('#j-again').onclick=()=>{render()}}
 const SPROUT_ICON='<svg viewBox="0 0 460.5 552.44" aria-hidden="true"><path fill="#9DBB8E" fill-rule="evenodd" d="M315.2 208C314.2 210.5 311.6 209.4 305.5 204.1C304 202.8 301.9 201.4 300.2 200.6C296.7 198.8 289.7 195.1 288.1 194C286.5 192.9 285.9 191.3 285.7 187.1C285.3 179.9 281.6 171.4 276.3 166C268.3 157.7 264.1 155.8 238.8 149.4C235.5 148.5 229.8 146.5 224.2 144C199.8 133.5 187.4 119.1 179 91.7C177.2 85.8 176 70.5 177.2 67.8C181.5 58.3 209.1 55.2 233.9 61.4C254.3 66.5 275.8 83.9 283.7 101.6C284.5 103.5 285.8 106.2 286.6 107.6C288.4 110.6 290.6 116.2 292.5 122.2C295.4 131.6 296.2 133.2 297.6 133.2C299.4 133.2 299.8 132 301 123.4C304 100.8 314.3 75 326.3 59.9C327.3 58.7 329.2 56.3 330.5 54.6C334.3 49.6 337.1 46.7 341.8 42.6C344.3 40.5 347.2 37.9 348.4 36.8C352 33.6 356.7 30.2 362.2 26.9C365 25.2 368.8 22.8 370.5 21.7C374.7 19 382.6 15 386.5 13.6C388.2 13 392 11.5 394.8 10.4C400.3 8.2 405.7 6.5 412.3 5.1C414.5 4.6 418.7 3.7 421.5 3.1C429.4 1.3 432 1 440.6 0.4C459.4 -0.8 460.5 -0.2 460.5 10.6C460.5 29.2 452.9 56.5 443 73.6C436.2 85.2 434.9 87.2 430.4 92.1C429.1 93.6 426.9 96.1 425.6 97.6C414.3 110.8 392.6 124.9 372.5 132C353.4 138.7 335.9 151.6 328.5 164.4C320.6 178 317.3 188.2 316 202.2C315.8 204.9 315.4 207.5 315.2 208Z"/><path fill="#F2F3EB" fill-rule="evenodd" d="M0 359.9C0 253.6 86.2 167.4 192.5 167.4C298.8 167.4 385 253.6 385 359.9C385 466.2 298.8 552.4 192.5 552.4C86.2 552.4 0 466.2 0 359.9ZM103.5 360.4C103.5 414.8 143.3 458.9 192.5 458.9C241.7 458.9 281.5 414.8 281.5 360.4C281.5 306 241.7 261.9 192.5 261.9C143.3 261.9 103.5 306 103.5 360.4Z"/><path fill="#9DBB8E" fill-rule="evenodd" d="M162 347.4H180V329.4C180 322.5 185.6 316.9 192.5 316.9C199.4 316.9 205 322.5 205 329.4V347.4H223C229.9 347.4 235.5 353 235.5 359.9C235.5 366.8 229.9 372.4 223 372.4H205V390.4C205 397.3 199.4 402.9 192.5 402.9C185.6 402.9 180 397.3 180 390.4V372.4H162C155.1 372.4 149.5 366.8 149.5 359.9C149.5 353 155.1 347.4 162 347.4Z"/></svg>';
 function vOnboard(){
   const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
@@ -999,9 +1068,9 @@ function entrySheet(e,preset){
     const chipList=(name,opts,val)=>`<div class="seg" data-pick="${name}">${opts.map(o=>`<button type="button" data-v="${esc(o)}" aria-pressed="${val===o}">${esc(o)}</button>`).join('')}</div>`;
     const faces=(name,val)=>`<div class="faces" data-scale="${name}">${FEEL.map((l,i)=>`<button type="button" data-v="${i+1}" aria-pressed="${val===i+1}">${face(i+1)}${l}</button>`).join('')}</div>`;
     function feelReact(){
-      if(d.before>=4&&d.after!=null&&d.after<d.before) return `<p class="react">Oron sjönk efteråt. Lägg märke till det, det är kroppen som lär sig att maten är trygg.</p>`;
+      if(d.before>=4&&d.after!=null&&d.after<d.before) return `<p class="react">Oron sjönk efteråt. Kroppen lär sig att maten är trygg.</p>`;
       if(d.before>=4) return `<p class="react l">Du åt fast oron var hög. Det är precis så förändring går till.</p>`;
-      if(d.after>=4) return `<p class="react l">Det låter tufft just nu. Känslan brukar gå över. Under Tips finns saker att göra efter maten.</p>`;
+      if(d.after>=4) return `<p class="react l">Det låter tufft. Känslan brukar gå över.</p>`;
       if(d.before!=null&&d.before<=2) return `<p class="react">Skönt att det kändes ganska lugnt.</p>`;
       return '';
     }
@@ -1132,7 +1201,7 @@ function celebrate(d,gained,ladder){
 
 function helpSheet(){
   openSheet(`<header><h2>Hjälp och stöd</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
-  <p class="muted">Du behöver inte klara allt själv. Här finns människor som vill hjälpa.</p>
+  
   <div class="help-list">
    <div class="help-item urgent"><b>Akut fara för liv eller hälsa</b><span class="num">112</span><span class="small">Ring om du eller någon annan är i fara just nu.</span></div>
    <div class="help-item"><b>Självmordstankar</b><span class="num">90101</span><span class="small">Självmordslinjen, Mind. Du kan också chatta på <a href="https://mind.se" target="_blank" rel="noopener">mind.se</a>.</span></div>
@@ -1157,7 +1226,7 @@ function settingsSheet(){
       <button class="ghost" type="submit">Spara målen</button></form></details>
      </div>
    <div class="card"><div class="switch"><label for="s-weight"><b>Veckovägning och Din resa</b><br><span class="small muted">Slå på om ni kommit överens om det.</span></label><input type="checkbox" id="s-weight" ${S.settings.weightOn?'checked':''}></div></div>
-   <div class="card"><h3>Måltidsplan</h3><p class="small muted">Ett tillfälle per rad, t.ex. <em>Lunch 12:00</em>.</p>
+   <div class="card"><h3>Måltidsplan</h3>
      <textarea id="s-plan" aria-label="Måltidsplan">${esc(S.plan.map(p=>p.n+' '+p.t).join('\n'))}</textarea><button class="ghost" data-act="savePlan">Spara planen</button></div>
    <div class="card"><h3>Påminnelser</h3><button class="ghost" data-act="ics">Lägg in påminnelser i kalendern</button></div>
    <div class="card"><h3>Till din behandlare</h3><button class="ghost" data-act="pdf">Ladda ner PDF</button></div>
@@ -1190,7 +1259,7 @@ function pdfPreview(from,to,withEx){
 function pdfSheet(){
   const to=day, from=addDays(day,-6);
   openSheet(`<header><h2>Ladda ner som PDF</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
-   <p class="muted">PDF:en ser ut som pappersblanketten för självobservation, med en sida per dag. Ta med den till ditt nästa samtal eller skicka den till din behandlare.</p>
+   <p class="muted">Som pappersblanketten, en sida per dag.</p>
    <div class="pdfwrap" id="p-prev"></div>
    <div class="two"><div class="field"><label for="p-from">Från</label><input type="date" id="p-from" value="${from}" max="${today()}"></div>
    <div class="field"><label for="p-to">Till</label><input type="date" id="p-to" value="${to}" max="${today()}"></div></div>
@@ -1356,7 +1425,7 @@ document.addEventListener('click',ev=>{
   if(act==='obDone'||act==='obSkip'){const keep=$('#o-ex')&&$('#o-ex').checked;const num=id=>{const el=$(id);const v=el?parseFloat(el.value):NaN;return isFinite(v)&&v>0?v:null};
     const st=num('#o-start'),tg=num('#o-target');if(!keep)clearExamples();
     if(act==='obDone'&&st){Object.assign(S.goals,{start:st,target:tg,startDate:today(),pace:0.5,example:false})}
-    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();toTop();toast(keep?'Välkommen. Exemplen kan du ta bort när du vill.':'Välkommen. Allt här är ditt.')}
+    S.settings.onboarded=true;S.settings.noticeHidden=true;S.plan.sort((a,b)=>a.t.localeCompare(b.t));save();view='idag';render();toTop();toast('Välkommen till Grostund.',2600)}
   if(act==='close')closeSheet();
   if(act==='help')helpSheet();
   if(act==='settings')settingsSheet();
