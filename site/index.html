@@ -398,6 +398,29 @@ body.ob nav.tabs{display:none}
 .ob .field input{width:100%}
 .daycard>.drinks:first-child{border-top:0;padding-top:0}
 .plantcard svg{overflow:visible}
+
+/* ---- Layout language inspired by established Swedish care apps: floating tab bar, big titles with a short rule, quiet list rows ---- */
+nav.tabs{background:transparent;border-top:0;padding:0 max(14px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));pointer-events:none}
+nav.tabs .in{pointer-events:auto;background:var(--surface);border-radius:30px;padding:7px;box-shadow:0 6px 24px rgba(20,30,22,.12),0 1px 3px rgba(20,30,22,.08);max-width:560px}
+nav.tabs button{border-radius:24px;padding:9px 0 7px;font-size:.76rem;color:var(--ink);transition:background .2s}
+nav.tabs button[aria-current="page"]{background:var(--soft)}
+nav.tabs button[aria-current="page"] svg{color:var(--ink)}
+nav.tabs button[aria-current="page"] span::after{display:none}
+.pagehead h1,#app>h2{font-size:2rem;line-height:1.15;letter-spacing:-.025em}
+.pagehead h1::after,#app>h2::after{content:"";display:block;width:34px;height:4px;border-radius:2px;background:var(--line);margin-top:14px}
+.eyebrow2{font-size:1.15rem;font-weight:700;letter-spacing:-.01em;color:var(--ink);text-transform:none;margin-top:8px}
+.menu{border-radius:20px}
+.menu button,.menu a{grid-template-columns:28px 1fr auto;gap:16px;border-top:0;padding:18px 18px;position:relative;min-height:64px}
+.menu button+button::before,.menu button+a::before,.menu a+button::before,.menu a+a::before{content:"";position:absolute;top:0;left:62px;right:18px;border-top:1px solid var(--line)}
+.menu .ic{width:28px;height:28px;background:none;border-radius:0;color:var(--ink)}
+.menu .ic svg{width:26px;height:26px}
+.menu b{font-weight:500;font-size:1.05rem;font-family:var(--body)}
+.menu small{display:none}
+.menu .chev{font-size:1.5rem;font-weight:300}
+.primary{border-radius:16px;padding:16px 20px}
+.compose{border-radius:20px;padding:20px 20px}
+.compose .go{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--leaf);color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;font-size:1.3rem;font-weight:700}
+.card,.daycard{border-radius:20px}
 </style>
 </head>
 <body>
@@ -660,9 +683,8 @@ function vIdag(){
   const nx=nextI>=0?slots[nextI]:null;
   const steps=[['andas','Andas i två minuter','En lugn stund för kroppen'],['tips','Läs ett tips','Korta påminnelser när det känns svårt'],['vaxa','Titta på din planta','Den växer när du tar hand om dig']];
   const st=mood==='Tungt'||mood==='Stressigt'?steps[0]:steps[new Date().getDate()%steps.length];
-  return `<section class="greet"><h1>${greeting()}</h1><p>Hur känns det just nu? Det finns inga fel svar.</p></section>
-  <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
-  ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
+  return `<section class="greet"><h1>${greeting()}</h1></section>
+  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
   <section class="daycard">
     <div class="leafrow" role="img" aria-label="${done} av ${slots.length} tillfällen i planen loggade">${slots.map(s=>leafIcon(s.done)).join('')}<span class="lbl">${done} av ${slots.length} i planen</span></div>
     ${en?`<div class="energy"><div class="ebar" role="img" aria-label="Energi idag"><i style="width:${Math.max(6,en.frac*100)}%"></i></div><p class="small muted">${esc(en.msg)}</p></div>`:''}
@@ -671,8 +693,10 @@ function vIdag(){
   <section class="daycard"><div class="drinks"><div style="min-width:0"><b class="small">Dryck</b><div class="glasses" aria-label="${dn} glas">${Array.from({length:Math.max(8,dn)},(_,i)=>glass(i<dn)).join('')}</div>
       <p class="small muted">${dn>=6?'Fint, kroppen får vätska.':'Sikta på 6–8 glas över dagen.'}</p></div>
       <div class="step"><button data-act="drink-" aria-label="Ta bort ett glas">−</button><button class="add" data-act="drink+" aria-label="Lägg till ett glas">+</button></div></div></section>
-  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b><span class="sub">${st[2]}</span></span><span class="chev" aria-hidden="true">›</span></button>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span><small>Skriv i dagboken, gärna direkt efter maten</small></span></button>`;
+  <p class="eyebrow2">Hur känns det just nu?</p>
+  <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
+  ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
+  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b><span class="sub">${st[2]}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
 }
 function vDagbok(){
   const list=entriesOn(day), isToday=day===today(), nowM=toMin(nowHM());
@@ -693,7 +717,7 @@ function vDagbok(){
   return `<div class="pagehead"><h1>Dagbok</h1></div>
   <div class="dayhead"><div><p class="eyebrow">${isToday?'Idag':'Tillbakablick'}</p><p class="date">${esc(cap(dayLabel(day)))}</p></div>
     <div class="daynav"><button data-act="prev" aria-label="Föregående dag">‹</button><button data-act="next" aria-label="Nästa dag" ${isToday?'disabled':''}>›</button></div></div>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span><small>Skriv i dagboken, gärna direkt efter maten</small></span></button>
+  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
   <div class="tl" aria-label="Dagens tidslinje">${tl}</div>
   ${jn.length?`<section><p class="eyebrow2">Fritt skrivet</p>${jn.map(n=>`<div class="jnote"><p>${esc(n.text)}</p><button data-jdel="${n.id}" aria-label="Ta bort anteckningen">Ta bort</button></div>`).join('')}</section>`:''}
   <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b><span class="sub">Skriv det som finns. Bara du ser det.</span></span><span class="chev" aria-hidden="true">›</span></button>
