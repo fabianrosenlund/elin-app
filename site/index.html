@@ -21,8 +21,8 @@
    Layout: a diary on paper. One column; Idag is a day page with a dotted timeline where entries land at their time. Brand from the logo: forest ink, two leaf greens, paper. User's own words in the logo's rounded type. */
 :root{
   --bg:#F2F3EB; --surface:#FAFBF5; --sunk:#E6EADC; --ink:#25372B; --muted:#66705F;
-  --line:#D6DBC8; --accent:#4A7052; --accent-ink:#F7F8F1; --soft:#DCE5D0; --leaf:#86A97A;
-  --lilac:#5F7F95; --lilac-soft:#E2E9EC; --warm:#A9563C; --warm-soft:#F4E2D8; --sun:#D49B3A; --water:#5E8FAE; --water-soft:#E1EBF0;
+  --line:#D6DBC8; --accent:#4A7052; --accent-ink:#F7F8F1; --soft:#DCE5D0; --leaf:#708C5A;
+  --lilac:#5F7F95; --lilac-soft:#E2E9EC; --warm:#A9563C; --warm-soft:#F4E2D8; --sun:#D49B3A; --water:#708C5A; --water-soft:#DCE5D0;
   --display:"Noto Sans", system-ui, -apple-system, sans-serif;
   --body:"Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --hand:"Noto Sans", system-ui, sans-serif;
@@ -30,12 +30,12 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#6E8F5E;
-  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#8DB8D4; --water-soft:#22323B; color-scheme:dark}}
+  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#6E8F5E;
-  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#8DB8D4; --water-soft:#22323B; color-scheme:dark}
+  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);overscroll-behavior:none;-webkit-tap-highlight-color:transparent;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{position:fixed;inset:0;width:100%;margin:0}
@@ -59,14 +59,16 @@ button{cursor:pointer}
 
 header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:max(20px,calc(env(safe-area-inset-top,0px) + 10px))}
 .logo{display:inline-flex;line-height:0;color:var(--ink)}
-.logo svg{height:2.6rem;width:auto;display:block}.logo .lk{fill:var(--ink)}.logo .lg{fill:var(--leaf)}
+.logo svg{height:2.05rem;width:auto;display:block}
+.ob .logo svg{height:3.3rem}.logo .lk{fill:var(--ink)}.logo .lg{fill:var(--leaf)}
 .brand{display:flex;flex-direction:column;gap:2px}
 .brand small{color:var(--muted);font-size:.78rem;letter-spacing:.04em}
 .help-btn{background:var(--warm-soft);color:var(--warm);border:0;padding:9px 14px;border-radius:999px;font-weight:700;font-size:.9rem;white-space:nowrap}
 .notice{border-left:3px solid var(--leaf);padding:4px 0 4px 14px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 .notice p{min-width:0}
 .link-btn{background:none;border:0;color:var(--accent);font-weight:700;padding:0;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-align:left}
-.example-bar{border:1.5px dashed var(--line);border-radius:14px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;font-size:.88rem;color:var(--muted)}
+.example-bar{background:var(--sunk);border-radius:999px;padding:8px 16px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.example-bar .link-btn{padding:6px 0}
 
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);
   padding:6px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
@@ -138,7 +140,7 @@ nav.tabs button[aria-current="page"] span::after{content:"";position:absolute;le
 .card{background:var(--surface);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .section-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
 .lead{color:var(--muted);max-width:60ch}
-.back{background:none;border:0;color:var(--accent);font-weight:700;padding:0;align-self:flex-start}
+.back{background:none;border:0;color:var(--accent);font-weight:700;padding:10px 14px 10px 0;margin:-6px 0;min-height:44px;align-self:flex-start}
 
 /* Mer menu */
 .menu{display:flex;flex-direction:column;background:var(--surface);border-radius:var(--r);overflow:hidden}
@@ -292,7 +294,10 @@ details.more[open] summary{margin-bottom:10px}
 .num{font-size:1.4rem;font-weight:700;letter-spacing:-.01em;user-select:all;font-variant-numeric:tabular-nums}
 footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px}
 .switch{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.switch input{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.switch input{appearance:none;-webkit-appearance:none;width:50px;height:30px;border-radius:999px;background:var(--line);position:relative;flex:none;cursor:pointer;transition:background .2s;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch input:checked{background:var(--accent)}.switch input:checked::after{transform:translateX(20px)}
+.switch input:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
 .pdfwrap{background:var(--tile,#DFE6D2);border-radius:16px;padding:14px 12px 10px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .pdfprev{background:#fff;color:#111;width:100%;aspect-ratio:297/210;box-shadow:0 2px 10px rgba(44,58,47,.18);border-radius:3px;padding:4.5% 4% 3%;font-family:Arial,Helvetica,sans-serif;font-size:clamp(5px,1.65vw,7.5px);line-height:1.25;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
 .pdfprev .pt{font-size:1.7em;font-weight:700;text-align:center;margin-bottom:.4em}
@@ -306,7 +311,7 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .journey svg{width:100%;height:auto;display:block}
 
 .top .logo{font-size:2rem}
-.stod-btn{background:var(--soft);color:var(--ink);border:0;padding:9px 14px;border-radius:999px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.stod-btn{background:var(--soft);color:var(--ink);border:0;padding:10px 14px;min-height:40px;flex:none;border-radius:999px;font-weight:700;font-size:.88rem;white-space:nowrap}
 .greet h1{font-size:1.75rem;line-height:1.22}
 .greet p{color:var(--muted);margin-top:4px}
 .moods{display:flex;flex-wrap:wrap;gap:8px}
@@ -359,7 +364,8 @@ footer.disc{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line
 .steps54 b{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--accent);width:28px;text-align:center;flex:none}
 .plantcard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:0;border-radius:var(--r);padding:14px 16px}
 .plantcard svg{width:64px;height:64px;flex:none}
-.plantcard span{flex:1;min-width:0}
+.plantcard>span:not(.chev){flex:1;min-width:0}
+.plantcard .chev{flex:none;color:var(--muted);font-size:1.3rem}
 .plantcard b{display:block;font-family:var(--display);font-size:1.05rem}
 .plantcard small{color:var(--muted)}
 body.ob nav.tabs{display:none}
@@ -401,7 +407,11 @@ body.ob nav.tabs{display:none}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (function(){
-const KEY='elin.v1', PKEY='elin.ph.';
+const KEY='grostund.v1', PKEY='grostund.ph.';
+/* Move data saved under the app's old name to the new keys, once. */
+try{if(!localStorage.getItem(KEY)){const OLD='el'+'in.v1',OLDP='el'+'in.ph.',old=localStorage.getItem(OLD);
+  if(old){localStorage.setItem(KEY,old);const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(OLDP))ks.push(k)}
+    ks.forEach(k=>{localStorage.setItem(PKEY+k.slice(OLDP.length),localStorage.getItem(k));localStorage.removeItem(k)});localStorage.removeItem(OLD)}}}catch(e){}
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad=n=>String(n).padStart(2,'0');
@@ -616,7 +626,7 @@ function render(){
   const hasEx=S.entries.some(e=>e.example)||S.reasonsExample||S.ladder.some(l=>l.example)||S.goals.example;
   let h=`<header class="top"><div class="brand">${LOGO}</div>${cur==='stod'?'':'<button class="stod-btn" data-tab="stod">Behöver du stöd nu?</button>'}</header>`;
   if(!S.settings.noticeHidden) h+=`<div class="notice"><p class="small"><strong>Grostund är inte vård.</strong> Appen är ett stöd för att logga och reflektera, gärna tillsammans med din behandlare. Den ställer inga diagnoser och ersätter inte kontakt med vården. Vid akut fara, ring 112.</p><p class="small" style="margin-top:8px"><strong>Det du skriver är ditt.</strong> Allt du skriver sparas bara i webbläsaren på din telefon. Ingen annan kan se det, inte heller den som gav dig appen. Om du rensar webbläsardata försvinner det.</p><button class="link-btn small" data-act="hideNotice">Jag förstår</button></div>`;
-  if(hasEx) h+=`<div class="example-bar"><span>Det du ser är <strong>exempel</strong>, så att du kan känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort exemplen</button></div>`;
+  if(hasEx) h+=`<div class="example-bar"><span>Du ser <strong>exempel</strong> för att känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort</button></div>`;
   if(!storageOk) h+=`<div class="example-bar">Webbläsaren tillåter inte att Grostund sparar allt. Det du skriver kan försvinna när du stänger sidan.</div>`;
   if(PARENT[view]){const b=backTo||PARENT[view];h+=`<button class="back" data-tab="${b}">‹ ${BACKLBL[b]||'Tillbaka'}</button>`}
   h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips}[view])();
@@ -867,7 +877,7 @@ function vJord(){
 const SPROUT_ICON='<svg viewBox="0 0 460.5 552.44" aria-hidden="true"><path fill="#9DBB8E" fill-rule="evenodd" d="M315.2 208C314.2 210.5 311.6 209.4 305.5 204.1C304 202.8 301.9 201.4 300.2 200.6C296.7 198.8 289.7 195.1 288.1 194C286.5 192.9 285.9 191.3 285.7 187.1C285.3 179.9 281.6 171.4 276.3 166C268.3 157.7 264.1 155.8 238.8 149.4C235.5 148.5 229.8 146.5 224.2 144C199.8 133.5 187.4 119.1 179 91.7C177.2 85.8 176 70.5 177.2 67.8C181.5 58.3 209.1 55.2 233.9 61.4C254.3 66.5 275.8 83.9 283.7 101.6C284.5 103.5 285.8 106.2 286.6 107.6C288.4 110.6 290.6 116.2 292.5 122.2C295.4 131.6 296.2 133.2 297.6 133.2C299.4 133.2 299.8 132 301 123.4C304 100.8 314.3 75 326.3 59.9C327.3 58.7 329.2 56.3 330.5 54.6C334.3 49.6 337.1 46.7 341.8 42.6C344.3 40.5 347.2 37.9 348.4 36.8C352 33.6 356.7 30.2 362.2 26.9C365 25.2 368.8 22.8 370.5 21.7C374.7 19 382.6 15 386.5 13.6C388.2 13 392 11.5 394.8 10.4C400.3 8.2 405.7 6.5 412.3 5.1C414.5 4.6 418.7 3.7 421.5 3.1C429.4 1.3 432 1 440.6 0.4C459.4 -0.8 460.5 -0.2 460.5 10.6C460.5 29.2 452.9 56.5 443 73.6C436.2 85.2 434.9 87.2 430.4 92.1C429.1 93.6 426.9 96.1 425.6 97.6C414.3 110.8 392.6 124.9 372.5 132C353.4 138.7 335.9 151.6 328.5 164.4C320.6 178 317.3 188.2 316 202.2C315.8 204.9 315.4 207.5 315.2 208Z"/><path fill="#F2F3EB" fill-rule="evenodd" d="M0 359.9C0 253.6 86.2 167.4 192.5 167.4C298.8 167.4 385 253.6 385 359.9C385 466.2 298.8 552.4 192.5 552.4C86.2 552.4 0 466.2 0 359.9ZM103.5 360.4C103.5 414.8 143.3 458.9 192.5 458.9C241.7 458.9 281.5 414.8 281.5 360.4C281.5 306 241.7 261.9 192.5 261.9C143.3 261.9 103.5 306 103.5 360.4Z"/><path fill="#9DBB8E" fill-rule="evenodd" d="M162 347.4H180V329.4C180 322.5 185.6 316.9 192.5 316.9C199.4 316.9 205 322.5 205 329.4V347.4H223C229.9 347.4 235.5 353 235.5 359.9C235.5 366.8 229.9 372.4 223 372.4H205V390.4C205 397.3 199.4 402.9 192.5 402.9C185.6 402.9 180 397.3 180 390.4V372.4H162C155.1 372.4 149.5 366.8 149.5 359.9C149.5 353 155.1 347.4 162 347.4Z"/></svg>';
 function vOnboard(){
   const bars=n=>`<div class="bars" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
-  if(obStep===0) return `<div class="ob"><div class="center"><div class="appicon">${SPROUT_ICON}</div>${LOGO}<h1>Ett steg i taget</h1><p class="lead">Stöd när du vill ha det. I din takt, utan krav och utan siffror.</p></div>
+  if(obStep===0) return `<div class="ob"><div class="center">${LOGO}<h1>Ett steg i taget</h1><p class="lead">Stöd när du vill ha det. I din takt, utan krav och utan siffror.</p></div>
     <div class="foot"><button class="primary" data-ob="1">Kom igång</button><p class="small muted">Allt du skriver sparas bara på din telefon.</p><p class="small muted">Grostund är ett stöd och ersätter inte vård eller behandling.</p></div></div>`;
   if(obStep===1) return `<div class="ob">${bars(1)}<div><h1>Innan vi börjar</h1><p class="lead">Tre saker som är bra att veta om Grostund.</p></div>
     <div class="obitem"><span class="ic">${ICONS.shield}</span><div><b>Grostund är inte vård</b><p>Ett stöd att logga och reflektera, gärna tillsammans med din behandlare.</p></div></div>
@@ -1252,7 +1262,7 @@ function drawReasons(doc){
       doc.setFont('helvetica','normal');doc.setFontSize(9.5);let yy=cy+21;
       (S.reasons[k]||[]).forEach(r=>{const ls=doc.splitTextToSize('• '+r,gw-8);if(yy+ls.length*4.2<cy+gh-2){doc.text(ls,cx+4,yy);yy+=ls.length*4.2+1.5}})});
 }
-window.__elinBuildPdf=buildPdf;
+window.__grostundBuildPdf=buildPdf;
 async function downloadReasons(){
   const msg=$('#r-msg');
   if(!Object.values(S.reasons).some(a=>a.length)){msg.textContent='Skriv minst ett skäl först, så finns det något att ladda ner.';return}
@@ -1263,7 +1273,7 @@ async function downloadReasons(){
   try{msg.textContent=await saveFile(doc.output('blob'),'skal-till-forandring-'+today()+'.pdf')}
   catch(e){msg.textContent=e&&e.code==='declined'?'Nedladdningen avbröts.':e&&e.code==='rate_limited'?'Vänta en stund och försök igen.':'Det gick inte att spara filen här.'}
 }
-window.__elinReasons=()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);return doc.output('blob')};
+window.__grostundReasons=()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});drawReasons(doc);return doc.output('blob')};
 
 async function saveFile(blob,name,kind='PDF:en'){
   let dl=null;try{dl=ON_CLAUDE?await window.claude.use('downloads'):null}catch(e){dl=null}
@@ -1324,7 +1334,7 @@ document.addEventListener('click',ev=>{
     <p class="small muted">Gärna samma veckodag och tid som du kommit överens om med din behandlare. Siffran sparas till PDF:en och visas inte i appen.</p><button class="primary" type="submit">Spara</button></form>`,()=>{
     $('#wf').addEventListener('submit',e=>{e.preventDefault();const kg=parseFloat($('#w-kg').value);if(!kg)return;S.weights=S.weights.filter(w=>w.d!==today());S.weights.push({d:today(),kg});save();closeSheet();render();toast('Sparat. Tack för att du gör det här.')})})}
   if(act==='ics'){const p2=n=>String(n).padStart(2,'0'),d=new Date(),ds=`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}`;
-    const ev=S.plan.map((x,i)=>{const [h,m]=x.t.split(':');return ['BEGIN:VEVENT',`UID:elin-${ds}-${i}@elin`,`DTSTAMP:${ds}T000000Z`,`DTSTART:${ds}T${p2(h)}${p2(m)}00`,'DURATION:PT15M','RRULE:FREQ=DAILY',`SUMMARY:${x.n} 🌱`,'DESCRIPTION:Dags för '+x.n.toLowerCase()+'. Logga i Grostund när du vill.','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+x.n,'TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n')});
+    const ev=S.plan.map((x,i)=>{const [h,m]=x.t.split(':');return ['BEGIN:VEVENT',`UID:grostund-${ds}-${i}@grostund`,`DTSTAMP:${ds}T000000Z`,`DTSTART:${ds}T${p2(h)}${p2(m)}00`,'DURATION:PT15M','RRULE:FREQ=DAILY',`SUMMARY:${x.n} 🌱`,'DESCRIPTION:Dags för '+x.n.toLowerCase()+'. Logga i Grostund när du vill.','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+x.n,'TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n')});
     const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Grostund//SV','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
     saveFile(new Blob([ics],{type:'text/calendar'}),'grostund-paminnelser.ics','Kalenderfilen').then(m=>toast(m+' Öppna den och välj Lägg till alla.'));return}
   if(act==='savePlan'){const lines=$('#s-plan').value.split('\n').map(l=>l.trim()).filter(Boolean);

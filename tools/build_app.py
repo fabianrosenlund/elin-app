@@ -1,6 +1,6 @@
 import sys,json
 from PIL import Image
-import os; R=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); src=R+'/src/elin.html'; out=R+'/site/'
+import os; R=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); src=R+'/src/grostund.html'; out=R+'/site/'
 url=sys.argv[1] if len(sys.argv)>1 else ''; key=sys.argv[2] if len(sys.argv)>2 else ''
 s=open(src,encoding='utf-8').read()
 assert s.count("const ESTIMATE_URL='', ESTIMATE_KEY='';")==1
