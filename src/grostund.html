@@ -487,6 +487,7 @@ nav.tabs .plusbtn svg{width:26px;height:26px}
 .wgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .wgrid div{background:var(--surface);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column}
 .wgrid small{font-size:.8rem;color:var(--muted)}.wgrid b{font-size:1.1rem;margin:4px 0 1px}.wgrid span{font-size:.8rem;color:var(--muted)}
+a.ghost{color:inherit;text-decoration:none;display:block}
 .pc .pill{background:none;padding:0;border-radius:0;color:inherit}
 .pc .art{right:-22px;top:-22px;bottom:auto;width:96px;height:96px}
 .pc b{max-width:100%;white-space:normal}
@@ -506,6 +507,29 @@ const KEY='grostund.v1', PKEY='grostund.ph.';
 try{if(!localStorage.getItem(KEY)){const OLD='el'+'in.v1',OLDP='el'+'in.ph.',old=localStorage.getItem(OLD);
   if(old){localStorage.setItem(KEY,old);const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(OLDP))ks.push(k)}
     ks.forEach(k=>{localStorage.setItem(PKEY+k.slice(OLDP.length),localStorage.getItem(k));localStorage.removeItem(k)});localStorage.removeItem(OLD)}}}catch(e){}
+/* ---- Move and backup: copy everything saved on this phone to a file or to another address ---- */
+const OLDHOST=/^prejektelin\./.test(location.hostname), NEWURL='https://grostund.netlify.app/';
+function dumpData(withPhotos=true){const o={grostund:1,at:new Date().toISOString(),data:null,photos:{}};
+  try{o.data=localStorage.getItem(KEY);if(withPhotos)for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PKEY))o.photos[k.slice(PKEY.length)]=localStorage.getItem(k)}}catch(e){}return o}
+function mergeData(inc){
+  if(!inc||!inc.grostund||!inc.data)throw new Error('fel');
+  const B=JSON.parse(inc.data);let A=null;try{A=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  let out;
+  if(!A||!A.settings||!A.settings.onboarded){out=B}
+  else{out=A;const byId=(x,y)=>{const ids=new Set((x||[]).map(e=>e.id));return [...(x||[]),...(y||[]).filter(e=>!ids.has(e.id))]};
+    out.entries=byId(A.entries.filter(e=>!e.example),B.entries);out.journal=byId(A.journal,B.journal);out.ladder=byId((A.ladder||[]).filter(l=>!l.example),B.ladder);
+    out.moods=Object.assign({},B.moods,A.moods);out.drinks=Object.assign({},B.drinks,A.drinks);out.weights=byId(A.weights,B.weights);
+    if(B.reasons&&!B.reasonsExample){out.reasons=out.reasonsExample?{}:(out.reasons||{});Object.keys(B.reasons).forEach(k=>{out.reasons[k]=[...new Set([...(out.reasons[k]||[]),...B.reasons[k]])]});out.reasonsExample=false}
+    if(A.goals&&A.goals.example&&B.goals)out.goals=B.goals;
+    out.paths=Object.assign({},B.paths,A.paths);}
+  localStorage.setItem(KEY,JSON.stringify(out));
+  Object.entries(inc.photos||{}).forEach(([id,u])=>{try{if(!localStorage.getItem(PKEY+id))localStorage.setItem(PKEY+id,u)}catch(e){}});
+  return (B.entries||[]).filter(e=>!e.example).length;
+}
+const b64=str=>btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64=t=>decodeURIComponent(escape(atob(t.replace(/-/g,'+').replace(/_/g,'/'))));
+let MOVED=null;
+try{const m=location.hash.match(/^#flytt=(.+)$/);if(m){MOVED=mergeData(JSON.parse(unb64(m[1])));history.replaceState(null,'',location.pathname)}}catch(e){MOVED=-1;history.replaceState(null,'',location.pathname)}
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad=n=>String(n).padStart(2,'0');
@@ -718,7 +742,12 @@ const BACKLBL={idag:'Idag',dagbok:'Dagbok',ovn:'Övningar',stod:'Hjälp nu',jag:
 let backTo=null, obStep=0;
 const QUOTES=['Varje måltid är ett steg, oavsett hur den gick.','Du behöver inte känna dig redo för att äta. Det räcker att du gör det.','Regelbundet slår perfekt.','Mat är energi, värme och gemenskap.','Små steg räknas också.','Ångest stiger och sjunker. Den går över.','Din kropp förtjänar att få äta sig mätt.'];
 
+function vMove(){
+  const k=S.entries.filter(e=>!e.example).length,n=k+S.journal.length;
+  return `<div class="ob"><div class="center">${LOGO}<h1>Grostund har flyttat</h1><p class="lead">${n?`${k} loggar finns på den här telefonen.`:'Inget sparat här.'}</p></div>
+    <div class="foot">${n?`<button class="primary" data-act="moveGo">Flytta till Grostund</button><button class="ghost" data-act="backupSave">Spara en kopia som fil</button>`:''}<a class="ghost" style="text-align:center" href="${NEWURL}">Öppna Grostund</a><p class="small muted" id="mv-msg" role="status"></p></div></div>`}
 function render(){
+  if(OLDHOST){document.body.classList.add('ob');$('#tabs').innerHTML='';$('#app').innerHTML=vMove();return}
   document.body.classList.toggle('ob',!S.settings.onboarded);
   if(!S.settings.onboarded){$('#tabs').innerHTML='';$('#app').innerHTML=vOnboard();return}
   const cur=PARENT[view]?(backTo&&TABS.some(t=>t[0]===backTo)?backTo:PARENT[view]):view;
@@ -1345,6 +1374,8 @@ function settingsSheet(){
    <div class="card"><h3>Påminnelser</h3><button class="ghost" data-act="ics">Lägg in påminnelser i kalendern</button></div>
    <div class="card"><h3>Till din behandlare</h3><button class="ghost" data-act="pdf">Ladda ner PDF</button></div>
    <div class="card"><h3>Dina uppgifter</h3><p class="small muted">Sparas bara på den här telefonen.</p>
+     <div class="btnrow"><button class="ghost" data-act="backupSave">Spara en kopia</button><label class="ghost" for="bk-file">Läs in en kopia</label><input type="file" id="bk-file" accept=".json,application/json" hidden></div>
+     <p class="small muted" id="bk-msg" role="status"></p>
      <button class="ghost" data-act="wipe">Radera allt jag skrivit</button></div>`,()=>{
     $('#s-weight').addEventListener('change',ev=>{S.settings.weightOn=ev.target.checked;save();render()});
         $('#gf').addEventListener('submit',ev=>{ev.preventDefault();
@@ -1574,6 +1605,10 @@ document.addEventListener('click',ev=>{
   if(act==='savePlan'){const lines=$('#s-plan').value.split('\n').map(l=>l.trim()).filter(Boolean);
     const p=lines.map(l=>{const m=l.match(/^(.*?)\s*(\d{1,2})[:.](\d{2})$/);return m?{n:m[1]||'Måltid',t:pad(+m[2])+':'+m[3]}:null}).filter(Boolean);
     if(p.length){S.plan=p.sort((a,b)=>a.t.localeCompare(b.t));save();render();toast('Planen är sparad.')}else toast('Skriv ett tillfälle per rad med klockslag, t.ex. Lunch 12:00.')}
+  if(act==='backupSave'){const m=$('#bk-msg')||$('#mv-msg');saveFile(new Blob([JSON.stringify(dumpData())],{type:'application/json'}),'grostund-kopia-'+today()+'.json','Kopian').then(t=>{if(m)m.textContent=t}).catch(()=>{if(m)m.textContent='Det gick inte att spara kopian.'})}
+  if(act==='moveGo'){let d=dumpData(true),u=NEWURL+'#flytt='+b64(JSON.stringify(d));
+    if(u.length>1500000){d=dumpData(false);u=NEWURL+'#flytt='+b64(JSON.stringify(d));const m=$('#mv-msg');if(m)m.textContent='Fotona är för stora för att flytta så här. Spara en kopia som fil för att få med dem.'}
+    location.href=u}
   if(act==='wipe'){if(a.dataset.sure){S.entries.forEach(e=>delPhoto(e.id));S=JSON.parse(JSON.stringify(DEFAULT));S.reasons=EMPTY_R();S.reasonsExample=false;S.settings.noticeHidden=true;S.settings.onboarded=true;save();closeSheet();render();toast('Allt är raderat.')}else{a.dataset.sure='1';a.textContent='Tryck igen för att radera allt'}}
 });
 document.addEventListener('submit',ev=>{
@@ -1581,7 +1616,11 @@ document.addEventListener('submit',ev=>{
   const f=ev.target.closest('[data-radd]');if(!f)return;ev.preventDefault();const k=f.dataset.radd,inp=f.querySelector('input'),v=inp.value.trim();if(!v)return;
   if(S.reasonsExample&&!S.settings.onboarded)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save();render();const n=$('#r-'+k);n&&n.focus()});
 document.addEventListener('toggle',ev=>{const d=ev.target;if(d.matches&&d.matches('[data-tip]')&&d.open){const i=+d.dataset.tip;if(!S.tipsRead.includes(i)){S.tipsRead.push(i);save()}}},true);
+document.addEventListener('change',ev=>{if(ev.target.id!=='bk-file')return;const f=ev.target.files&&ev.target.files[0];if(!f)return;
+  f.text().then(t=>{const n=mergeData(JSON.parse(t));try{sessionStorage.setItem('grostund.moved',String(n))}catch(e){}location.reload()}).catch(()=>{const m=$('#bk-msg');if(m)m.textContent='Filen gick inte att läsa. Välj en kopia från Grostund.'})});
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
 render();
+try{const sm=sessionStorage.getItem('grostund.moved');if(sm!=null){sessionStorage.removeItem('grostund.moved');MOVED=+sm}}catch(e){}
+if(MOVED!=null)setTimeout(()=>toast(MOVED<0?'Flytten gick inte. Prova att spara en kopia som fil i stället.':`Klart. ${MOVED} loggar har flyttats hit.`,4500),300);
 })();
 </script>
