@@ -29,12 +29,12 @@
   --r:18px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --bg:#141C16; --surface:#1F2A22; --sunk:#26332A; --ink:#EEF1E6; --muted:#A9B3A6;
+  --line:#33403A; --accent:#9CBF88; --accent-ink:#141C16; --soft:#2E4636; --leaf:#9DBB8E;
   --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#1C231E; --surface:#242D26; --sunk:#2D382F; --ink:#E6EBDD; --muted:#A3AE9B;
-  --line:#3A473C; --accent:#9CBF88; --accent-ink:#1C231E; --soft:#2F3D31; --leaf:#9DBB8E;
+  --bg:#141C16; --surface:#1F2A22; --sunk:#26332A; --ink:#EEF1E6; --muted:#A9B3A6;
+  --line:#33403A; --accent:#9CBF88; --accent-ink:#141C16; --soft:#2E4636; --leaf:#9DBB8E;
   --lilac:#9DB9CC; --lilac-soft:#27343B; --warm:#E59A7E; --warm-soft:#3B2A23; --sun:#E3B25A; --water:#9DBB8E; --water-soft:#2F3D31; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);overscroll-behavior:none;-webkit-tap-highlight-color:transparent;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
@@ -437,6 +437,75 @@ nav.tabs button[aria-current="page"] span::after{display:none}
 .compose{border-radius:20px;padding:20px 20px}
 .compose .go{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--leaf);color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;font-size:1.3rem;font-weight:700}
 .card,.daycard{border-radius:20px}
+
+/* ---- Concept 2026-11-18: floating bar with centre plus, sections with "Se alla", program cards ---- */
+nav.tabs .in{grid-template-columns:repeat(5,1fr);align-items:center;border-radius:34px}
+nav.tabs .plusbtn{width:56px;height:56px;margin:-2px auto;border-radius:50%;background:var(--ink);color:var(--bg);padding:0;justify-content:center;box-shadow:0 6px 16px rgba(20,30,22,.25);transition:transform .15s}
+nav.tabs .plusbtn:active{transform:scale(.92)}
+nav.tabs .plusbtn svg{width:26px;height:26px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.tabs .plusbtn{background:var(--leaf);color:#141C16}}
+:root[data-theme="dark"] nav.tabs .plusbtn{background:var(--leaf);color:#141C16}
+.stod-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface)}
+.stod-btn svg{width:16px;height:16px}
+.greet p{margin-top:2px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 -8px;font-size:.75rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.sec button{background:none;border:0;padding:6px 0;color:var(--accent);font-weight:700;letter-spacing:0;text-transform:none;font-size:.9rem}
+.plancard{background:var(--soft);border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.plancard .nextrow{border-top:0;padding-top:0}
+.plancard .leafrow .lbl{margin-left:auto;color:var(--muted);font-weight:600}
+.drinkrow{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid color-mix(in srgb,var(--ink) 10%,transparent);padding-top:12px}
+.drinkrow .step button{background:var(--surface)}
+.hrow{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+.hrow::-webkit-scrollbar{display:none}
+.pc{flex:none;width:min(62vw,230px);height:150px;border:0;border-radius:22px;padding:14px 16px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;scroll-snap-align:start;color:var(--ink);transition:transform .15s}
+.pc:active{transform:scale(.97)}
+.pc .pill{font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;opacity:.75;position:relative;z-index:1}
+.pc b{font-size:1.2rem;line-height:1.18;max-width:68%;position:relative;z-index:1}
+.pc .art{position:absolute;right:-28px;bottom:-28px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--a1) 0 30%,var(--a2) 31% 58%,transparent 59%)}
+.t1{background:#DCE5D0;--a1:#B5C9A3;--a2:#708C5A}.t2{background:#EFE3CF;--a1:#E2C98F;--a2:#A8824F}.t3{background:#DCE6EE;--a1:#A9C8DC;--a2:#5B7C93}.t4{background:#E6DFF0;--a1:#CDBFE3;--a2:#7E6A99}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .t1{background:#2E4636;--a1:#9DBB8E;--a2:#5E7F55}:root:not([data-theme="light"]) .t2{background:#4A3E30;--a1:#E2C98F;--a2:#9C7E58}:root:not([data-theme="light"]) .t3{background:#2C3A4A;--a1:#A9D0E4;--a2:#5B7C93}:root:not([data-theme="light"]) .t4{background:#3D3550;--a1:#D7C8EA;--a2:#7E6A99}}
+:root[data-theme="dark"] .t1{background:#2E4636;--a1:#9DBB8E;--a2:#5E7F55}:root[data-theme="dark"] .t2{background:#4A3E30;--a1:#E2C98F;--a2:#9C7E58}:root[data-theme="dark"] .t3{background:#2C3A4A;--a1:#A9D0E4;--a2:#5B7C93}:root[data-theme="dark"] .t4{background:#3D3550;--a1:#D7C8EA;--a2:#7E6A99}
+.hero{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;width:100%;border:0;border-radius:24px;padding:22px 18px;background:linear-gradient(160deg,var(--soft),color-mix(in srgb,var(--soft) 70%,var(--leaf)));color:var(--ink)}
+.hero small{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hero b{font-size:1.6rem;line-height:1.15}
+.hero .go{margin-top:8px;background:var(--ink);color:var(--bg);border-radius:14px;padding:10px 26px;font-weight:700}
+.segbar{display:flex;gap:5px;justify-content:center;margin:6px 0 2px}
+.segbar i{width:26px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--ink) 15%,transparent);transition:background .3s}
+.segbar i.on{background:var(--leaf)}
+.segbar.big{justify-content:flex-start}.segbar.big i{flex:1;height:8px;border-radius:4px}
+.segbar i.pop{animation:segpop .5s ease-out}@keyframes segpop{50%{transform:scaleY(1.8)}}
+.pathnow{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.pathnow small{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.pathnow b{font-size:1.3rem;line-height:1.3}
+.pathnow.done{background:var(--soft)}
+.pathlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.pathlist li{display:flex;gap:14px;align-items:flex-start;padding:10px 4px;color:var(--muted)}
+.pathlist li.cur{color:var(--ink);font-weight:700}
+.pathlist li.ok{color:var(--ink)}
+.pathlist .n{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.pathlist li.ok .n{background:var(--leaf);border-color:var(--leaf);color:var(--bg)}
+.pathlist li.cur .n{border-color:var(--leaf);color:var(--accent)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:0;border-radius:18px;padding:14px 16px}
+.opt b{display:block;font-size:1.05rem}.opt small{color:var(--muted);font-size:.85rem}
+.oic{width:46px;height:46px;flex:none;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--a2)}
+.oic svg{width:24px;height:24px}
+.moods.big button{padding:14px 20px;font-size:1rem}
+.week{display:flex;gap:4px;align-items:stretch}
+.week button{flex:1;min-width:0;border:0;background:var(--surface);border-radius:14px;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.week button small{font-size:.7rem;color:var(--muted)}
+.week button b{font-size:1.05rem}
+.week button i{width:5px;height:5px;border-radius:50%;background:transparent;margin-top:2px}.week button i.on{background:var(--leaf)}
+.week button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}.week button[aria-pressed="true"] small{color:inherit;opacity:.75}
+.week .wnav{flex:0 0 22px;background:none;color:var(--muted);font-size:1.3rem;padding:0}.week .wnav:disabled{opacity:.25}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wgrid div{background:var(--surface);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column}
+.wgrid small{font-size:.8rem;color:var(--muted)}.wgrid b{font-size:1.1rem;margin:4px 0 1px}.wgrid span{font-size:.8rem;color:var(--muted)}
+.pc .pill{background:none;padding:0;border-radius:0;color:inherit}
+.pc .art{right:-22px;top:-22px;bottom:auto;width:96px;height:96px}
+.pc b{max-width:100%;white-space:normal}
+.hrow{scroll-padding-inline:16px}
+.plancard{--line:color-mix(in srgb,var(--ink) 28%,transparent)}
 </style>
 </head>
 <body>
@@ -622,6 +691,12 @@ const ICONS={
   shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6z"/></svg>',
   idag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
   minnen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
+  ovn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 13C12 8 9 5.5 4.5 5.5 4.5 10 7.5 13 12 13z"/><path d="M12 11c0-4.5 2.8-7.5 7.5-7.5 0 4.6-3 7.5-7.5 7.5z"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg>',
+  face:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c2 2 5 2 7 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>',
+  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/></svg>',
+  leaf:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 19C5 10 11 5 20 4c0 9-5 15-15 15z"/></svg>',
   vaxa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 13C12 8 9 5.5 4.5 5.5 4.5 10 7.5 13 12 13z"/><path d="M12 11c0-4.5 2.8-7.5 7.5-7.5 0 4.6-3 7.5-7.5 7.5z"/></svg>',
   kurvor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M5 15l4-4 3 3 6-7"/></svg>',
   mer:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5.5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/></svg>',
@@ -654,23 +729,23 @@ function face(level){
   const eyes=level===5?'<path d="M11 14l3 1.5M25 14l-3 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>':'<circle cx="13" cy="15" r="1.6" fill="currentColor"/><circle cx="23" cy="15" r="1.6" fill="currentColor"/>';
   return `<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="${fill}" stroke="currentColor" stroke-width="1.4"/>${eyes}<path d="M11 24 Q18 ${24+k} 25 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
 }
-const TABS=[['idag','Idag'],['dagbok','Dagbok'],['stod','Stöd'],['jag','Jag']];
-const PARENT={om:'jag',skriv:'dagbok',andas:'stod',jord:'stod',tips:'stod',vaxa:'jag',kurvor:'jag',skal:'jag',minnen:'jag'};
-const BACKLBL={idag:'Idag',dagbok:'Dagbok',stod:'Stöd',jag:'Jag'};
+const TABS=[['idag','Idag'],['dagbok','Dagbok'],['plus',''],['ovn','Övningar'],['jag','Jag']];
+const PARENT={om:'jag',skriv:'dagbok',andas:'ovn',jord:'ovn',tips:'ovn',vag:'ovn',stod:'idag',vaxa:'jag',kurvor:'jag',skal:'jag',minnen:'jag'};
+const BACKLBL={idag:'Idag',dagbok:'Dagbok',ovn:'Övningar',stod:'Hjälp nu',jag:'Jag'};
 let backTo=null, obStep=0;
 const QUOTES=['Varje måltid är ett steg, oavsett hur den gick.','Du behöver inte känna dig redo för att äta. Det räcker att du gör det.','Regelbundet slår perfekt.','Mat är energi, värme och gemenskap.','Små steg räknas också.','Ångest stiger och sjunker. Den går över.','Din kropp förtjänar att få äta sig mätt.'];
 
 function render(){
   document.body.classList.toggle('ob',!S.settings.onboarded);
   if(!S.settings.onboarded){$('#tabs').innerHTML='';$('#app').innerHTML=vOnboard();return}
-  const cur=PARENT[view]||view;
-  $('#tabs').innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${cur===k?'aria-current="page"':''}>${ICONS[k]}<span>${l}</span></button>`).join('');
+  const cur=PARENT[view]?(backTo&&TABS.some(t=>t[0]===backTo)?backTo:PARENT[view]):view;
+  $('#tabs').innerHTML=TABS.map(([k,l])=>k==='plus'?`<button class="plusbtn" data-act="plus" aria-label="Logga">${ICONS.plus}</button>`:`<button data-tab="${k}" ${cur===k?'aria-current="page"':''}>${ICONS[k]}<span>${l}</span></button>`).join('');
   const hasEx=S.entries.some(e=>e.example)||S.reasonsExample||S.ladder.some(l=>l.example)||S.goals.example;
-  let h=`<header class="top"><div class="brand">${LOGO}</div>${cur==='stod'?'':'<button class="stod-btn" data-tab="stod">Behöver du stöd nu?</button>'}</header>`;
+  let h=`<header class="top"><div class="brand">${LOGO}</div>${view==='stod'?'':`<button class="stod-btn" data-go="stod">${ICONS.stod}Hjälp nu</button>`}</header>`;
   if(hasEx) h+=`<div class="example-bar"><span>Du ser <strong>exempel</strong> för att känna dig för.</span><button class="link-btn" data-act="clearEx">Ta bort</button></div>`;
   if(!storageOk) h+=`<div class="example-bar">Webbläsaren tillåter inte att Grostund sparar allt. Det du skriver kan försvinna när du stänger sidan.</div>`;
   if(PARENT[view]){const b=backTo||PARENT[view];h+=`<button class="back" data-tab="${b}">‹ ${BACKLBL[b]||'Tillbaka'}</button>`}
-  h+=({idag:vIdag,dagbok:vDagbok,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips,om:vOm}[view])();
+  h+=({idag:vIdag,dagbok:vDagbok,ovn:vOvn,vag:vVag,stod:vStod,jag:vJag,skriv:vSkriv,andas:vAndas,jord:vJord,minnen:vMinnen,vaxa:vFramsteg,kurvor:vKurvor,skal:vSkal,tips:vTips,om:vOm}[view])();
   $('#app').innerHTML=h;
   if(view==='andas')startBreath();else stopBreath();if(view==='jord')startJord();
 }
@@ -694,25 +769,30 @@ const MOODS=[['Lugnt','Skönt. Ta med dig lugnet in i nästa måltid.'],['Okej',
 function greeting(){const h=new Date().getHours();return h<10?'God morgon':h<12?'God förmiddag':h<18?'God eftermiddag':'God kväll'}
 function vIdag(){
   day=today();
-  const nowM=toMin(nowHM()), {slots,done}=planStatus(day), en=energyStatus(day), dn=drinksOn(day), mood=S.moods[day];
+  const nowM=toMin(nowHM()), {slots,done}=planStatus(day), dn=drinksOn(day), mood=S.moods[day];
   const nextI=slots.findIndex(s=>!s.done&&toMin(s.t)>=nowM-60);
   const nx=nextI>=0?slots[nextI]:null;
-  const steps=[['andas','Andas en stund'],['tips','Läs ett tips'],['vaxa','Titta på din planta']];
-  const st=mood==='Tungt'||mood==='Stressigt'?steps[0]:steps[new Date().getDate()%steps.length];
-  return `<section class="greet"><h1>${greeting()}</h1></section>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
-  <section class="daycard">
-    <div class="leafrow" role="img" aria-label="${done} av ${slots.length} tillfällen i planen loggade">${slots.map(s=>leafIcon(s.done)).join('')}<span class="lbl">${done} av ${slots.length} i planen</span></div>
-    ${en?`<div class="energy"><div class="ebar" role="img" aria-label="Energi idag"><i style="width:${Math.max(6,en.frac*100)}%"></i></div><p class="small muted">${esc(en.msg)}</p></div>`:''}
-    <div class="nextrow">${nx?`<div><small>Nästa i planen</small><b>${esc(nx.n)} ${esc(nx.t)}</b></div><button class="go" data-slot="${nextI}">Logga</button>`:`<div><small>Planen</small><b>${done===slots.length?'Allt i planen är loggat idag':'Inget mer i planen just nu'}</b></div><button class="go" data-act="new">Logga</button>`}</div>
+  const heavy=mood==='Tungt'||mood==='Stressigt';
+  const a=S.activePath&&PATHS[S.activePath]&&pathState(S.activePath).done.length<7?S.activePath:null;
+  const cards=[...(heavy?['andas','jord']:[]),...(a?[]:[]),'andas','tips','vaxa','jord'].filter((k,i,arr)=>arr.indexOf(k)===i).slice(0,3);
+  return `<section class="greet"><h1>${greeting()}</h1><p class="muted">${esc(cap(dayLabel(day)))}</p></section>
+  <section class="plancard">
+    <div class="leafrow" role="img" aria-label="${done} av ${slots.length} i planen">${slots.map(s=>leafIcon(s.done)).join('')}<span class="lbl">${done} av ${slots.length}</span></div>
+    <div class="nextrow">${nx?`<div><small>Nästa i planen</small><b>${esc(nx.n)} ${esc(nx.t)}</b></div><button class="go" data-slot="${nextI}">Logga</button>`:`<div><small>Planen</small><b>${done===slots.length?'Allt loggat idag':'Inget mer just nu'}</b></div><button class="go" data-act="new">Logga</button>`}</div>
+    <div class="drinkrow"><span class="glasses" aria-label="${dn} glas">${Array.from({length:Math.max(8,dn)},(_,i)=>glass(i<dn)).join('')}</span><span class="step"><button data-act="drink-" aria-label="Ta bort ett glas">−</button><button class="add" data-act="drink+" aria-label="Lägg till ett glas">+</button></span></div>
   </section>
-  <section class="daycard"><div class="drinks"><div style="min-width:0"><b class="small">Dryck</b><div class="glasses" aria-label="${dn} glas">${Array.from({length:Math.max(8,dn)},(_,i)=>glass(i<dn)).join('')}</div>
-</div>
-      <div class="step"><button data-act="drink-" aria-label="Ta bort ett glas">−</button><button class="add" data-act="drink+" aria-label="Lägg till ett glas">+</button></div></div></section>
-  <p class="eyebrow2">Hur känns det just nu?</p>
+  ${secH('Hur känns det?')}
   <div class="moods" role="group" aria-label="Hur känns det just nu?">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${mood===m}">${m}</button>`).join('')}</div>
   ${mood?`<p class="mood-reply" role="status">${esc(MOODS.find(m=>m[0]===mood)[1])}</p>`:''}
-  <button class="stepcard" data-go="${st[0]}"><span><small>ETT LITET STEG IDAG</small><b>${st[1]}</b></span><span class="chev" aria-hidden="true">›</span></button>`;
+  ${secH('För dig idag','ovn')}
+  <div class="hrow">${a?pathCard(a):''}${cards.map(toolCard).join('')}</div>`;
+}
+function weekStrip(){
+  let end=addDays(day,3);if(end>today())end=today();
+  const WD=['sön','mån','tis','ons','tor','fre','lör'];
+  const ds=Array.from({length:7},(_,i)=>addDays(end,i-6));
+  return `<div class="week"><button class="wnav" data-act="weekPrev" aria-label="Tidigare dagar">‹</button>${ds.map(d=>{const dt=new Date(d+'T12:00:00'),has=entriesOn(d).length;
+    return `<button data-day="${d}" aria-pressed="${d===day}" aria-label="${esc(dayLabel(d))}"><small>${WD[dt.getDay()]}</small><b>${dt.getDate()}</b><i class="${has?'on':''}"></i></button>`}).join('')}<button class="wnav" data-act="weekNext" aria-label="Senare dagar" ${end>=today()?'disabled':''}>›</button></div>`;
 }
 function vDagbok(){
   const list=entriesOn(day), isToday=day===today(), nowM=toMin(nowHM());
@@ -731,12 +811,9 @@ function vDagbok(){
   if(!nowPlaced)tl+=nowEl;
   const jn=S.journal.filter(n=>n.date===day);
   return `<div class="pagehead"><h1>Dagbok</h1></div>
-  <div class="dayhead"><div><p class="eyebrow">${isToday?'Idag':'Tillbakablick'}</p><p class="date">${esc(cap(dayLabel(day)))}</p></div>
-    <div class="daynav"><button data-act="prev" aria-label="Föregående dag">‹</button><button data-act="next" aria-label="Nästa dag" ${isToday?'disabled':''}>›</button></div></div>
-  <button class="compose" data-act="new">${PENCIL}<span><span class="hw">Vad har du ätit?</span></span><span class="go" aria-hidden="true">›</span></button>
+  ${weekStrip()}
   <div class="tl" aria-label="Dagens tidslinje">${tl}</div>
   ${jn.length?`<section><p class="eyebrow2">Fritt skrivet</p>${jn.map(n=>`<div class="jnote"><p>${esc(n.text)}</p><button data-jdel="${n.id}" aria-label="Ta bort anteckningen">Ta bort</button></div>`).join('')}</section>`:''}
-  <button class="stepcard" data-go="skriv"><span><b>Skriv fritt om dagen</b></span><span class="chev" aria-hidden="true">›</span></button>
   <div class="btnrow"><button class="ghost" data-act="pdf">Ladda ner som PDF till vården</button></div>`;
 }
 
@@ -855,18 +932,72 @@ function vMinnen(){
   return h;
 }
 
+const PATHS={
+  ute:{n:'Våga äta ute',sec:'v',tint:'t2',steps:['Tänk ut ett ställe som känns okej att äta på.','Titta på menyn hemma, i lugn och ro.','Köp något litet att äta eller dricka på ett kafé.','Ät ett mellanmål ute, med någon du litar på.','Beställ något du tycker om, utan att byta.','Ät en måltid ute. Logga hur det kändes.','Skriv ner vad som var lättare än du trodde.']},
+  andra:{n:'Mat med andra',sec:'v',tint:'t4',steps:['Välj en person du känner dig trygg med.','Fika tillsammans med hen.','Ät ett mellanmål med någon annan i rummet.','Prata om något annat än maten under en måltid.','Ät samma sak som de du äter med.','Ät en hel måltid tillsammans med någon.','Berätta för någon vad du klarade den här veckan.']},
+  efter:{n:'Lugnare efter maten',sec:'l',tint:'t3',steps:['Sitt kvar en stund efter maten.','Ha något att göra direkt efter, som en serie eller ett spel.','Andas en stund efter en måltid.','Skriv en mening om hur det kändes.','Ring eller skriv till någon efter maten.','Gör jordningen efter en måltid.','Lägg märke till när oron släppte.']}
+};
+let pathKey='ute';
+function pathState(k){S.paths=S.paths||{};return S.paths[k]||(S.paths[k]={done:[]})}
+function pathCard(k){const P=PATHS[k],st=(S.paths||{})[k],n=st?st.done.length:0;
+  return `<button class="pc ${P.tint}" data-path="${k}"><span class="pill">${n>=7?'Klar':n?`Steg ${n+1} av 7`:'7 steg'}</span><b>${P.n}</b><i class="art"></i></button>`}
+const TOOLS={andas:['Andas','t1','2 min'],jord:['Jordning 5-4-3-2-1','t3','3 min'],tips:['När maten känns svår','t2','Tips'],vaxa:['Svår mat, steg för steg','t4','Stege'],skal:['Skäl till förändring','t1','Arbetsblad'],minnen:['Minnen','t2','Det goda']};
+const toolCard=k=>{const[n,t,tag]=TOOLS[k];return `<button class="pc ${t}" data-go="${k}"><span class="pill">${tag}</span><b>${n}</b><i class="art"></i></button>`};
+const secH=(t,more)=>`<div class="sec"><span>${t}</span>${more?`<button data-tab="${more}">Se alla</button>`:''}</div>`;
+function vOvn(){
+  const a=S.activePath&&PATHS[S.activePath]?S.activePath:null;
+  let hero;
+  if(a){const st=pathState(a),n=st.done.length;
+    hero=`<button class="hero" data-path="${a}"><small>Din väg</small><b>${PATHS[a].n}</b><span class="muted">${n>=7?'Klar':`Steg ${n+1} av 7`}</span><span class="segbar">${Array.from({length:7},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</span><span class="go">${n>=7?'Visa':'Fortsätt'}</span></button>`}
+  else hero=`<div class="hero"><small>Din väg</small><b>Välj en väg</b><span class="muted">Sju små steg, ett om dagen.</span></div>`;
+  return `<div class="pagehead"><h1>Övningar</h1></div>${hero}
+  ${secH('Våga')}<div class="hrow">${pathCard('ute')}${pathCard('andra')}${toolCard('vaxa')}</div>
+  ${secH('Lugna')}<div class="hrow">${toolCard('andas')}${toolCard('jord')}${pathCard('efter')}</div>
+  ${secH('Förstå')}<div class="hrow">${toolCard('skal')}${toolCard('tips')}${toolCard('minnen')}</div>`;
+}
+function vVag(){
+  const P=PATHS[pathKey],st=pathState(pathKey),n=st.done.length,doneToday=st.done.includes(today()),active=S.activePath===pathKey;
+  const cur=Math.min(n,6);
+  return `<div class="pagehead"><h1>${P.n}</h1></div>
+  <div class="segbar big">${Array.from({length:7},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div>
+  ${n>=7?`<div class="pathnow done"><small>Klar</small><b>Du gick hela vägen.</b></div>`:
+   `<div class="pathnow"><small>Steg ${n+1}</small><b>${esc(P.steps[n])}</b>
+    ${!active?`<button class="primary" data-act="pathStart">Börja vägen</button>`:doneToday?`<p class="muted">Nästa steg öppnas i morgon.</p>`:`<button class="primary" data-act="pathDone">Jag gjorde det</button>`}</div>`}
+  <ol class="pathlist">${P.steps.map((t,i)=>`<li class="${i<n?'ok':i===n?'cur':''}"><span class="n">${i<n?'✓':i+1}</span><span>${esc(t)}</span></li>`).join('')}</ol>
+  ${active&&n<7?'<button class="link-btn" data-act="pathStop" style="align-self:center">Pausa vägen</button>':''}`;
+}
+function plusSheet(){
+  const {slots}=planStatus(today()),nowM=toMin(nowHM()),nx=slots.find(x=>!x.done&&toMin(x.t)>=nowM-60);
+  const o=(act,ic,cls,t,sub)=>`<button class="opt" data-act="${act}"><span class="oic ${cls}">${ICONS[ic]}</span><span><b>${t}</b><small>${sub}</small></span></button>`;
+  openSheet(`<header><h2>Vad vill du logga?</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
+  <div class="opts">${o('plusMeal','leaf','t1','Måltid',nx?`${esc(nx.n)} ${esc(nx.t)}`:'Något du ätit')}${o('plusDrink','drop','t3','Dryck',`${drinksOn(today())} glas idag`)}${o('plusMood','face','t4','Känsla','Hur det känns just nu')}${o('plusWrite','pen','t2','Skriv fritt','Bara du ser det')}</div>`);
+}
+function moodSheet(){openSheet(`<header><h2>Hur känns det?</h2><button class="x" data-act="close" aria-label="Stäng">×</button></header>
+  <div class="moods big">${MOODS.map(([m])=>`<button data-mood="${m}" aria-pressed="${S.moods[today()]===m}">${m}</button>`).join('')}</div>`)}
 const QUAD=[['stayShort','Skäl att vara kvar i ätstörningen, på kort sikt',''],['changeShort','Skäl att göra en förändring, på kort sikt','change'],['stayLong','Skäl att vara kvar i ätstörningen, på lång sikt',''],['changeLong','Skäl att göra en förändring, på lång sikt','change']];
+function weekWords(){
+  const days=lastDays(14),plan=S.plan.length;
+  const stat=ds=>{const l=ds.flatMap(d=>entriesOn(d).filter(e=>e.kind!=='dryck'));const a=l.filter(e=>e.after!=null);
+    return {reg:ds.filter(d=>planStatus(d).done>=plan-1&&plan>0).length,good:l.filter(e=>e.good.length||e.goodText).length,after:a.length?a.reduce((s,e)=>s+e.after,0)/a.length:null}};
+  const now=stat(days.slice(7)),prev=stat(days.slice(0,7));
+  const trend=now.after==null||prev.after==null?'Inte än':now.after<prev.after-.3?'Lite lägre':now.after>prev.after+.3?'Lite högre':'Ungefär samma';
+  const got=badges().filter(b=>b[2]);const last=got[got.length-1];
+  return [['Regelbundet',`${now.reg} av 7 dagar`,'nära planen'],['Något gott',`${now.good} ${now.good===1?'gång':'gånger'}`,'i dina ord'],['Oron efter maten',trend,'mot förra veckan'],['Milstolpe',last?last[0]:'Snart',last?'':'den första']];
+}
 function vJag(){
   const p=points(), pl=plantSvg(p), st=STAGES[pl.stage];
-  const row=(attr,ic,t,sub)=>`<button ${attr}><span class="ic">${ICONS[ic]}</span><span><b>${t}</b>${sub?`<small>${sub}</small>`:''}</span><span class="chev" aria-hidden="true">›</span></button>`;
+  const row=(attr,ic,t)=>`<button ${attr}><span class="ic">${ICONS[ic]}</span><span><b>${t}</b></span><span class="chev" aria-hidden="true">›</span></button>`;
   return `<div class="pagehead"><h1>Jag</h1></div>
   <button class="plantcard" data-go="vaxa">${pl.svg}<span><b>${esc(st)}</b><small>${p} blad</small></span><span class="chev" aria-hidden="true">›</span></button>
+  ${secH('Den här veckan')}
+  <div class="wgrid">${weekWords().map(([a,b,c])=>`<div><small>${a}</small><b>${esc(b)}</b>${c?`<span>${c}</span>`:''}</div>`).join('')}</div>
+  ${secH('Mer')}
   <div class="menu">${row('data-go="kurvor"','kurvor','Kurvor')}${row('data-go="skal"','skal','Skäl till förändring')}${row('data-go="minnen"','foto','Minnen')}${row('data-act="pdf"','pdf','PDF till vården')}</div>
   <div class="menu">${row('data-act="settings"','set','Måltidsplan och mål')}${row('data-go="om"','info','Om Grostund')}</div>`;
 }
 function vStod(){
   const sms='sms:?&body='+encodeURIComponent('Hej, jag har det lite tufft just nu. Kan du höra av dig när du kan?');
-  return `<div class="pagehead"><h1>Stöd</h1></div>
+  return `<div class="pagehead"><h1>Hjälp nu</h1></div>
   <section class="callcard"><h2>Behöver du hjälp just nu?</h2>
     <a class="solid" href="tel:112">Akut fara <span>112</span></a>
     <a href="tel:1177">Vårdrådgivning <span>1177</span></a>
@@ -1402,7 +1533,9 @@ document.addEventListener('click',ev=>{
   const tab=t.closest('[data-tab]');if(tab){view=tab.dataset.tab;backTo=null;if(view==='dagbok'&&!tab.closest('nav'))day=day;render();toTop();return}
   const tk=t.closest('[data-tipok]');if(tk){S.settings.tips=Object.assign({},S.settings.tips,{[tk.dataset.tipok]:1});save();render();return}
   const go=t.closest('[data-go]');if(go){backTo=PARENT[view]?backTo:view;view=go.dataset.go;render();toTop();return}
-  const mo=t.closest('[data-mood]');if(mo){const m=mo.dataset.mood;S.moods[today()]=S.moods[today()]===m?undefined:m;save();render();return}
+  const mo=t.closest('[data-mood]');if(mo){const m=mo.dataset.mood;S.moods[today()]=S.moods[today()]===m?undefined:m;save();if(mo.closest('.sheet')){closeSheet();toast(MOODS.find(x=>x[0]===m)[1],2400)}render();return}
+  const pa=t.closest('[data-path]');if(pa){pathKey=pa.dataset.path;backTo=PARENT[view]?backTo:view;view='vag';render();toTop();return}
+  const dd=t.closest('[data-day]');if(dd){day=dd.dataset.day;render();return}
   const jp=t.closest('[data-jp]');if(jp){const ta=$('#j-text');ta.value=(ta.value?ta.value.replace(/\s*$/,'\n'):'')+jp.dataset.jp;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);return}
   const jd=t.closest('[data-jdel]');if(jd){if(jd.dataset.sure){S.journal=S.journal.filter(n=>n.id!==jd.dataset.jdel);save();render()}else{jd.dataset.sure='1';jd.textContent='Säker?'}return}
   const ob=t.closest('[data-ob]');if(ob){if(obStep===2)readPlan();if(obStep===3)QUAD.forEach(([k])=>{const n=$('#r-'+k),v=n&&n.value.trim();if(v){if(S.reasonsExample)S.reasons=EMPTY_R();S.reasonsExample=false;S.reasons[k].push(v);save()}});obStep=+ob.dataset.ob;render();toTop();return}
@@ -1432,6 +1565,17 @@ document.addEventListener('click',ev=>{
   if(act==='pdf')pdfSheet();
   if(act==='reasonsPdf')downloadReasons();
   if(act==='prev'){day=addDays(day,-1);render()}
+  if(act==='weekPrev'){day=addDays(day,-7);render()}
+  if(act==='weekNext'){day=addDays(day,7);if(day>today())day=today();render()}
+  if(act==='plus')plusSheet();
+  if(act==='plusMeal'){closeSheet();const {slots}=planStatus(today()),nowM=toMin(nowHM()),i=slots.findIndex(x=>!x.done&&toMin(x.t)>=nowM-60);day=today();entrySheet(null,i>=0?{label:MEALS.some(m=>m[0]===slots[i].n)?slots[i].n:guessMeal(slots[i].t),time:nowHM()}:undefined)}
+  if(act==='plusDrink'){const d=today(),n=drinksOn(d)+1;S.drinks[d]={n};save();closeSheet();render();toast(`Ett glas till. ${n} idag.`,2200)}
+  if(act==='plusMood')moodSheet();
+  if(act==='plusWrite'){closeSheet();backTo=null;view='skriv';render();toTop()}
+  if(act==='pathStart'){S.activePath=pathKey;pathState(pathKey);save();render()}
+  if(act==='pathStop'){S.activePath=null;save();render()}
+  if(act==='pathDone'){const st=pathState(pathKey);if(!st.done.includes(today())){st.done.push(today());save();render();
+    toast(st.done.length>=7?'Hela vägen. Var stolt.':pick(['Bra gjort. Ett steg till.','Modigt. Det räknas.','Där tog du ett steg.']),2600);const el=document.querySelector('.segbar.big i.on:last-of-type');el&&el.classList.add('pop')}}
   if(act==='next'&&day<today()){day=addDays(day,1);render()}
   if(act==='drink+'||act==='drink-'){const n=Math.max(0,drinksOn(day)+(act==='drink+'?1:-1));S.drinks[day]={n};save();render();if(act==='drink+'&&n===6)toast('Sex glas. Kroppen tackar för vätskan.')}
   if(act==='hideNotice'){S.settings.noticeHidden=true;save();render()}
