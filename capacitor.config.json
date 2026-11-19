@@ -1,0 +1,9 @@
+{
+  "appId": "se.grostund.app",
+  "appName": "Grostund",
+  "webDir": "site",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#26372D"
+  }
+}
